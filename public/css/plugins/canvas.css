@@ -1,0 +1,124 @@
+canvas{
+    cursor: crosshair;
+    border: #eae7e7 solid 3px;
+    border-radius: 3px;
+    background: url(../../public/img/canvas-default.png) center center no-repeat;
+ }
+#canvas-wrapper{
+    text-align: center;
+}
+.tools{
+    text-align: center;
+}
+
+.tools-container{
+    width: 506px;
+    margin: 0 auto;
+    background-color: #1e96ee;
+    padding: 10px 20px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.tools-container .first i{
+    color: #fff;
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+.tools-container .second i{
+    color: #fff;
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+.tools-container .first{
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+.tools-container .second{
+    padding: 0 !important;
+    text-align: right !important;
+}
+
+.tools-container-down{
+    width: 506px !important;
+    margin: 0 auto;
+    padding: 10px 0px;
+}
+
+.tools-container-down .first-down{
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+.tools-container-down .first-down i{
+    color: #ffffff;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.tools-container-down .first-down button{
+    background: transparent;
+    border: none;
+    padding: 0 !important;
+}
+
+.tools-container-down .first-down img{
+    width: 68px;
+    height: 43px;
+    border: #bde2fd solid 2px;
+    border-radius: 4px;
+}
+
+.tools-container-down .first-down img:hover,
+.tools-container-down .first-down img:focus,
+.tools-container-down .first-down img:active,
+.tools-container-down .first-down img.active,
+.tools-container-down .first-down img:visited{
+    border: #2196f3 solid 2px;
+}
+
+.tools-container-down .second-down i{
+    color: #ffffff;
+    font-size: 23px;
+}
+
+.tools-container-down .second-down a{
+    height: 42px;
+    width: 42px;
+    padding: 9px !important;
+}
+
+.tools-container-down .second-down{
+    padding: 0 !important;
+    text-align: right !important;
+}
+
+
+.tools-container .first a{
+    height: 27px;
+    border-radius: 50%;
+}
+
+.tools-container .first a:active,
+.tools-container .first a:focus{
+   border: 2px solid #afc7d8;
+}
+
+.tools-container .second a{
+    background: #000 !important;
+    height: 27px;
+    padding: 3px 8px;
+    color: #fff;
+}
+
+.tools-container .second a:active,
+.tools-container .second a:focus{
+    border:1px solid #fff;
+}
+
+    
+
+

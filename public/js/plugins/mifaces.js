@@ -145,10 +145,15 @@ $(function(){
 		// dejamos el id ó el atributo data-callName
 		// si no tiene ninguno definido lo dejamos como string vacio
 		var callName = "";
-		if(parent.data('callname')!== undefined)
-			callName = parent.data('callname');
-		else if(parent.attr('id')!== undefined)
-			callName = parent.attr("id");
+		if(typeof parent != "undefined" && parent != null){
+
+			if(parent.data('callname')!== undefined)
+				callName = parent.data('callname');
+			else if(parent.attr('id')!== undefined)
+				callName = parent.attr("id");
+
+		}
+
 
         var objRet;
 		if ( animation == true && typeof NProgress !== "undefined" && NProgress != null)
@@ -282,10 +287,15 @@ $(function(){
 					if(result.type=='render') {
 						$.each(result.renders, function (index, value) {
 							//console.log(parent.data('scroll'));
-							if (parent.prop('tagName') == 'FORM' && parent.data('scroll') !== undefined && parent.data('scroll') == 'append') {
-								$('#' + index).append(value);
-							} else {
-								$('#' + index).html(value);
+
+							if(typeof parent != "undefined" && parent != null){
+
+								if (parent.prop('tagName') == 'FORM' && parent.data('scroll') !== undefined && parent.data('scroll') == 'append') {
+									$('#' + index).append(value);
+								} else {
+									$('#' + index).html(value);
+								}
+
 							}
 
 						});
@@ -482,15 +492,20 @@ $(function(){
 			complete: function(xhr,status){
 				if (typeof NProgress !== "undefined" && NProgress != null)
 					NProgress.done();
-				if(parent.data('eval')!== undefined){
-					eval(parent.data('eval'));
-					//var fn = new Function(parent.data('eval'));
-					//console.log(parent.data('eval')+':'+fn() !== undefined); // true, strict mode
-				}
 
-				//TODO, config especiales no se si tendre que sacarlas y colocarlas en un mejor lugar
-				if(parent.data('scroll')!==undefined)
-					parent.data('scroll','true');
+				if(typeof parent != "undefined" && parent != null){
+
+					if(parent.data('eval')!== undefined){
+						eval(parent.data('eval'));
+						//var fn = new Function(parent.data('eval'));
+						//console.log(parent.data('eval')+':'+fn() !== undefined); // true, strict mode
+					}
+
+					//TODO, config especiales no se si tendre que sacarlas y colocarlas en un mejor lugar
+					if(parent.data('scroll')!==undefined)
+						parent.data('scroll','true');
+
+				}
 				scrollAddData = true;
 			}
         });

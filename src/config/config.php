@@ -15,16 +15,12 @@ return new \Phalcon\Config([
         'cryptSalt'                 => 'eEAfR|_&G&f,+vU]:jFr!!A&+71w1Ms9'
     ],
     'switchUtils'   => [
-        'production'  => true
+        'production'  => false
     ],
     'noAuth'        => [
         'home'      => array('*'    =>  true),
-        'scheduling'      => array('*'    =>  true),
-        'user'      => array('*'    =>  true),
-        'schedule'      => array('*'    =>  true),
-        'session'   => array('*'    =>  true),
-        'prueba'    => array('*'    =>  true),
-        'test'      => array('*'    =>  true)
+        'test'      => array('*'    =>  true),
+        'service'   => array('*'    =>  true)
     ],
     'urlApi'        => "http://localhost/frontmap/api/",
     'appTitle'      =>'Memoria Maps',

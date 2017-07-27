@@ -118,9 +118,15 @@
 {{ javascript_include('js/plugins/jquery.utilidades.js') }}
 {{ javascript_include('js/main/app.js') }}
 {{ javascript_include('js/main/main.js') }}
+{{ javascript_include('js/main/service.js') }}
 
 
 {% block addJs %}{% endblock %}
+
+<div id="modal-master">
+</div>
+
+<form id="render-all-form" action="{{ url('marker/renderAll') }}"></form>
 
 </body>
 </html>

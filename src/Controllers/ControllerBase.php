@@ -106,10 +106,11 @@
             $action = strtolower($dispatcher->getActionName());
 
 
-
             /**
              * Control de usuarios logeados
              */
+
+            /*
             if (!(isset($noAuth[$controller]['*']) || isset($noAuth[$controller][$action]))) {
 
                 $identity = $this->auth->getIdentity();
@@ -138,35 +139,8 @@
                     $response->send();
                     exit();
 
-                } else {
-
-                    /*
-
-                    if ( $this->configuration->state('acl') ){
-
-                        if (isset($this->auth->getIdentity()['rol']) && !AccesoAcl::tieneAcceso()) {
-
-                            if($this->request->isAjax()){
-
-                                $this->mifaces->newFaces();
-                                $msg = "401 - Usted no tiene permiso para realizar esta acción <br><br> ";
-                                $msg .= "Favor contactar al Administrador para que habilite los permisos necesarios para esta funcionalidad";
-                                $this->mifaces->addToMsg("success",$msg, true);
-                                exit();
-
-                            } else {
-                                // Sin permiso de acceso
-                                $this->view->pick("controllers/error_pages/denied");
-                                return false;
-                            }
-
-                        }
-
-                    }
-
-                    */
-				}
-            }
+                } 
+            }*/
 	    }
 
 		private function redirIsAjax()

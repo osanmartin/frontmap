@@ -46,19 +46,14 @@
 
     <input id="CSRF-TOKEN" type="hidden" name="{{ session.get('csrf-token')['key'] }}" value="{{ session.get('csrf-token')['token'] }}">
 
-    <div id="finder" class="form-group">
-        <input type="text" class="form-control" placeholder="Buscar">
-    </div>
+
 
 
     {{ partial('layouts/navbar') }}
 
 
-    <div id="wrapper-map" class="container-fluid">
-
-        <div id="map">
-        </div>  
-    </div>
+    <div id="map_canvas">
+    </div>  
 
     {{ partial('layouts/footer') }}
 
@@ -96,6 +91,11 @@
 {{ javascript_include('js/plugins/chartist.js') }}
 {{ javascript_include('js/plugins/jquery-ui-timepicker-addon.js') }}
 
+{{ javascript_include('js/plugins/hammer.min.js') }}
+{{ javascript_include('js/plugins/jquery.hammer.js') }}
+
+
+
 {# Chosen #}
 {{ javascript_include('js/plugins/chosen.jquery.min.js') }}
 
@@ -108,7 +108,7 @@
 {{ javascript_include('js/plugins/dataTables.bootstrap.js') }}
 
 {# Gmaps #}
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAP4ZcNWVKpbh2t6oXwJ1eWsNSargDKm9k"></script>.
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAP4ZcNWVKpbh2t6oXwJ1eWsNSargDKm9k"></script>
 {{ javascript_include('js/plugins/gmaps.js') }}
 
 

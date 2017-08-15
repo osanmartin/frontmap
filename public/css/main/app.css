@@ -1,24 +1,40 @@
-body,html{
-	height: 90%;
+html, body, #map_canvas {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map_canvas {
+    position: relative;
 }
 
 .navbar-custom{
 
-	background-color: #293a48;
-	border-color: #080808;
+	background-color: transparent;
 	color: #fff;
 	border-radius: 0px;
 	margin: 15px;
-    padding: 15px;
+    padding-right: 15px;
 
-    font-size: 20px;
     font-family: sans-serif;
+
+    z-index: 200;
 	
+}
+
+.navbar-logo{
+
+	float: inherit;
+	height: 30px;
+	padding: 2px 10px 0 5px;
+	margin-top: 15px;
+
 }
 
 .navbar-custom span{
 
-	font-size: 20px;
+	font-size: 11px;
 	font-family: sans-serif;
 
 }
@@ -43,15 +59,11 @@ body,html{
 }
 
 #wrapper-map{
-	height: 90%;
+position: relative;
 }
 
 #map {
-  width: 100%;
-  height: 90%;
-  border: 1.1px solid #fff9e9;
-  border-radius: 1%;
-  margin-top: 15px;
+position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 }
 
 .navbar{
@@ -68,10 +80,6 @@ body,html{
 
 #finder{
 
-	margin: 0 auto;
-	width: 50%;
-	top: 150px;
-	position: absolute;
 	z-index: 1000;
 	opacity: 0.7;
 	transition: opacity 0.2s ease;
@@ -81,12 +89,12 @@ body,html{
 #finder input{
 
 	width: 70%;
+	font-size: 16px;
+	height: 45px;
+	margin: 7px 0 0 10px;
 
 }
 
-#finder:hover{
-	opacity: 0.95;
-}
 
 .opacity-min{
 
@@ -101,14 +109,11 @@ body,html{
 }
 
 .btn-menu {
-	border-radius: 5px;
-	padding: 5px 25px;
-	font-size: 20px;
-	margin: 10px;
-	color: #fff;
-	position: relative;
-	box-shadow: 0px 5px 0px 0px #3C93D5;
-	background-color: #55acee;
+    padding: 16px 25px;
+    margin-top: 0px;
+    position: relative;
+    background-color: #6fbf64;
+    border:2px solid rgba(128, 128, 128, 0.39);
 }
 
 .btn-menu:active {
@@ -229,6 +234,66 @@ select.custom{
 
 }
 
+
+.info-container{
+
+	height: 12em;
+	width: 20em;
+
+}
+
+.info-container .info-mid{
+	padding: 20px;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.info-container .title{
+
+	font-weight: bold;
+	font-size: 20px;
+
+}
+
+.background-blue{
+
+	background-color: #55acee;
+
+}
+
+.background-blue-transparent{
+
+	background-color: rgba(85, 172, 238, 0.59);
+
+}
+
+.absolute{
+
+	position: absolute;
+
+}
+
+.width-100{
+	
+	width: 100%;
+
+}
+
+.border-radius-min{
+
+	border-radius: 2px;
+
+}
+
+.no-padding{
+	padding: 0;
+}
+
+.no-margin{
+	margin: 0;
+}
+
+
 @media (max-width : 767px) {
 
 	#finder{
@@ -240,13 +305,6 @@ select.custom{
 		width: 100%;
 	
 	}
-
-	#map{
-
-		height: 80%;
-
-	}
-
 }
 
 @media (min-width : 768px) {

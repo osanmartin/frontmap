@@ -11,7 +11,10 @@
 
     		$this->mifaces->newFaces();
 
-    		$html = "<p>TODO OK</p>";
+
+            $dataView = [];
+
+    		$html = $this->view->getPartial('controllers/marker/info',$dataView);
 
 
     		$markers[] = 	[	

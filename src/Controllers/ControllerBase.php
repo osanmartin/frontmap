@@ -72,6 +72,8 @@
 
                 } else{
 
+                    /*
+
                     if($this->request->isAjax()){
 
                         $this->mifaces->newFaces();
@@ -91,6 +93,8 @@
                     }
 
                     exit();
+
+                    */
 
 
                 }

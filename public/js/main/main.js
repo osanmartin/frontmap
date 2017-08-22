@@ -7,9 +7,40 @@ var map = new GMaps(
 					scaleControl: false,
 					streetViewControl: false,
 					rotateControl: false,
-					fullscreenControl: false
+					fullscreenControl: false,
+					clickableIcons:false
 				});
 var markers = [];
+
+var styles = [
+  {
+    stylers: [
+      { hue: "#00ffe6" },
+      { saturation: -20 }
+    ]
+  }, {
+      featureType: "road",
+      elementType: "geometry",
+      stylers: [
+          { lightness: 100 },
+          { visibility: "simplified" }
+    ]
+  }, {
+      featureType: "road",
+      elementType: "labels",
+      stylers: [
+          { visibility: "off" }
+    ]
+  }
+];
+
+map.addStyle({
+  styledMapName:"Styled Map",
+  styles: styles,
+  mapTypeId: "map_style"  
+});
+
+map.setStyle("map_style");
 
 
 
@@ -95,6 +126,8 @@ function addMarkerByString(dir){
 	  }
 	});
 
+	
+
 
 
 }
@@ -111,7 +144,13 @@ function renderMarkers(){
 
 		$.each(markers, function(index, val) {
 
-			map.addMarker(val);
+			marker = map.addMarker(val);
+
+			marker.addListener('click', function() {
+
+				$('.iw-content').closest('.gm-style-iw').parent().addClass('custom-iw');
+
+			});
 
 		});
 
@@ -128,6 +167,12 @@ function renderMarkers(){
 
 
 
+
+}
+
+function setInfoWindow(){
+
+	$('.iw-content').closest('.gm-style-iw').parent().addClass('custom-iw');
 
 }
 

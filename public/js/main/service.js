@@ -1,7 +1,5 @@
 var open_modal = 0;
 
-
-
 $(document).ready(function() {
 	
 	$(document).on('click','#btn-new-service',function(){

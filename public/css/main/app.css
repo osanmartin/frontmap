@@ -45,14 +45,6 @@ html, body, #map_canvas {
 
 }
 
-.navbar a:hover{
-
-	background-color: initial !important;
-	color: #e0d8d8;
-	transition: color 0.2s ease;
-
-}
-
 .nav .open>a{
 
 	background-color: initial !important;
@@ -293,6 +285,15 @@ select.custom{
 	margin: 0;
 }
 
+.text-vote{
+
+	position: relative;
+	top: 12px;
+	font-weight: bold;
+	color: #24611c;
+
+}
+
 
 @media (max-width : 767px) {
 
@@ -315,3 +316,55 @@ select.custom{
 
 }
 
+
+
+
+.custom-iw .gm-style-iw {
+    top:16px !important;
+    left:0 !important;
+    max-height: 250px;
+}
+.custom-iw>div:first-child>div:nth-child(2) {
+    display:none;
+}
+.custom-iw .gm-style-iw, .custom-iw .gm-style-iw>div, .custom-iw .gm-style-iw>div>div {
+    width:100% !important;
+    max-width:100% !important;
+}
+/** set here the width **/
+.custom-iw, .custom-iw>div:first-child>div:last-child {
+    width:350px !important;
+}
+.custom-iw>div:first-child>div:last-child {
+    left:0 !important;
+    top:0px;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 6px;
+    z-index:-1 !important;
+}
+/** set here the desired background-color **/
+.iw-content, .custom-iw>div:first-child>div:nth-child(n-1)>div>div, .custom-iw>div>div:last-child, .custom-iw .gm-style-iw, .custom-iw .gm-style-iw>div, .custom-iw .gm-style-iw>div>div {
+    background-color:#ffd16e !important;
+}
+/** close-button **/
+.custom-iw>div:last-child {
+    top:-10px !important;
+    opacity: 1 !important;
+    right: -16px !important;
+    border-radius: 13px !important;
+    box-shadow: 0.5px 1px 8px #ffd16e !important;
+    border: 8px solid #ffd16e;
+    padding: 6.5px;
+}
+/** padding of the content **/
+.iw-content {
+	padding-left: 6px;
+	height: 250px;
+}
+
+.iw-content img{
+	max-width: 90px !important;
+	background-color: #6dbb62;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0.1px 2px 5px rgba(14, 14, 14, 0.78);
+}

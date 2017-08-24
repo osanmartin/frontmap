@@ -1,3 +1,5 @@
+var removeAnimate = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+
 var map = new GMaps(
 					{div:'#map_canvas',
 					lat:'-33.0539430',
@@ -101,6 +103,28 @@ $(document).ready(function() {
 	map.addListener('click', function() {
 
 		$('#finder input').blur();
+
+    });
+
+    $(document).on('click','#main-menu',function(){
+
+    	if($(this).hasClass('open')){
+
+	    	$('.btn-menu').removeClass('hidden').addClass('animated fadeInUp').one(removeAnimate, 
+				function(){
+					$(this).removeClass('animated fadeInUp').removeClass('hidden');				
+				});
+
+    	} else {
+
+	    	$('.btn-menu').addClass('animated fadeOutDown').one(removeAnimate, 
+				function(){
+					$(this).removeClass('animated fadeOutDown').addClass('hidden');				
+				});
+
+    	}
+
+
 
     });
 	

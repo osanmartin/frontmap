@@ -31,6 +31,7 @@
     {{ stylesheet_link('css/plugins/lightbox.css') }}
     {{ stylesheet_link('css/plugins/chartist.css') }}
     {{ stylesheet_link('css/plugins/jquery-ui-timepicker-addon.css') }}
+    {{ stylesheet_link('css/plugins/burger-menu.css') }}
 
     {# DataTable #}
     {{ stylesheet_link('css/plugins/jquery.dataTables.css')}}
@@ -39,6 +40,7 @@
     {# CSS CUSTOM #}
     {{ stylesheet_link('css/main/app.css') }}
     {{ stylesheet_link('css/plugins/sticky-footer.css') }}
+    
 
     {{ assets.outputCss() }}
 
@@ -107,6 +109,7 @@
 {{ javascript_include('js/plugins/jquery.dataTables.js') }}
 {{ javascript_include('js/plugins/dataTables.select.min.js') }}
 {{ javascript_include('js/plugins/dataTables.bootstrap.js') }}
+{{ javascript_include('js/plugins/burger-menu.js') }}
 
 {# Gmaps #}
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAP4ZcNWVKpbh2t6oXwJ1eWsNSargDKm9k"></script>

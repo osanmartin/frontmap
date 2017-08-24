@@ -1,12 +1,7 @@
-/* Sticky footer styles
--------------------------------------------------- */
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 50px;
-  top: 500px;
-  background-color: transparent;
+#main-menu{
+
+	position: absolute;
+	top: 90%;
+
 }

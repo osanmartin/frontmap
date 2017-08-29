@@ -124,7 +124,26 @@ $(document).ready(function() {
 
     	}
 
+    });
 
+    $(document).on('click','.validez',function(){
+
+
+    	if($(this).hasClass('open')){
+
+	    	$('.btn-validez').removeClass('hidden').addClass('animated fadeInUp').one(removeAnimate, 
+				function(){
+					$(this).removeClass('animated fadeInUp').removeClass('hidden');				
+				});
+
+    	} else {
+
+	    	$('.btn-validez').addClass('animated fadeOutDown').one(removeAnimate, 
+				function(){
+					$(this).removeClass('animated fadeOutDown').addClass('hidden');				
+				});
+
+    	}
 
     });
 	

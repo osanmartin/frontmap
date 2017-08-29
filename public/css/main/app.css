@@ -101,15 +101,16 @@ position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 }
 
 .btn-menu {
-	color: white;
+	color: #4c4c4c;
     position: absolute;
-    background-color: #6fbf64;
-    border: 2px solid rgba(128, 128, 128, 0.39);
+    background-color: #aae0da;
+    border: 2px solid rgba(76, 76, 76, 0.28);
     border-radius: 50%;
     font-size: 12px;
     top: 70%;
     height: 60px;
     width: 60px;
+    box-shadow: 0.5px 0px 2px #4c4c4c;
 }
 
 .btn-menu i{
@@ -137,7 +138,7 @@ position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 }
 
 .btn-burger .icon::after, .btn-burger .icon::before, .btn-burger .icon{
-	background-color: #6fbf64 !important;
+	background-color: #4c4c4c !important;
 }
 
 .btn-modal-close{
@@ -189,6 +190,41 @@ position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 	color: #d6c806;
 	
 }
+
+.btn-validez-positiva{
+
+	border: 1px solid #4c4c4c;
+	border-radius: 100%;
+	width: 35px;
+	height: 35px;
+	background-color: #a4dad6;
+	position: relative;
+	top: -35px;
+	left: 45px;
+	box-shadow: 0.5px 0.5px 5px #4c4c4c;
+	color: #4c4c4c;
+}
+
+.btn-validez-positiva i{
+	font-size: 32px;
+}
+
+.btn-validez-negativa{
+
+	border: 1px solid #a4dad6;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    background-color: #ffffff;
+    box-shadow: 0.5px 0.5px 5px #212925;
+    color: #a4dad6;
+}
+
+.btn-validez-negativa i{
+	font-size: 32px;
+}
+
+
 
 
 
@@ -325,6 +361,8 @@ select.custom{
 	border-radius: 0 0 5px 5px;
 	font-size: 11px;
     font-weight: 600;
+    width: 100%;
+    border-top: 1px solid #6cba61;
 }
 
 
@@ -363,6 +401,7 @@ select.custom{
 .custom-iw .gm-style-iw, .custom-iw .gm-style-iw>div, .custom-iw .gm-style-iw>div>div {
     width:100% !important;
     max-width:100% !important;
+    overflow: hidden !important;
 }
 /** set here the width **/
 .custom-iw, .custom-iw>div:first-child>div:last-child {
@@ -376,7 +415,7 @@ select.custom{
 }
 /** set here the desired background-color **/
 .iw-content, .custom-iw>div:first-child>div:nth-child(n-1)>div>div, .custom-iw>div>div:last-child, .custom-iw .gm-style-iw, .custom-iw .gm-style-iw>div, .custom-iw .gm-style-iw>div>div {
-    background-color:#ffd16e !important;
+    background-color:#fff !important;
 }
 /** close-button **/
 .custom-iw>div:last-child {
@@ -384,8 +423,8 @@ select.custom{
     opacity: 1 !important;
     right: -16px !important;
     border-radius: 13px !important;
-    box-shadow: 0.5px 1px 8px #ffd16e !important;
-    border: 8px solid #ffd16e;
+    box-shadow: 0.5px 1px 8px #fff !important;
+    border: 8px solid black;
     padding: 6.5px;
 }
 /** padding of the content **/
@@ -396,7 +435,8 @@ select.custom{
 
 .iw-content img{
 	max-width: 84.66px !important;
-	background-color: #6dbb62;
-    border-radius: 5px 5px 0 0;
+	background-color: #a8dfdb;
+    border-radius: 5px;
     padding: 5px;
+    margin-bottom: 5px;
 }

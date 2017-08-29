@@ -937,76 +937,67 @@ h1, p {
 }
 
 .btn14 {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  top: 400px;
-  left: 15px;
   -webkit-transition-duration: 0.5s;
-          transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  text-align: initial;
 }
 .btn14 .icon-circle {
   -webkit-transition-duration: 0.5s;
-          transition-duration: 0.5s;
-  position: absolute;
-  height: 60px;
-  width: 60px;
-  top: 2px;
+  transition-duration: 0.5s;
+  height: 40px;
+  width: 40px;
   border-radius: 100%;
-  background: transparent;
-  border: 4px solid black;
-  left: -15px;
-}
-.btn14 .icon-circle:hover {
   background: #fff;
+  border: 2px solid #4c4c4c;
+  margin: 0 auto;
 }
+
 .btn14 .icon {
   -webkit-transition-duration: 0.5s;
-          transition-duration: 0.5s;
-  position: absolute;
+  transition-duration: 0.5s;
+  position: relative;
   height: 4px;
-  width: 30px;
-  top: 30px;
-  background-color: #212121;
-  border-radius: 4px;
+  width: 17px;
+  top: -21px;
+  background-color: #4c4c4c;
+  border-radius: 2px;
+  left: 34px;
 }
 .btn14 .icon:before {
   -webkit-transition-duration: 0.5s;
-          transition-duration: 0.5s;
+  transition-duration: 0.5s;
   position: absolute;
-  width: 30px;
+  width: 17px;
   height: 4px;
-  background-color: #212121;
+  background-color: #4c4c4c;
   content: "";
-  top: -10px;
-  border-radius: 4px;
+  top: -7px;
+  border-radius: 2px;
 }
 .btn14 .icon:after {
   -webkit-transition-duration: 0.5s;
-          transition-duration: 0.5s;
+  transition-duration: 0.5s;
   position: absolute;
-  width: 30px;
+  width: 17px;
   height: 4px;
-  background-color: #212121;
+  background-color: #4c4c4c;
   content: "";
-  top: 10px;
-  border-radius: 4px;
+  top: 7px;
+  border-radius: 2px;
 }
-.btn14.open .icon-circle {
-  background: #fff;
-}
+
 .btn14.open .icon {
   -webkit-transition-duration: 0.5s;
           transition-duration: 0.5s;
   background: transparent;
 }
 .btn14.open .icon:before {
-  -webkit-transform: rotateZ(45deg) scaleX(1.25) translate(6.5px, 6.5px);
-          transform: rotateZ(45deg) scaleX(1.25) translate(6.5px, 6.5px);
+  -webkit-transform: rotateZ(45deg) scaleX(1.25) translate(3px, 4.8px);
+          transform: rotateZ(45deg) scaleX(1.25) translate(3px, 4.8px);
 }
 .btn14.open .icon:after {
-  -webkit-transform: rotateZ(-45deg) scaleX(1.25) translate(6px, -6px);
-          transform: rotateZ(-45deg) scaleX(1.25) translate(6px, -6px);
+  -webkit-transform: rotateZ(-45deg) scaleX(1.25) translate(4px, -6px);
+          transform: rotateZ(-45deg) scaleX(1.25) translate(4px, -6px);
 }
 .btn14:hover {
   cursor: pointer;

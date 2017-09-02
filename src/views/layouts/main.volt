@@ -32,6 +32,8 @@
     {{ stylesheet_link('css/plugins/chartist.css') }}
     {{ stylesheet_link('css/plugins/jquery-ui-timepicker-addon.css') }}
     {{ stylesheet_link('css/plugins/burger-menu.css') }}
+    {{ stylesheet_link('css/plugins/bootstrap-rating.css') }}
+    {{ stylesheet_link('css/plugins/liquid.css') }}
 
     {# DataTable #}
     {{ stylesheet_link('css/plugins/jquery.dataTables.css')}}
@@ -96,6 +98,7 @@
 
 {{ javascript_include('js/plugins/hammer.min.js') }}
 {{ javascript_include('js/plugins/jquery.hammer.js') }}
+{{ javascript_include('js/plugins/bootstrap-rating.js') }}
 
 
 

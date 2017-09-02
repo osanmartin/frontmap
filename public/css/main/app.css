@@ -224,6 +224,12 @@ position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 	font-size: 32px;
 }
 
+.btn-calidad{
+	font-size: 22px;
+	color: red;
+}
+
+
 
 
 
@@ -415,7 +421,7 @@ select.custom{
 }
 /** set here the desired background-color **/
 .iw-content, .custom-iw>div:first-child>div:nth-child(n-1)>div>div, .custom-iw>div>div:last-child, .custom-iw .gm-style-iw, .custom-iw .gm-style-iw>div, .custom-iw .gm-style-iw>div>div {
-    background-color:#fff !important;
+    background-color:transparent; !important;
 }
 /** close-button **/
 .custom-iw>div:last-child {
@@ -439,4 +445,114 @@ select.custom{
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 5px;
+
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+
+    text-align: initial;
 }
+
+.iw-content .voted-positive img{
+
+	transform: scaleX(1.08) scaleY(1.04);
+	background-color: yellow;
+
+}
+
+.iw-content .voted-negative img{
+
+	transform: rotateZ(-9deg) scaleX(0.9) scaleY(0.9);
+	background-color: #6f6868;
+}
+
+.info-calidad img{
+	transition: all 1s;
+}
+
+.background-transparent{
+	background-color: transparent !important;
+}
+
+.cssload-jar .level1 .cssload-liquid{
+
+	height: 20% !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level1 .cssload-wave{
+
+	top:65px !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level2 .cssload-liquid{
+
+	height: 40% !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level2 .cssload-wave{
+
+	top:47px !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level3 .cssload-liquid{
+
+	height: 60% !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level3 .cssload-wave{
+
+	top:30px !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level4 .cssload-liquid{
+
+	height: 80% !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level4 .cssload-wave{
+
+	top:13px !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level5 .cssload-liquid{
+
+	height: 100% !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+.cssload-jar .level5 .cssload-wave{
+
+	top:13px !important;
+	-webkit-transition-duration: 1s;
+	transition-duration: 1s;
+
+}
+
+
+
+

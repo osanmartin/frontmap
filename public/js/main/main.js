@@ -146,6 +146,62 @@ $(document).ready(function() {
     	}
 
     });
+
+    $(document).on('click','.btn-validez-positiva',function(){
+
+    	$(this).parents('.info-validez').find('.validez').click();
+    	$(this).parents('.info-validez').find('a').removeClass('voted-negative').addClass('voted-positive');
+
+    });
+
+    $(document).on('click','.btn-validez-negativa',function(){
+
+    	$(this).parents('.info-validez').find('.validez').click();
+    	$(this).parents('.info-validez').find('a').removeClass('voted-positive').addClass('voted-negative');
+
+    });
+
+    $(document).on('click','.calidad',function(){
+
+    	$(this).parents('.info-calidad').find('.btn-calidad input').rating({
+			filled: 'glyphicon glyphicon-heart',
+			empty: 'glyphicon glyphicon-heart-empty'
+    	});
+
+
+    	if($(this).hasClass('open')){
+
+	    	$('.btn-calidad').removeClass('hidden').addClass('animated fadeInUp').one(removeAnimate, 
+				function(){
+					$(this).removeClass('animated fadeInUp').removeClass('hidden');				
+				});
+
+
+
+
+    	} else {
+
+	    	$('.btn-calidad').addClass('animated fadeOutDown').one(removeAnimate, 
+				function(){
+					$(this).removeClass('animated fadeOutDown').addClass('hidden');				
+				});
+
+    	}
+
+    });
+
+    $(document).on('change','.btn-calidad input',function () {
+    
+    	$(this).parents('.info-calidad').find('img').addClass('background-transparent');
+    	$(this).parents('.info-calidad').find('.cssload-base')
+    									.removeClass()
+    									.addClass('cssload-base')
+    									.addClass('level'+$(this).val());
+
+    });
+
+
+
 	
 });
 

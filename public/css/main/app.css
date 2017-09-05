@@ -555,4 +555,38 @@ select.custom{
 
 
 
+.btn-precio img{
 
+	background-color: transparent;
+	width: 40px;
+	padding: 0px;
+	/* box-shadow: 1px 1px; */
+	box-shadow: 0.5px 0.5px 5px #212925;
+	border-radius: 50%;
+	cursor: pointer;
+
+}
+
+.btn-precio-low{
+
+	position: absolute;
+    top: 135px;
+    left: 6px;
+
+}
+
+.btn-precio-mid{
+	
+	position: absolute;
+    top: 170px;
+    left: 39px;
+
+}
+
+.btn-precio-high{
+
+	position: absolute;
+	top: 135px;
+	left: 71px;
+
+}

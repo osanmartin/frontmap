@@ -201,6 +201,28 @@ $(document).ready(function() {
     });
 
 
+    $(document).on('click','.precio',function(){
+
+
+    	if($(this).hasClass('open')){
+
+	    	$('.btn-precio div').removeClass('hidden').addClass('animated fadeInUp').one(removeAnimate, 
+				function(){
+					$(this).removeClass('animated fadeInUp').removeClass('hidden');				
+				});
+
+    	} else {
+
+	    	$('.btn-precio div').addClass('animated fadeOutDown').one(removeAnimate, 
+				function(){
+					$(this).removeClass('animated fadeOutDown').addClass('hidden');				
+				});
+
+    	}
+
+    });
+
+
 
 	
 });

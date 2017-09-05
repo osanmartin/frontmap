@@ -131,46 +131,46 @@
 
 @keyframes cssload-wave {
 	from {
-		transform: translateX(97px);
+		transform: translateX(8px);
 	}
 	to {
-		transform: translateX(-97px);
+		transform: translateX(-28px);
 	}
 }
 
 @-o-keyframes cssload-wave {
 	from {
-		-o-transform: translateX(97px);
+		-o-transform: translateX(8px);
 	}
 	to {
-		-o-transform: translateX(-97px);
+		-o-transform: translateX(-28px);
 	}
 }
 
 @-ms-keyframes cssload-wave {
 	from {
-		-ms-transform: translateX(97px);
+		-ms-transform: translateX(8px);
 	}
 	to {
-		-ms-transform: translateX(-97px);
+		-ms-transform: translateX(-28px);
 	}
 }
 
 @-webkit-keyframes cssload-wave {
 	from {
-		-webkit-transform: translateX(97px);
+		-webkit-transform: translateX(8px);
 	}
 	to {
-		-webkit-transform: translateX(-97px);
+		-webkit-transform: translateX(-28px);
 	}
 }
 
 @-moz-keyframes cssload-wave {
 	from {
-		-moz-transform: translateX(97px);
+		-moz-transform: translateX(8px);
 	}
 	to {
-		-moz-transform: translateX(-97px);
+		-moz-transform: translateX(-28px);
 	}
 }
 

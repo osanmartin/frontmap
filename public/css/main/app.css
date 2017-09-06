@@ -224,6 +224,14 @@ position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 	font-size: 32px;
 }
 
+.btn-validez-positiva:active{
+	box-shadow: inset 0 0 4px 0px black;
+}
+
+.btn-validez-negativa:active{
+	box-shadow: inset 0 0 4px 0px black;
+}
+
 .btn-calidad{
 	font-size: 22px;
 	color: red;
@@ -473,6 +481,13 @@ select.custom{
 	background-color: transparent !important;
 }
 
+.transparent{
+	opacity: 0;
+	position: absolute;
+	top: 0px;
+	left: 15px;
+}
+
 .cssload-jar .level1 .cssload-liquid{
 
 	height: 20% !important;
@@ -567,26 +582,49 @@ select.custom{
 
 }
 
+.btn-precio div{
+
+	border-radius: 5px;
+	padding: 2px;
+	font-weight: bold;
+	cursor: pointer;
+	
+}
+
 .btn-precio-low{
-
-	position: absolute;
-    top: 135px;
-    left: 6px;
-
+	background-color: #ccedea;
+	margin-bottom: 1px;
 }
 
 .btn-precio-mid{
-	
-	position: absolute;
-    top: 170px;
-    left: 39px;
-
+	background-color: #dfdfdf;	
+	margin-bottom: 1px;
 }
 
 .btn-precio-high{
+	background-color: #a8dfdb;
+	margin-bottom: 1px;
+}
 
-	position: absolute;
-	top: 135px;
-	left: 71px;
+.btn-precio div:active{
+
+	box-shadow: inset 0 0 4px 0px black;
+
+}
+
+.info-precio a img{
+	-webkit-transition: opacity 1s ease-in-out;
+	-moz-transition: opacity 1s ease-in-out;
+	-o-transition: opacity 1s ease-in-out;
+	transition: opacity 1s ease-in-out;
+}
+
+.shadow-green{
+
+	box-shadow: inset 0px 0px 4px 2px #348e07;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	-o-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
 
 }

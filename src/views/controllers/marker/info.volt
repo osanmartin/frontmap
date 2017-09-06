@@ -47,9 +47,11 @@
 			</div>
 		</div>
 
-		<div class="col-xs-4 text-center">
+		<div class="col-xs-4 text-center info-precio">
 			<a href="javascript:void(0)">
-				<img src="img/markers/pig_money_normal.png" alt="">
+				<img class="transparent" src="img/markers/pig_money_sad.png" data-target="1">
+				<img src="img/markers/pig_money_normal.png" alt="" data-target="2">
+				<img class="transparent" src="img/markers/pig_money_happy.png" data-target="3">
 				<span>Precio</span>
 				<div class="menu btn14 precio" data-menu="14">
 				  <div class="icon-circle"></div>
@@ -57,14 +59,14 @@
 				</div>
 			</a> 
 			<div class="btn-precio">
-				<div class="btn-precio-low hidden">
-					<img src="img/markers/icon_money_low.png">
+				<div class="btn-precio-low hidden" data-target="3">
+					<span> $0 - $499 </span>
 				</div>
-				<div class="btn-precio-mid hidden">
-					<img src="img/markers/icon_money_mid.png">
+				<div class="btn-precio-mid hidden" data-target="2">
+					<span> $500 - $999 </span>
 				</div>
-				<div class="btn-precio-high hidden">
-					<img src="img/markers/icon_money_full.png">
+				<div class="btn-precio-high hidden" data-target="1">
+					<span>  +$1000 </span>
 				</div>
 			</div>
 		</div>

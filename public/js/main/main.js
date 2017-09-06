@@ -223,6 +223,15 @@ $(document).ready(function() {
     });
 
 
+    $(document).on('click','.btn-precio div',function(){
+
+    	$(this).parents('.info-precio').find('.precio').click();
+    	$(this).parents('.info-precio').find('img:not(.transparent)').addClass('transparent');
+		$(this).parents('.info-precio').find('img[data-target="'+$(this).data('target')+'"]').removeClass('transparent').removeClass('shadow-green').addClass('shadow-green');    	
+
+    });
+
+
 
 	
 });

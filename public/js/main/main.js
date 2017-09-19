@@ -232,8 +232,6 @@ $(document).ready(function() {
     });
 
 
-
-	
 });
 
 

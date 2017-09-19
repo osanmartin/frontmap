@@ -178,7 +178,7 @@ position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 .btn-modal-options{
 	font-size: 11px;
     color: #d6c806;
-    width: 125px;
+    width: 30%;
     border: 1px solid #d6c806;
     display: block;
     margin: 0 auto;
@@ -627,4 +627,66 @@ select.custom{
 	-o-transition: all 1s ease-in-out;
 	transition: all 1s ease-in-out;
 
+}
+
+.msg-search{
+
+	padding: 15px;
+	color: #c5c5c5;
+
+}
+
+.table-header{
+	background-color: #3c79af;
+	color: white;
+	padding: 10px;
+	font-weight: 500;
+}
+
+.table-row{
+	font-size: 16px;
+	padding: 10px;
+	border-bottom: 1px solid gainsboro;
+}
+
+.size-25{
+	font-size: 25px;
+}
+
+.size-12{
+	font-size: 12px;
+}
+
+.size-20{
+	font-size: 20px;
+}
+
+.bold-800{
+	font-weight: 800;
+}
+
+.btn-action-search{
+	padding: 0 10px 0 10px;
+	background-color: #dfd441;
+}
+
+.icon-note{
+
+	color: white;
+	border-radius: 2px;
+	padding: 2px;
+	
+
+}
+
+.background-green{
+	background-color: #40af40;
+}
+
+.background-yellow{
+	background-color:#dfd441;
+}
+
+.background-red{
+	background-color:#bb5151;
 }

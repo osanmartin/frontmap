@@ -1,25 +1,25 @@
 
-    <nav class="navbar navbar-custom width-100 absolute">
 
-        <div class="row">
-    
-            <div class="col-md-6 col-xs-8 pull-left">        
-        
-                <div id="finder" class="form-group">
-                    <input type="text" class="form-control" placeholder="Buscar dirección">
-                </div>
+<span id="container-finder" class="pull-left">        
 
-            </div>
+    <div id="finder" class="form-group margin-none">
+        <input type="text" class="form-control" placeholder="Buscar dirección">
+    </div>
 
-            <div class="col-md-3 col-xs-4 pull-right">
-            <!-- Menu Móvil -->
+</span>
 
-                <div class="navbar-header pull-right">
-                    <a class="navbar-brand navbar-logo background-blue-transparent border-radius-min" href="#">
-                        <img class="navbar-brand-image" src="img/favicon-32x32.png"> <span>FrontMap</span>
-                    </a>
-                </div>
-            </div>
+<span id="container-buttons">
 
-        </div>
-    </nav>
+    <button id="btn-erase-routes" type="button" href="javascript:void(0)" class="btn-aditional hidden">
+        <i class="fa fa-trash-o"></i> Quitar Rutas
+    </button>  
+
+</span>
+
+<span id="container-logo" class="pull-right">
+    <div id="logo">
+        <a id="logo-image" href="#">
+            <img class="navbar-brand-image" src="img/favicon-32x32.png"> <span>FrontMap</span>
+        </a>
+    </div>
+</span>

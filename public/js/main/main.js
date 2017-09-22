@@ -1,5 +1,24 @@
 var removeAnimate = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
 
+/*
+GMaps.geolocate({
+  success: function(position) {
+    map.setCenter(position.coords.latitude, position.coords.longitude);
+  },
+  error: function(error) {
+    console.log('Geolocation failed: '+error.message);
+  },
+  not_supported: function() {
+    alert("Your browser does not support geolocation");
+  },
+  always: function() {
+    console.log("done");
+  }
+});
+
+*/
+
+
 var map = new GMaps(
 					{div:'#map_canvas',
 					lat:'-33.0539430',
@@ -12,6 +31,49 @@ var map = new GMaps(
 					fullscreenControl: false,
 					clickableIcons:false
 				});
+
+/*
+var infoWindow = new google.maps.InfoWindow({map: map});				
+
+if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+          infoWindow.setPosition(pos);
+          infoWindow.setContent(browserHasGeolocation ?
+                                'Error: The Geolocation service failed.' :
+                                'Error: Your browser doesn\'t support geolocation.');
+        }*/
+
+/*
+navigator.geolocation.getCurrentPosition(
+    function(position) {
+         alert("Lat: " + position.coords.latitude + "\nLon: " + position.coords.longitude);
+    },
+    function(error){
+         alert(error.message);
+    }, {
+         enableHighAccuracy: true
+              ,timeout : 5000
+    }
+);*/
+
 var markers = [];
 
 var styles = [
@@ -48,26 +110,12 @@ map.setStyle("map_style");
 
 
 
+
 $(document).ready(function() {
 
 	renderMarkers();
-	/*
-	GMaps.geolocate({
-	  success: function(position) {
-	    map.setCenter(position.coords.latitude, position.coords.longitude);
-	  },
-	  error: function(error) {
-	    console.log('Geolocation failed: '+error.message);
-	  },
-	  not_supported: function() {
-	    alert("Your browser does not support geolocation");
-	  },
-	  always: function() {
-	    console.log("done");
-	  }
-	});
+	
 
-	*/
 
 	$(document).on('keypress','#finder input',function(){
 
@@ -228,6 +276,18 @@ $(document).ready(function() {
     	$(this).parents('.info-precio').find('.precio').click();
     	$(this).parents('.info-precio').find('img:not(.transparent)').addClass('transparent');
 		$(this).parents('.info-precio').find('img[data-target="'+$(this).data('target')+'"]').removeClass('transparent').removeClass('shadow-green').addClass('shadow-green');    	
+
+    });
+
+    $(document).on('click','#btn-erase-routes',function(){
+
+
+    	$('#btn-erase-routes').addClass('animated fadeOutDown').one(removeAnimate, 
+			function(){
+				$(this).removeClass('animated fadeOutDown').addClass('hidden');				
+			});
+
+    	map.removePolylines();
 
     });
 

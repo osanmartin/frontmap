@@ -93,8 +93,10 @@ $(document).ready(function() {
 				$.each(response.rows[0].elements, function(index, val) {
 
 					var distance = Number((val.distance.value/1000).toFixed(1));
+					var duration = Math.round(val.duration.value/60);
 					
 					$('#distance-'+services[index].id).html(distance);
+					$('#duration-'+services[index].id).html(duration);
 
 				});
 

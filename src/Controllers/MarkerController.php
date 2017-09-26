@@ -14,7 +14,7 @@
 
             $dataView = [];
 
-    		$html = $this->view->getPartial('controllers/marker/info',$dataView);
+
 
             $markers[] =    [   
                                 'id' => 1,
@@ -24,8 +24,7 @@
                                 'confiability' => 'green',
                                 'quality' => 'yellow',
                                 'price' => 'green',
-                                'icon' => "img/markers/bathroom_30x30.png",
-                                'infoWindow' => ['content' => $html]
+                                'icon' => "img/markers/bathroom_gray.png",
                             ];
 
             $markers[] =    [   
@@ -36,8 +35,7 @@
                                 'confiability' => 'red',
                                 'quality' => 'red',
                                 'price' => 'red',
-                                'icon' => "img/markers/bathroom_30x30.png",
-                                'infoWindow' => ['content' => $html]
+                                'icon' => "img/markers/bathroom_gray.png",
                             ];
 
 
@@ -49,12 +47,19 @@
                                 'confiability' => 'yellow',
                                 'quality' => 'yellow',
                                 'price' => 'green',
-                                'icon' => "img/markers/bathroom_30x30.png",
-                                'infoWindow' => ['content' => $html]
+                                'icon' => "img/markers/bathroom_gray.png",
                             ];
 
+            foreach ($markers as $key => $val) {
 
-  
+                $dataView['service'] = $val;
+                
+                $html = $this->view->getPartial('controllers/marker/info',$dataView);
+
+                $markers[$key]['infoWindow']['content'] = $html;
+
+            }
+
     		$this->mifaces->addToJsonView('markers',$markers);
 
     		$this->mifaces->run();

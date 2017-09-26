@@ -1,5 +1,19 @@
 <div class="iw-content">
-	<h4 class="text-center">Baño de Plaza</h4>
+
+	<div class="row no-margin">
+		<div class="col-xs-12">
+			<strong>{{service['name']}}</strong>
+		</div>
+	</div>
+	<div class="row no-margin">
+		<div class="col-xs-2">
+			Horario:
+		</div>
+		<div class="col-xs-10">
+			Lunes a Viernes, 12:00 a 21:00 hrs
+		</div>
+	</div>
+
 	<div class="row no-margin">
 		<div class="col-xs-4 text-center info-validez">
 			<a href="javascript:void(0)">

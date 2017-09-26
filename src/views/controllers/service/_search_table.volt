@@ -6,9 +6,14 @@
 
 
 	<div class="row text-center table-header">
-		<div class="col-xs-4">
+		<div class="col-xs-2 ">
 			
-			Distancia
+			<span class="hidden-xs">Distancia</span>
+
+		</div>
+		<div class="col-xs-2">
+			
+			<span class="hidden-xs">Tiempo</span>
 
 		</div>
 		<div class="col-xs-6">
@@ -25,8 +30,11 @@
 	{% for service in services %}
 
 		<div class="row text-center table-row">
-			<div class="col-xs-4 size-25">
+			<div class="col-xs-2 size-20">
 				<span id="distance-{{ service['id'] }}"></span> <span class="size-12 bold-800">KM</span>
+			</div>
+			<div class="col-xs-2 size-20">
+				<span id="duration-{{ service['id'] }}"></span> <span class="size-12 bold-800">min</span>
 			</div>
 			<div class="col-xs-6">
 				<div>{{ service['name'] }}</div>

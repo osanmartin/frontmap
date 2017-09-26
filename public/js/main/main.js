@@ -72,8 +72,8 @@ navigator.geolocation.getCurrentPosition(
          enableHighAccuracy: true
               ,timeout : 5000
     }
-);*/
-
+);
+*/
 var markers = [];
 
 var styles = [

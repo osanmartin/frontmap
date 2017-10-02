@@ -6,12 +6,13 @@
 
     <title>{{ config.appTitle }}</title>
 
-    <meta name="viewport"       content="width=device-width, initial-scale=1.0">
     <meta name="description"    content={{ '"' ~ config.appName  ~ '"' }} >
     <meta name="author"         content={{ '"' ~ config.appAutor  ~ '"' }}>
     <meta name="theme-color" content="#1e96ee">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
 
-    <link rel="shortcut icon" href="{{ url("img/favicon-128.png") }}">
+    <link rel="shortcut icon" href="{{ url("img/favicon-32x32.png") }}">
 
     {# CSS GENERICAS #}
     {{ stylesheet_link('css/plugins/bootstrap/bootstrap.min.css') }}
@@ -30,6 +31,9 @@
     {{ stylesheet_link('css/plugins/lightbox.css') }}
     {{ stylesheet_link('css/plugins/chartist.css') }}
     {{ stylesheet_link('css/plugins/jquery-ui-timepicker-addon.css') }}
+    {{ stylesheet_link('css/plugins/burger-menu.css') }}
+    {{ stylesheet_link('css/plugins/bootstrap-rating.css') }}
+    {{ stylesheet_link('css/plugins/liquid.css') }}
 
     {# DataTable #}
     {{ stylesheet_link('css/plugins/jquery.dataTables.css')}}
@@ -37,62 +41,70 @@
 
     {# CSS CUSTOM #}
     {{ stylesheet_link('css/main/app.css') }}
+    {{ stylesheet_link('css/main/login.css') }}
+    {{ stylesheet_link('css/plugins/sticky-footer.css') }}
+    
 
     {{ assets.outputCss() }}
 
 </head>
+
+
+
 <body>
-    <div class="clearfix">
-        <div class="container-fluid">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1">
-                        <nav class="navbar">
-                          <div class="container-fluid">
-                            <div class="navbar-header">
-                              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                <i class="fa fa-bars"></i>
-                              </button>
-                              <div class="navbar-brand">
 
-                                  {% if username is defined %}
+    <div id="fb-root"></div>
+    <script>
 
-                                    Bienvenid@ <b>{{ username }}</b>
+          window.fbAsyncInit = function() {
+              FB.init({appId: 'XXX', status: true, cookie: true, xfbml: true});
 
-                                  {% endif %}
+          };
+          (function() {
+            var e = document.createElement('script'); e.async = true;
+            e.src = document.location.protocol +
+              '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+          }());
 
-                              </div>
-                            </div>
+        function fetchUserDetail()
+        {
+            FB.api('/me', function(response) {
+                    alert("Name: "+ response.name + "\nFirst name: "+ response.first_name + "ID: "+response.id);
+                });
+        }
 
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                              <ul class="nav navbar-nav navbar-right">
+        function checkFacebookLogin() 
+        {
+            FB.getLoginStatus(function(response) {
+              if (response.status === 'connected') {
+                fetchUserDetail();
+              } 
+              else 
+              {
+                initiateFBLogin();
+              }
+             });
+        }
 
-                                {% if username is defined %}
+        function initiateFBLogin()
+        {
+            FB.login(function(response) {
+               fetchUserDetail();
+             });
+        }
+        </script>
 
-                                    <li>{{ link_to("agendamiento", "AGENDAMIENTO") }}</li>
-                                    <li>{{ link_to("gestionReserva", "MIS RESERVAS") }}</li>
-                                    <li>{{ link_to("actualizarDatos", "MI PERFIL") }}</li>
-                                    <li>{{ link_to("logout", "SALIR <i class='fa fa-sign-out'></i>") }} </li>
+    <input id="CSRF-TOKEN" type="hidden" name="{{ session.get('csrf-token')['key'] }}" value="{{ session.get('csrf-token')['token'] }}">
 
-                                {% else %}
 
-                                    <li>{{ link_to("login", "LOGIN <i class='fa fa-sign-in'></i>") }} </li>
+    {% block content %}
 
-                                {% endif %}
-                                
-                              </ul>
-                            </div><!-- /.navbar-collapse -->
-                          </div><!-- /.container-fluid -->
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-      {% block content %}{% endblock %}
 
-  </div>
-</div>
+
+
+    {% endblock %}
+
 
 
 <div id="alertify-flash" class="hidden">
@@ -113,6 +125,8 @@
 
 </div>
 
+
+
 {# JS GENERICAS #}
 {{ javascript_include('js/main/jquery-2.2.0.min.js') }}
 {{ javascript_include('js/plugins/jquery-ui.min.js') }}
@@ -125,6 +139,12 @@
 {{ javascript_include('js/plugins/chartist.js') }}
 {{ javascript_include('js/plugins/jquery-ui-timepicker-addon.js') }}
 
+{{ javascript_include('js/plugins/hammer.min.js') }}
+{{ javascript_include('js/plugins/jquery.hammer.js') }}
+{{ javascript_include('js/plugins/bootstrap-rating.js') }}
+
+
+
 {# Chosen #}
 {{ javascript_include('js/plugins/chosen.jquery.min.js') }}
 
@@ -135,19 +155,24 @@
 {{ javascript_include('js/plugins/jquery.dataTables.js') }}
 {{ javascript_include('js/plugins/dataTables.select.min.js') }}
 {{ javascript_include('js/plugins/dataTables.bootstrap.js') }}
+{{ javascript_include('js/plugins/burger-menu.js') }}
 
 
 {# CSS CUSTOM #}
+
+{{ javascript_include('js/plugins/customize-map.js') }}
 {{ javascript_include('js/plugins/mifaces.js') }}
 {{ javascript_include('js/plugins/jquery.utilidades.js') }}
-{{ javascript_include('js/socket/scheduling.js') }}
 {{ javascript_include('js/main/app.js') }}
-{{ javascript_include('js/pages/scheduling.js') }}
 
 
-{{ assets.outputJs() }}
 
 {% block addJs %}{% endblock %}
+
+<div id="modal-master">
+</div>
+
+<form id="render-all-form" action="{{ url('marker/renderAll') }}"></form>
 
 </body>
 </html>

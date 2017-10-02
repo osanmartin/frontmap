@@ -1,0 +1,66 @@
+.fb-login-button{
+
+	position: absolute !important;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+#logo-login{
+
+	position: absolute;
+	z-index: 1;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	top: 25%;
+
+}
+
+
+#logo-login #logo-image{
+
+	width: 100px;
+	display: inline-block;
+	color: #fff;
+	text-decoration: none;
+	padding: .5rem;
+	transition: .6s background; 
+
+}
+
+
+body {
+	margin: 0;
+	background: #000; 
+}
+
+video { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+ 	background: url('../../background.gif') no-repeat;
+  	background-size: cover;
+  	transition: 1s opacity;
+}
+.stopfade { 
+   opacity: .5;
+}
+
+
+@media screen and (max-width: 500px) { 
+  div{width:70%;} 
+}
+@media screen and (max-device-width: 800px) {
+  html { background: url(../../background.gif) #000 no-repeat center center fixed; }
+  video{
+  	position: initial !important;
+  	transform: none;
+  }
+}

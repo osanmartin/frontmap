@@ -45,11 +45,21 @@
 				</div>
 			</div>
 			<div class="col-xs-2 no-padding">
-				<button class="btn btn-action-search" data-lat="{{ service['lat'] }}" data-lng="{{ service['lng'] }}" > <i class="fa fa-map-marker"></i> Ir</button>
+				<button type="button" class="btn btn-action-search" data-lat="{{ service['lat'] }}" data-lng="{{ service['lng'] }}" > <i class="fa fa-map-marker"></i> Ir</button>
 			</div>
 		</div>
 
 	{% endfor %}
+
+{% elseif msg is defined and msg %}
+
+  	<div class="row">
+
+		<div class="col-xs-12 text-center msg-search">
+			<span>{{ msg|uppercase }}</span>
+		</div>
+	</div>
+
 
 {% else %}
 

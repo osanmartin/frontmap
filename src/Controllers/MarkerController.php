@@ -2,6 +2,9 @@
 
     namespace App\Controllers;
 
+
+    use App\helpers\CallAPI;
+
     class MarkerController extends ControllerBase {
 
 
@@ -15,7 +18,7 @@
             $dataView = [];
 
 
-
+            /*
             $markers[] =    [   
                                 'id' => 1,
                                 'lat' => -33.046273, 
@@ -49,6 +52,32 @@
                                 'price' => 'green',
                                 'icon' => "img/markers/bathroom_gray.png",
                             ];
+
+            */
+
+            $callApi = new CallAPI();
+
+            $data['position_x'] = '-33.0539430';
+            $data['position_y'] = '-71.6245970';
+            $data['radius'] = '5000';
+
+            $result = $callApi->call('GET',$this->config['urlApi'].'services/find',$data);
+
+
+            $markers = [];
+
+            foreach ($result as $key => $val) {
+
+                $markers[$key] = $val;
+            
+                $markers[$key]['lat'] =  $val['x_position'];
+                $markers[$key]['lng'] =  $val['y_position'];
+                $markers[$key]['icon'] =  'img/markers/bathroom_gray.png';
+
+
+
+            }
+
 
             foreach ($markers as $key => $val) {
 

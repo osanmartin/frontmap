@@ -58,7 +58,10 @@ $(document).ready(function() {
 
 
 		var url = $(this).data('url');
-		var dataIn = new FormData();
+		var dataIn = new FormData($('#search-form')[0]);
+	
+		dataIn.append('location_lat',location_lat);
+		dataIn.append('location_lng',location_lng);
 
 		var call = $.callAjax(dataIn,url,$(this));
 
@@ -66,7 +69,7 @@ $(document).ready(function() {
 
 			$('.icon-note').tooltip();
 
-			var origin = new google.maps.LatLng(-33.0539430, -71.6245970);
+			var origin = new google.maps.LatLng(location_lat, location_lng);
 
 			var destinations = [];
 
@@ -92,11 +95,22 @@ $(document).ready(function() {
 
 				$.each(response.rows[0].elements, function(index, val) {
 
-					var distance = Number((val.distance.value/1000).toFixed(1));
-					var duration = Math.round(val.duration.value/60);
+					if(typeof val.distance == 'undefined' || val.distance == null || val.distance == ''){
+
+						$('#distance-'+services[index].id).parents('.row').first().remove();
+
+
+					} else{
+
+						var distance = Number((val.distance.value/1000).toFixed(1));
+						var duration = Math.round(val.duration.value/60);
+
+						$('#distance-'+services[index].id).html(distance);
+						$('#duration-'+services[index].id).html(duration);
+
+					}
 					
-					$('#distance-'+services[index].id).html(distance);
-					$('#duration-'+services[index].id).html(duration);
+
 
 				});
 
@@ -113,7 +127,7 @@ $(document).ready(function() {
    		$('#modal-search-service').modal('hide');
 
    		map.drawRoute({
-   		  origin: [-33.0539430, -71.6245970],
+   		  origin: [location_lat, location_lng],
    		  destination: [$(this).data('lat'), $(this).data('lng')],
    		  travelMode: 'WALKING',
    		  strokeColor: '#131540',

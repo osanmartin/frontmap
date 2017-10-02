@@ -39,13 +39,6 @@
                 $this->data = array();
             }
 
-            /*if( empty($this->pass) )  {
-
-                $this->error[] = $this->errorMessage['secret_token'];
-                $this->ErrorCode = 'secret_token';
-                return false;
-            }*/
-
             $this->setAuth();
 
             switch ($method)
@@ -92,10 +85,6 @@
                 curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->header );
             }
 
-            // Optional Authentication:
-            // curl_setopt($this->curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-            // curl_setopt($this->curl, CURLOPT_USERPWD, "username:password");
-
             curl_setopt($this->curl, CURLOPT_URL, $url);
             curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
 
@@ -103,9 +92,12 @@
 
             curl_close($this->curl);
 
-            $this->verifyResponse($result);
+            #$this->verifyResponse($result);
 
-            return $result;
+
+            $json = json_decode($result, true);
+
+            return $json;
         }
 
         /**
@@ -157,6 +149,9 @@
 
             $datos = json_decode($result, true);
 
+      
+            /*
+
             if( $datos['error'] ) {
 
                 if($this->request->isAjax()){
@@ -204,7 +199,7 @@
                     }
                 }
 
-            }
+            }*/
 
         }
 

@@ -1,4 +1,6 @@
 var removeAnimate = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+var location_lat = '-33.0539430';
+var location_lng = '-71.6245970';
 
 /*
 GMaps.geolocate({
@@ -31,6 +33,12 @@ var map = new GMaps(
 					fullscreenControl: false,
 					clickableIcons:false
 				});
+
+// Marker location
+
+map.addMarker({id:0,lat:location_lat,lng:location_lng,icon:'img/markers/marker_location.png'});
+
+
 
 /*
 var infoWindow = new google.maps.InfoWindow({map: map});				
@@ -127,9 +135,14 @@ $(document).ready(function() {
         	  address: $(this).val(),
         	  callback: function(results, status) {
         	    if (status == 'OK') {
-        	      var latlng = results[0].geometry.location;
-        	      map.setCenter(latlng.lat(), latlng.lng());
-        	      map.setZoom(16);
+        	        var latlng = results[0].geometry.location;
+        	        map.setCenter(latlng.lat(), latlng.lng());
+                    location_lat = latlng.lat(); 
+                    location_lng = latlng.lng();
+
+                    changeMarkerPosition(0,location_lat,location_lng);
+
+        	        map.setZoom(16);
         	    }
         	  }
         	});
@@ -371,4 +384,10 @@ GMaps.prototype.markerById=function(id){
     }
   }
   return new google.maps.Marker();
+}
+
+function changeMarkerPosition(id,lat,lng) {
+    var marker = map.markers[id];
+    var latlng = new google.maps.LatLng(lat, lng);
+    marker.setPosition(latlng);
 }

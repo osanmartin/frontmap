@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\helpers\CallAPI;
 
 class ServiceController extends ControllerBase {
 
@@ -54,38 +55,61 @@ class ServiceController extends ControllerBase {
 
 	    $services = [];
 
-	    $services[] =    [   
-	                        'id' => 1,
-	                        'lat' => -33.046273, 
-	                        'lng' => -71.620073,
-	                        'name' => 'Baños Plaza Victoria',
-	                        'confiability' => 'green',
-	                        'quality' => 'yellow',
-	                        'price' => 'green'
-	                    ];
+	    $post = $this->request->getPost();
 
-	    $services[] =    [   
-	                        'id' => 2,
-	                        'lat' => -33.047325,  
-	                        'lng' => -71.613502,
-	                        'name' => 'Baños Parque Italia',
-	                        'confiability' => 'red',
-	                        'quality' => 'red',
-	                        'price' => 'red'
-	                    ];
+	    if(!$this->request->isAjax()){
+
+	    	$this->defaultRedirect();
+
+	    }
 
 
-	    $services[] =    [   
-	                        'id' => 3,
-	                        'lat' => -33.041228, 
-	                        'lng' => -71.626788,
-	                        'name' => 'Baños Cerro Concepción',
-	                        'confiability' => 'yellow',
-	                        'quality' => 'yellow',
-	                        'price' => 'green'
-	                    ];
+	    $callApi = new CallAPI();
 
-        $dataView['services'] = $services;
+	    $data['position_x'] = $post['location_lat'];
+	    $data['position_y'] = $post['location_lng'];
+	    $data['radius'] = '5000';
+
+	    if(!empty($post['name'])){
+
+	    	$data['name'] = $post['name'];
+
+	    }
+
+	    if(isset($post['category']) && $post['category']){
+
+
+	    	$data['service_type'] = $post['category'];
+
+	    }
+
+	    $result = $callApi->call('GET',$this->config['urlApi'].'services/find',$data);
+
+	    $services = [];
+
+
+	    if(!isset($result['description'])){
+
+		    foreach ($result as $key => $val) {
+
+		        $services[$key] = $val;
+		    
+		        $services[$key]['lat'] =  $val['x_position'];
+		        $services[$key]['lng'] =  $val['y_position'];
+		        $services[$key]['icon'] =  'img/markers/bathroom_gray.png';
+
+
+
+		    }
+
+	        $dataView['services'] = $services;
+
+	    } else {
+
+	    	$dataView['services'] = $services;
+	    	$dataView['msg'] = "No se encontraron resultados.";
+
+	    }
 
 	    $view = $this->view->getPartial('controllers/service/_search_table',$dataView);
 
@@ -93,6 +117,8 @@ class ServiceController extends ControllerBase {
 	    $this->mifaces->addToJsonView('services',$services);
 
 	    $this->mifaces->run();
+
+
 
 
 	}

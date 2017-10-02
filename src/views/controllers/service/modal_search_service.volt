@@ -9,7 +9,7 @@
 				</div>
 			<div class="modal-body">
 		    
-			    <form action="">
+			    <form id="search-form">
 
 	    	    	<div class="form-group">
 	    	    		<div class="row">
@@ -22,7 +22,7 @@
 	    					</div>
 
 	    		    		<div class="col-md-12">
-	    		    			<input type="text" class="form-control custom" placeholder="Nombre del Servicio">	
+	    		    			<input type="text" class="form-control custom" placeholder="Nombre del Servicio" name="name">	
 	    		    		</div>
 	    	    		</div>
 	    	    	</div>
@@ -38,10 +38,10 @@
 	    					</div>
 
 	    		    		<div class="col-md-12">
-	    		    			<select class="form-control custom" name="" id="">
+	    		    			<select class="form-control custom" name="category" id="category">
 	    		    				<option selected value="">Todos</option>
-	    		    				<option value="">Baños</option>
-	    		    				<option value="">Puntos de recolección</option>
+	    		    				<option value="1">Servicio Higiénico</option>
+	    		    				<option value="2">Otro Servicio</option>
 	    		    			</select>
 	    		    		</div>
 	    	    		</div>

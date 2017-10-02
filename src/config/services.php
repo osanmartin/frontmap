@@ -16,10 +16,14 @@
     use Phalcon\Logger;
     use Phalcon\Logger\Adapter\File as FileLogger;
     use Phalcon\Security;
+    use Phalcon\UserPlugin\Plugin\Security as SecurityPlugin;
+    use Phalcon\UserPlugin\Auth\Auth;
+    use Phalcon\UserPlugin\Acl\Acl;
+    use Phalcon\UserPlugin\Mail\Mail;
 
-	use App\library\Auth\Auth;
+	#use App\library\Auth\Auth;
     use App\library\Mifaces\Mifaces;
-    use App\library\Mail\Mail;
+    #use App\library\Mail\Mail;
     use App\library\AccesoAcl\AccesoAcl;
     use App\library\Valida\Valida;
     use App\library\Constants\Constant;
@@ -100,6 +104,11 @@
 
             $dispatcher->setEventsManager($evManager);
         }
+
+        $evManager = $di->getShared('eventsManager');
+
+        $security = new SecurityPlugin($di);
+        $evManager->attach('dispatch', $security);
 
         return $dispatcher;
     },
@@ -384,6 +393,27 @@
             return $security;
         },
         true
+    );
+
+    $di->setShared(
+        'auth',
+        function() {
+            return new Auth();
+        }
+    );
+
+    $di->setShared(
+        'acl',
+        function() {
+            return new Acl();
+        }
+    );
+
+    $di->setShared(
+        'mail',
+        function() {
+            return new Mail();
+        }
     );
 
 

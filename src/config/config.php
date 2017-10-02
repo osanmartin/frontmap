@@ -22,11 +22,26 @@ return new \Phalcon\Config([
         'test'      => array('*'    =>  true),
         'service'   => array('*'    =>  true)
     ],
-    'urlApi'        => "http://localhost/frontmap/api/",
+    'urlApi'        => "http://localhost/apimemoria/",
     'appTitle'      =>'Memoria Maps',
     'appName'       =>"Memoria Maps",
     'appAutor'      =>'OSC',
     'appAutorLink'  =>'OSC',
+    'pup' => [
+        'redirect' => [
+            'success' => 'user/profile',
+            'failure' => 'user/login'    
+        ],
+        'resources' => [
+            'type' => 'public',
+            'resources' => [
+                '*' => [
+                    // All except
+                    'user' => ['account', 'profile']
+                ]
+            ]
+        ]
+    ]
 
   
 

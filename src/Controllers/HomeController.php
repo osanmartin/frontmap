@@ -11,4 +11,11 @@
         }
 
 
+        public function loginAction(){
+
+        	$this->view->pick("controllers/login/login");
+
+        }
+
+
     }

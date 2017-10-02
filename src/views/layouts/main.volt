@@ -41,26 +41,83 @@
 
     {# CSS CUSTOM #}
     {{ stylesheet_link('css/main/app.css') }}
+    
     {{ stylesheet_link('css/plugins/sticky-footer.css') }}
     
 
     {{ assets.outputCss() }}
 
 </head>
+
+<!--
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '130830644326045',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.10'
+    });
+    FB.AppEvents.logPageView();  
+
+    FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+    }); 
+
+    function statusChangeCallback(response){
+
+        console.log(response);
+
+        alert(response.status);
+
+        if( response.status == 'not_authorized' || 
+            response.status == 'unknown'){
+
+            FB.login();
+
+        }
+
+    }
+
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    }
+
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
+
+</script>
+
+-->
 <body>
 
     <input id="CSRF-TOKEN" type="hidden" name="{{ session.get('csrf-token')['key'] }}" value="{{ session.get('csrf-token')['token'] }}">
 
 
+    {% block content %}
 
 
-    {{ partial('layouts/navbar') }}
+        {{ partial('layouts/navbar') }}
 
 
-    <div id="map_canvas">
-    </div>  
+        <div id="map_canvas">
+        </div>  
 
-    {{ partial('layouts/footer') }}
+        {{ partial('layouts/footer') }}
+
+    {% endblock %}
 
 
 

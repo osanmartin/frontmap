@@ -17,50 +17,13 @@
 
             $dataView = [];
 
-
-            /*
-            $markers[] =    [   
-                                'id' => 1,
-                                'lat' => -33.046273, 
-                                'lng' => -71.620073,
-                                'name' => 'Baños Plaza Victoria',
-                                'confiability' => 'green',
-                                'quality' => 'yellow',
-                                'price' => 'green',
-                                'icon' => "img/markers/bathroom_gray.png",
-                            ];
-
-            $markers[] =    [   
-                                'id' => 2,
-                                'lat' => -33.047325,  
-                                'lng' => -71.613502,
-                                'name' => 'Baños Parque Italia',
-                                'confiability' => 'red',
-                                'quality' => 'red',
-                                'price' => 'red',
-                                'icon' => "img/markers/bathroom_gray.png",
-                            ];
-
-
-            $markers[] =    [   
-                                'id' => 3,
-                                'lat' => -33.041228, 
-                                'lng' => -71.626788,
-                                'name' => 'Baños Cerro Concepción',
-                                'confiability' => 'yellow',
-                                'quality' => 'yellow',
-                                'price' => 'green',
-                                'icon' => "img/markers/bathroom_gray.png",
-                            ];
-
-            */
-
             $callApi = new CallAPI();
 
             $data['position_x'] = '-33.0539430';
             $data['position_y'] = '-71.6245970';
             $data['radius'] = '5000';
 
+            # Obtiene servicios
             $result = $callApi->call('GET',$this->config['urlApi'].'services/find',$data);
 
 
@@ -78,11 +41,27 @@
 
             }
 
+            #obtiene rangos de precios
+            $callApi = new CallAPI();
+
+            $prices_range = $callApi->call('GET',$this->config['urlApi'].'price_ranges', false);
+
+            $auxPrice = [];
+            foreach ($prices_range as $val) {
+                $auxPrice[$val['service_type_id']][] = $val;
+            }
+
+            $prices_range = $auxPrice;
+
+            $dataView['prices_range'] = $prices_range;
+
+
+            # se setea html en cada servicio
 
             foreach ($markers as $key => $val) {
 
                 $dataView['service'] = $val;
-                
+
                 $html = $this->view->getPartial('controllers/marker/info',$dataView);
 
                 $markers[$key]['infoWindow']['content'] = $html;

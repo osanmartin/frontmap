@@ -718,3 +718,25 @@ select.custom{
 
 }
 
+.border-green{
+
+	border: 2px solid #40af40;
+
+}
+
+.border-yellow{
+
+	border: 2px solid #dfd441;
+
+}
+
+.border-red{
+
+	border: 2px solid #bb5151;
+
+}
+
+.margin-top-8{
+	margin-top: 8px !important;
+}
+

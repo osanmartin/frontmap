@@ -58,9 +58,12 @@
          */
 		public function beforeExecuteRoute(Dispatcher $dispatcher)
         {
-
             #Usuarios logueados
+
             if ($this->request->isPost() AND !is_null($this->session->get('auth-identity'))) {
+
+
+
                 if ($this->security->checkToken()) {
                     
                     $key = $this->security->getTokenKey();
@@ -72,7 +75,7 @@
 
                 } else{
 
-                    /*
+
 
                     if($this->request->isAjax()){
 
@@ -94,12 +97,11 @@
 
                     exit();
 
-                    */
-
 
                 }
 
             }
+
 
             // Sin permiso de acceso
 
@@ -114,11 +116,10 @@
              * Control de usuarios logeados
              */
 
-            /*
+            
             if (!(isset($noAuth[$controller]['*']) || isset($noAuth[$controller][$action]))) {
 
                 $identity = $this->auth->getIdentity();
-
 
 
                 if ( ! $this->session->has('auth-identity') ) {
@@ -144,7 +145,7 @@
                     exit();
 
                 } 
-            }*/
+            }
 	    }
 
 		private function redirIsAjax()

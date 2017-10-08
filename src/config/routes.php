@@ -6,11 +6,7 @@
 
 	# LOGIN
 	$router->add('/', 				  array('controller' => 'home', 	'action' => 'index'));
-	$router->add('/login', 			  array('controller' => 'home',  'action' => 'login'));
-
-	/*
-	
-	
+	$router->add('/login', 			  array('controller' => 'session',  'action' => 'index'));
 	$router->add('/test', 			  array('controller' => 'test',  	'action' => 'index'));
 	$router->add('/logout', 		  array('controller' => 'session',  'action' => 'logout'));
 	$router->add('/verifyUser', 	  array('controller' => 'session', 	'action' => 'verifyUser'));
@@ -31,5 +27,5 @@
     $router->add('/consultaReserva/:params', array('controller' => 'schedule', 'action' => 'getscheduledata', 'params' => 1));
     
     $router->add('/documentoReserva/:params', array('controller' => 'schedule', 'action' => 'printreserve', 'params' => 1));
-	*/	
+
 	return $router;

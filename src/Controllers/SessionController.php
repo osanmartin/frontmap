@@ -13,6 +13,7 @@
 
         public function indexAction()
         {
+
             $vars = $this->session->get('auth-identity');
 
             if (isset($vars['id'])) {
@@ -61,7 +62,7 @@
 
 
                 $this->view->setVar('flashSessionMsg',$flashStringArray);
-                $this->assets->addJs("js/pages/login.js");
+                #$this->assets->addJs("js/pages/login.js");
                 $this->view->pick("controllers/login/login");
             }
         }
@@ -85,16 +86,14 @@
                 return;
             }
 
-            $rules = $this->getRulesByType($post['type']);
-
+            $rules = [  'username' => 'required',
+                        'password' => 'required'];
 
             $this->valida->validate($post, $rules);
 
             $messages = array(
-                'rut' =>     "Por favor, ingrese su RUT.",
-                'type'   => "Ha ocurrido un error, por favor, actualice la página",
-                'password' => "Por favor, ingrese la contraseña",
-                'birthdate' => "Por favor, ingrese su fecha de nacimiento"
+                'username' => "Por favor, ingrese su nombre de usuario.",
+                'password' => "Por favor, ingrese la contraseña"
             );
 
             $this->valida->getErrors();
@@ -114,51 +113,19 @@
 
             $datos = $this->initSesion($post);
 
-            if( $datos['error'] ) {
+            if( (!isset($datos['token']) || (isset($datos['token']) && empty($datos['token'])))) {
 
-                if( isset($datos['messages']) && count($datos['messages']) > 0 ) {
-
-                    $errors = new Errors();
-
-                    foreach ($datos['messages'] as $key => $err) {
-
-                        $this->mifaces->addToMsg("Error", $errors->getMsgError( key($err) ) );
-                    }
-                }
-
-                $this->mifaces->addToDataView('status', false);
+                $this->mifaces->addToMsg("warning", 'No se pudo iniciar sesión, revise que su usuario y contraseña esté correcto.');
                 $this->mifaces->run();
                 return;
             }
 
 
-            if( ! $datos['status'] ) {
+            if( isset($datos['description']['code']) && $datos['description']['code'] == 401){
 
-                if( isset($datos['messages']) && count($datos['messages']) > 0 ) {
-
-                    $errors = new Errors();
-
-                    foreach ($datos['messages'] as $key => $err) {
-
-                        switch (key($err)) {
-
-                            case 'jwt_token_not_found':
-                            case 'jwt_token_invalid':
-                            case 'jwt_token_expired':
-                            case 'jwt_user_not_found':
-                                    $this->logoutAction();
-                                    $this->mifaces->addToMsg("Error", "Sesión expirada o inexistente. Favor iniciar sesión." );
-                                    $this->mifaces->addRedir('login');
-                                break;
-
-                            default:
-                                $this->mifaces->addToMsg("warning", $errors->getMsgError( key($err) ) );
-
-                            break;
-                        }
-                    }
-                }
-                //$this->mifaces->addToMsg("Error", "Error al iniciar sesión, Por favor verifique sus datos.");
+                $this->logoutAction();
+                $this->mifaces->addToMsg("Error", "Sesión expirada o inexistente. Favor iniciar sesión." );
+                $this->mifaces->addRedir('login');
                 $this->mifaces->addToDataView('status', false);
                 $this->mifaces->run();
                 return;
@@ -170,11 +137,10 @@
              * también guardamos en una variable de sesión el tipo de usuario
              */
 
-            $this->mifaces->addLog("se ha iniciado sesión con exito");
+            $this->mifaces->addLog("Se ha iniciado sesión con exito");
 
-            $this->session->set("auth-identity", $datos['data']['patient'] );
-            $this->session->set("type-user", $post['type'] );
-            $this->session->set("accesstoken", $datos['accesstoken']);
+            $this->session->set("auth-identity", ['id' => $datos['id']] );
+            $this->session->set("accesstoken", $datos['token']);
 
 
             # CSRF-TOKEN 
@@ -187,45 +153,27 @@
 
             # END CSRF-TOKEN 
 
-            $this->mifaces->addToMsg("Success", "Se ha iniciado sesión con exito.");
+            $this->mifaces->addToMsg("success", "Se ha iniciado sesión con exito.");
             $this->mifaces->addToDataView('status', true);
-
-            $ruta = $this->getRedirectByType($post['type']);
-            $this->mifaces->addToDataView('redirectTo', $ruta );
+            $this->mifaces->addToDataView('redirectTo', $this->config->get('application')['baseUri']);
             $this->mifaces->run();
         }
 
         public function initSesion($post)
         {
             $callApi = new CallAPI();
-            $callApi->setHeader("user: {$post['rut']}");
 
-            switch ($post['type']) {
-                case 2:
-                    $data = array(
-                        'rut' => $post['rut'],
-                        'birthdate' => $post['birthdate']
-                    );
-
-                    break;
-
-                case 3:
-                    $data = array(
-                        'rut' => $post['rut'],
-                        'password' => $post['password']
-                    );
-
-                    break;
-            }
+            $data['username'] = $post['username'];
+            $data['password'] = $post['password'];
 
 
             $url = $this->config->get("urlApi");
 
-            $result = $callApi->call('POST', $url.'login', $data, true);
+            $result = $callApi->call('POST', $url.'users/login', $data, true);
 
-            $datos = json_decode($result, true);
 
-            return $datos;
+
+            return $result;
         }
 
         public function getRedirectByType($type)

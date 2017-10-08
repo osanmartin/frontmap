@@ -178,6 +178,22 @@ html, body, #map_canvas {
 	
 }
 
+.btn-login{
+	background-color: #fff;
+	border: 1px solid rgb(45, 137, 179);
+	box-shadow: none;
+	margin: 0 auto;
+	display: block;
+	width: 110px;
+	color: rgb(45, 137, 179);
+}
+
+.btn-login:hover{
+
+	color: rgb(45, 137, 179);
+	
+}
+
 .btn-modal-options{
 	font-size: 11px;
     color: #d6c806;
@@ -740,3 +756,19 @@ select.custom{
 	margin-top: 8px !important;
 }
 
+
+#container-login{
+
+	background: white;
+	border: 3px solid #245166;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	max-width: 250px;
+	width: 100%;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	opacity: 0.8;
+
+}

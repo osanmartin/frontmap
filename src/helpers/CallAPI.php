@@ -46,6 +46,8 @@
                 case "POST":
                     curl_setopt($this->curl, CURLOPT_POST, 1);
 
+                    $this->setHeader('accesstoken: '.$this->session->get('accesstoken'));
+
 
                     if($urlencoded) {
                         $this->data = http_build_query($this->data);

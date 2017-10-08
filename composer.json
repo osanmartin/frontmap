@@ -9,7 +9,6 @@
 		"mpdf/mpdf": "6.1.2",
 		"phpoffice/phpexcel": "1.8.1",
 		"phpmailer/phpmailer": "^5.2",
-		"nesbot/carbon": "^1.22",
-		"crada/phalcon-user-plugin": "^3.0"
+		"nesbot/carbon": "^1.22"
 	}
 }

@@ -139,8 +139,6 @@
 {{ javascript_include('js/plugins/chartist.js') }}
 {{ javascript_include('js/plugins/jquery-ui-timepicker-addon.js') }}
 
-{{ javascript_include('js/plugins/hammer.min.js') }}
-{{ javascript_include('js/plugins/jquery.hammer.js') }}
 {{ javascript_include('js/plugins/bootstrap-rating.js') }}
 
 
@@ -164,6 +162,7 @@
 {{ javascript_include('js/plugins/mifaces.js') }}
 {{ javascript_include('js/plugins/jquery.utilidades.js') }}
 {{ javascript_include('js/main/app.js') }}
+{{ javascript_include('js/main/login.js') }}
 
 
 
@@ -171,8 +170,6 @@
 
 <div id="modal-master">
 </div>
-
-<form id="render-all-form" action="{{ url('marker/renderAll') }}"></form>
 
 </body>
 </html>

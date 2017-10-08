@@ -38,6 +38,14 @@
 		{% set border_quality = 'border-red' %}
 	{% endif %}
 
+	{% if service['price_level'] == 1 %}
+		{% set border_price = 'border-green' %}
+	{% elseif service['price_level'] == 2 %}
+		{% set border_price = 'border-yellow' %}
+	{% elseif service['price_level'] == 3 %}
+		{% set border_price = 'border-red' %}
+	{% endif %}
+
 	<div class="row no-margin">
 		<div class="col-xs-4 text-center info-validez">
 			<a href="javascript:void(0)">
@@ -87,9 +95,9 @@
 
 		<div class="col-xs-4 text-center info-precio">
 			<a href="javascript:void(0)">
-				<img class="transparent" src="img/markers/pig_money_sad.png" data-target="1">
-				<img src="img/markers/pig_money_normal.png" alt="" data-target="2">
-				<img class="transparent" src="img/markers/pig_money_happy.png" data-target="3">
+				<img class="transparent {{ border_price }}" src="img/markers/pig_money_sad.png" data-target="1">
+				<img class="{{ border_price }}" src="img/markers/pig_money_normal.png" alt="" data-target="2">
+				<img class="transparent {{ border_price }}" src="img/markers/pig_money_happy.png" data-target="3">
 				<span>Precio</span>
 				<div class="menu btn14 precio" data-menu="14">
 				  <div class="icon-circle margin-top-8"></div>
@@ -112,6 +120,7 @@
 	</div>
 
 
-
+	<div id="vote-action" data-url="{{ url('service/vote') }}"></div>
+	<input id="service" name="service" type="hidden" value="{{service['id']}}">
 </div>
 

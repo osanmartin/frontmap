@@ -1,57 +1,53 @@
 <?php
 
-	use Phalcon\Mvc\View;
-	use Phalcon\DI\FactoryDefault;
-	use Phalcon\Mvc\Dispatcher;
-	use Phalcon\Mvc\Url as UrlProvider;
-	use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
-	use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-	use Phalcon\Mvc\Model\Metadata\Memory as MetaData;
-	use Phalcon\Mvc\Model\Manager as modelsManager;
-	use Phalcon\Session\Adapter\Files as SessionAdapter;
-	use Phalcon\Flash\Session as FlashSession;
-	use Phalcon\Events\Manager as EventsManager;
-	use Phalcon\Crypt;
+    use Phalcon\Mvc\View;
+    use Phalcon\DI\FactoryDefault;
+    use Phalcon\Mvc\Dispatcher;
+    use Phalcon\Mvc\Url as UrlProvider;
+    use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
+    use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+    use Phalcon\Mvc\Model\Metadata\Memory as MetaData;
+    use Phalcon\Mvc\Model\Manager as modelsManager;
+    use Phalcon\Session\Adapter\Files as SessionAdapter;
+    use Phalcon\Flash\Session as FlashSession;
+    use Phalcon\Events\Manager as EventsManager;
+    use Phalcon\Crypt;
     use \Phalcon\Mvc\Dispatcher as PhDispatcher;
     use Phalcon\Logger;
     use Phalcon\Logger\Adapter\File as FileLogger;
     use Phalcon\Security;
-    use Phalcon\UserPlugin\Plugin\Security as SecurityPlugin;
-    use Phalcon\UserPlugin\Auth\Auth;
-    use Phalcon\UserPlugin\Acl\Acl;
-    use Phalcon\UserPlugin\Mail\Mail;
 
-	#use App\library\Auth\Auth;
+    use App\library\Auth\Auth;
     use App\library\Mifaces\Mifaces;
-    #use App\library\Mail\Mail;
+    use App\library\Mail\Mail;
     use App\library\AccesoAcl\AccesoAcl;
     use App\library\Valida\Valida;
     use App\library\Constants\Constant;
-   	use App\library\Errors\Errors;
-   	use App\library\PdfCreator\PdfCreator;
-	use App\utilities\Utility;
+    use App\library\Errors\Errors;
+    use App\library\PdfCreator\PdfCreator;
+    use App\utilities\Utility;
 
-	use App\helpers\Config;
-
-
-	/**
-	 * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
-	 */
-	$di = new FactoryDefault();
+    use App\helpers\Config;
 
 
-	$di->set('config', $config);
+    /**
+     * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
+     */
+    $di = new FactoryDefault();
+
+
+    $di->set('config', $config);
 
 
 
-	/**
-	 * We register the events manager
-	 */
-	$di->set('dispatcher', function () use ($di, $config) {
+    /**
+     * We register the events manager
+     */
+    $di->set('dispatcher', function () use ($di, $config) {
         $dispatcher = new Dispatcher();
         $dispatcher->setDefaultNamespace('App\Controllers');
 
-		$configuration = new Config();
+        $configuration = new Config();
 
         //in production
         if( $config->get("switchUtils")["production"] )
@@ -105,95 +101,90 @@
             $dispatcher->setEventsManager($evManager);
         }
 
-        $evManager = $di->getShared('eventsManager');
-
-        $security = new SecurityPlugin($di);
-        $evManager->attach('dispatch', $security);
-
         return $dispatcher;
     },
         true
     );
 
     /**
-	 * Crypt service
-	 */
-	$di->set('crypt', function () use ($config) {
-	    $crypt = new Crypt();
+     * Crypt service
+     */
+    $di->set('crypt', function () use ($config) {
+        $crypt = new Crypt();
 
-	    $crypt->setKey($config->application->cryptSalt);
-	    return $crypt;
-	});
+        $crypt->setKey($config->application->cryptSalt);
+        return $crypt;
+    });
 
 
-	/**
-	 * The URL component is used to generate all kind of urls in the application
-	 */
-	$di->set('url', function () use ($config) {
-		$url = new UrlProvider();
-		$url->setBaseUri($config->application->baseUri);
-		return $url;
-	});
+    /**
+     * The URL component is used to generate all kind of urls in the application
+     */
+    $di->set('url', function () use ($config) {
+        $url = new UrlProvider();
+        $url->setBaseUri($config->application->baseUri);
+        return $url;
+    });
 
     /*
      * config de vistas que use volt por defecto
      */
-	$di->set('view', function () use ($config) {
-		$view = new View();
+    $di->set('view', function () use ($config) {
+        $view = new View();
 
-		//$view->setViewsDir(APP_DIR . $config->application->viewsDir);
+        //$view->setViewsDir(APP_DIR . $config->application->viewsDir);
 
-		$view->setViewsDir('../src/views/');
+        $view->setViewsDir('../src/views/');
 
-		$view->registerEngines(array(
-			".volt" => 'volt'
-		));
+        $view->registerEngines(array(
+            ".volt" => 'volt'
+        ));
 
 
-		$view->utility = new Utility();
+        $view->utility = new Utility();
 
-		return $view;
-	});
+        return $view;
+    });
 
-	/**
-	 * Setting up volt
-	 */
+    /**
+     * Setting up volt
+     */
 
-	$di->set('volt', function ($view, $di) {
+    $di->set('volt', function ($view, $di) {
 
-		$volt = new VoltEngine($view, $di);
+        $volt = new VoltEngine($view, $di);
 
-		$volt->setOptions(array(
-			"compiledPath" => "../cache/volt/",
-			'stat' => true,
+        $volt->setOptions(array(
+            "compiledPath" => "../cache/volt/",
+            'stat' => true,
             'compileAlways' => true
-		));
+        ));
 
-		$compiler = $volt->getCompiler();
-		$compiler->addFunction('capitalize','ucfirst');
-		$compiler->addFunction('is_a', 'is_a');
+        $compiler = $volt->getCompiler();
+        $compiler->addFunction('capitalize','ucfirst');
+        $compiler->addFunction('is_a', 'is_a');
         $compiler->addFunction("str_contains", "strpos");
         $compiler->addFunction("print_r", "print_r");
-		
-		return $volt;
+        
+        return $volt;
 
-	}, true);
+    }, true);
 
-	/**
-	 * Database connection is created based in the parameters defined in the configuration file
-	 */
-	/*$di->set('db', function () use ($config) {
-		$config = $config->get('database')->toArray();
+    /**
+     * Database connection is created based in the parameters defined in the configuration file
+     */
+    /*$di->set('db', function () use ($config) {
+        $config = $config->get('database')->toArray();
 
-		echo "<pre>";
-		print_r($config);
+        echo "<pre>";
+        print_r($config);
 
-		echo $dbClass = 'Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
-		unset($config['adapter']);
-		return new $dbClass($config);
-	});*/
+        echo $dbClass = 'Phalcon\Db\Adapter\Pdo\\' . $config['adapter'];
+        unset($config['adapter']);
+        return new $dbClass($config);
+    });*/
 
-	$di->set('db', function () use ($config) {
+    $di->set('db', function () use ($config) {
 
         try {
 
@@ -245,7 +236,7 @@
                 }
                 $initSql = strtolower(substr( $sql, 0, 6 ));
 
-				$configuration = new Config();
+                $configuration = new Config();
 
                 if ($initSql != "select" and $initSql != 'descri' and $configuration->state('log') ) {
                     $name = date('y-d-m');
@@ -276,57 +267,57 @@
         $db->setEventsManager($eventsManager);
 
         return $db;
-	});
+    });
 
-	/**
-	 * If the configuration specify the use of metadata adapter use it or use memory otherwise
-	 */
-	$di->set('modelsMetadata', function () {
-		return new MetaData();
-	});
+    /**
+     * If the configuration specify the use of metadata adapter use it or use memory otherwise
+     */
+    $di->set('modelsMetadata', function () {
+        return new MetaData();
+    });
 
-	/**
-	 * Start the session the first time some component request the session service
-	 */
-	$di->set('session', function () {
+    /**
+     * Start the session the first time some component request the session service
+     */
+    $di->set('session', function () {
 
-		$session = new SessionAdapter();
-		$session->start();
-		return $session;
-	});
+        $session = new SessionAdapter();
+        $session->start();
+        return $session;
+    });
 
-	/**
-	 * Loading routes from the routes.php file
-	 */
-	$di->set('router', function () {
-	    return require __DIR__ . '/routes.php';
-	});
+    /**
+     * Loading routes from the routes.php file
+     */
+    $di->set('router', function () {
+        return require __DIR__ . '/routes.php';
+    });
 
-	/**
-	 * Register the flash service with custom CSS classes
-	 */
-	$di->set('flash', function () {
-		return new FlashSession(array(
-			'error'   => 'errorMessage',
-			'success' => 'successMessage',
-			'notice'  => 'infoMessage',
-			'warning' => 'warningMessage'
-		));
-	});
+    /**
+     * Register the flash service with custom CSS classes
+     */
+    $di->set('flash', function () {
+        return new FlashSession(array(
+            'error'   => 'errorMessage',
+            'success' => 'successMessage',
+            'notice'  => 'infoMessage',
+            'warning' => 'warningMessage'
+        ));
+    });
 
-	/**
-	 * Register a user component
-	 */
-	$di->set('elements', function () {
-		return new Elements();
-	});
+    /**
+     * Register a user component
+     */
+    $di->set('elements', function () {
+        return new Elements();
+    });
 
 
-	/**
+    /**
      * Custom authentication component
      */
 
-	//mifaces
+    //mifaces
     $di->set('mifaces', function () {
         return new Mifaces();
     });
@@ -343,7 +334,7 @@
 
     //php excel
     $di->set('iof', function ()  use ($config) {
-    	require_once $config->application->libraryDir.'PHPExcel/IOFactory.php';
+        require_once $config->application->libraryDir.'PHPExcel/IOFactory.php';
         return new IOFactory();
     });
 
@@ -374,13 +365,13 @@
 
     //pdf
     $di->set('pdfcreator', function(){
-    	return new PdfCreator();
+        return new PdfCreator();
     });
 
 
-	$di->set('configuration', function(){
-		return new Config();
-	});
+    $di->set('configuration', function(){
+        return new Config();
+    });
 
     $di->set(
         "security",
@@ -393,27 +384,6 @@
             return $security;
         },
         true
-    );
-
-    $di->setShared(
-        'auth',
-        function() {
-            return new Auth();
-        }
-    );
-
-    $di->setShared(
-        'acl',
-        function() {
-            return new Acl();
-        }
-    );
-
-    $di->setShared(
-        'mail',
-        function() {
-            return new Mail();
-        }
     );
 
 

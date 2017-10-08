@@ -1,6 +1,7 @@
 var removeAnimate = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
 var location_lat = '-33.0539430';
 var location_lng = '-71.6245970';
+var call_status = {"error":false};
 
 /*
 GMaps.geolocate({
@@ -187,6 +188,7 @@ $(document).ready(function() {
 
     });
 
+    // Abre menú votación confiabilidad 
     $(document).on('click','.validez',function(){
 
 
@@ -208,13 +210,34 @@ $(document).ready(function() {
 
     });
 
+    // Realiza votación positiva confiabilidad
     $(document).on('click','.btn-validez-positiva',function(){
 
-    	$(this).parents('.info-validez').find('.validez').click();
-    	$(this).parents('.info-validez').find('a').removeClass('voted-negative').addClass('voted-positive');
+      var action = $('#vote-action').data('url');
+      var dataIn = new FormData();
+      var service_id = $('#service').val();
+
+      dataIn.append('type','active');
+      dataIn.append('vote',1);
+      dataIn.append('service',service_id);
+
+      var call = $.callAjax(dataIn,action,$(this));
+
+      call.success(function(){
+
+            if(!call_status['error']){
+
+                $('.info-validez').find('.validez').click();
+                $('.info-validez').find('a').removeClass('voted-negative').addClass('voted-positive');
+
+            }
+
+
+      });
 
     });
 
+    // Realiza votación negativa confiabilidad
     $(document).on('click','.btn-validez-negativa',function(){
 
     	$(this).parents('.info-validez').find('.validez').click();
@@ -222,6 +245,7 @@ $(document).ready(function() {
 
     });
 
+    // Abre menú votación calidad
     $(document).on('click','.calidad',function(){
 
     	$(this).parents('.info-calidad').find('.btn-calidad input').rating({
@@ -251,6 +275,7 @@ $(document).ready(function() {
 
     });
 
+    // Realiza votación calidad
     $(document).on('change','.btn-calidad input',function () {
     
     	$(this).parents('.info-calidad').find('img').addClass('background-transparent');
@@ -262,6 +287,7 @@ $(document).ready(function() {
     });
 
 
+    // Abre menú votación precio
     $(document).on('click','.precio',function(){
 
 
@@ -284,11 +310,12 @@ $(document).ready(function() {
     });
 
 
+    // Realiza votación precio
     $(document).on('click','.btn-precio div',function(){
 
     	$(this).parents('.info-precio').find('.precio').click();
     	$(this).parents('.info-precio').find('img:not(.transparent)').addClass('transparent');
-		$(this).parents('.info-precio').find('img[data-target="'+$(this).data('target')+'"]').removeClass('transparent').removeClass('shadow-green').addClass('shadow-green');    	
+		$(this).parents('.info-precio').find('img[data-target="'+$(this).data('target')+'"]').removeClass('transparent');    	
 
     });
 

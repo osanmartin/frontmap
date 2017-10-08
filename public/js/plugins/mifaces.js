@@ -481,8 +481,8 @@ $(function(){
 
 					if(result.type == 'csrf'){
 
-						//$('#CSRF-TOKEN').attr('name',result.csrfdata.key);
-						//$('#CSRF-TOKEN').val(result.csrfdata.token);
+						$('#CSRF-TOKEN').attr('name',result.csrfdata.key);
+						$('#CSRF-TOKEN').val(result.csrfdata.token);
 
 					}
 

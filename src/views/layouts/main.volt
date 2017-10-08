@@ -153,8 +153,6 @@
 {{ javascript_include('js/plugins/chartist.js') }}
 {{ javascript_include('js/plugins/jquery-ui-timepicker-addon.js') }}
 
-{{ javascript_include('js/plugins/hammer.min.js') }}
-{{ javascript_include('js/plugins/jquery.hammer.js') }}
 {{ javascript_include('js/plugins/bootstrap-rating.js') }}
 
 

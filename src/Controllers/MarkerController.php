@@ -68,6 +68,7 @@
 
             }
 
+
     		$this->mifaces->addToJsonView('markers',$markers);
 
     		$this->mifaces->run();

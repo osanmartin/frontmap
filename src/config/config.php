@@ -18,9 +18,8 @@ return new \Phalcon\Config([
         'production'  => false
     ],
     'noAuth'        => [
-        'home'      => array('*'    =>  true),
         'test'      => array('*'    =>  true),
-        'service'   => array('*'    =>  true)
+        'session'   => array('*'    =>  true),
     ],
     'urlApi'        => "http://localhost/apimemoria/",
     'appTitle'      =>'Memoria Maps',

@@ -123,4 +123,70 @@ class ServiceController extends ControllerBase {
 
 	}
 
+
+	/**
+	*  Realiza votos
+	* 
+	**/
+	public function voteAction(){
+
+		$this->mifaces->newFaces();
+
+		$post = $this->request->getPost();
+
+		if(!isset($post['type']) || !isset($post['vote']) || !isset($post['service'])){
+
+			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
+			$this->mifaces->addToJsonView('call_status',['error' => true]);
+			$this->mifaces->run();
+			exit;
+
+		}
+
+
+		$method_vote = "reports/add";
+
+		if(	$post['type'] != 'active' && 
+			$post['type'] != 'quality' && 
+			$post['type'] != 'price'){
+
+			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
+			$this->mifaces->addToJsonView('call_status',['error' => true]);
+			$this->mifaces->run();
+			exit;
+
+		}
+
+		if(	$post['type'] == 'active' && $post['vote'] != 1 && $post['vote'] != 2 ){
+
+			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
+			$this->mifaces->addToJsonView('call_status',['error' => true]);
+			$this->mifaces->run();
+			exit;
+
+		}
+
+		$param[$post['type']] = $post['vote'];
+		$param['services_id'] = $post['service'];
+
+		$callApi = new CallAPI();
+
+		$result = $callApi->call('POST',$this->config['urlApi'].$method_vote,$param);
+
+		if(isset($result['description']['code'])){
+
+			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
+			$this->mifaces->addToJsonView('call_status',['error' => true]);
+			$this->mifaces->run();
+			exit;
+
+		}
+
+		$this->mifaces->addToJsonView('call_status',['error' => false]);
+		$this->mifaces->addToMsg('success','¡Votación realizada correctamente!');
+		$this->mifaces->run();
+
+
+	}
+
 }

@@ -1,343 +1,874 @@
 <?php
-namespace App\Controllers;
 
-use Phalcon\UserPlugin\Models\User\User;
-use Phalcon\UserPlugin\Models\User\UserResetPasswords;
-use Phalcon\UserPlugin\Models\User\UserPasswordChanges;
-use Phalcon\UserPlugin\Models\User\UserEmailConfirmations;
+    namespace App\Controllers;
 
-use Phalcon\UserPlugin\Forms\User\LoginForm;
-use Phalcon\UserPlugin\Forms\User\RegisterForm;
-use Phalcon\UserPlugin\Forms\User\ForgotPasswordForm;
-use Phalcon\UserPlugin\Forms\User\ChangePasswordForm;
+    use App\Business\ListBsn;
+    use App\Business\UserBsn;
+    use App\helpers\Errors;
 
-use Phalcon\UserPlugin\Auth\Exception as AuthException;
-use Phalcon\UserPlugin\Connectors\FacebookConnector;
 
-use Phalcon\Mvc\View;
-use Phalcon\Tag;
-
-class UserController extends ControllerBase
-{
-    public function indexAction()
-    {
-
-    }
 
     /**
-     * Login user
-     * @return \Phalcon\Http\ResponseInterface
-     */
-    public function loginAction()
-    {
-        if(true === $this->auth->isUserSignedIn())
-        {
-            $this->response->redirect(array('action' => 'profile'));
-        }
-
-        $form = new LoginForm();
-
-        try {
-            $this->auth->login($form);
-        } catch (AuthException $e) {
-            $this->flash->error($e->getMessage());
-        }
-
-        $this->view->form = $form;
-    }
-
-    /**
-     * Login with Facebook account
-     */
-    public function loginWithFacebookAction()
-    {
-        try {
-            $this->view->disable();
-            return $this->auth->loginWithFacebook();
-        } catch(AuthException $e) {
-            $this->flash->error('There was an error connectiong to Facebook.');
-        }
-    }
-
-    /**
-     * Login with LinkedIn account
-     */
-    public function loginWithLinkedInAction()
-    {
-        try {
-            $this->view->disable();
-            $this->auth->loginWithLinkedIn();
-        } catch(AuthException $e) {
-            $this->flash->error('There was an error connectiong to LinkedIn.');
-        }
-    }
-
-    /**
-     * Login with Twitter account
-     */
-    public function loginWithTwitterAction()
-    {
-        try {
-            $this->view->disable();
-            $this->auth->loginWithTwitter();
-        } catch(AuthException $e) {
-            $this->flash->error('There was an error connectiong to Twitter.');
-        }
-    }
-
-    /**
-     * Login with Google account
-     */
-    public function loginWithGoogleAction()
-    {
-        try {
-            $this->view->disable();
-            $this->auth->loginWithGoogle();
-        } catch(AuthException $e) {
-            $this->flash->error('There was an error connectiong to Google.');
-        }
-    }
-
-    /**
-     * Logout user and clear the data from session
+     * Controlador Usuario Web
      *
-     * @return \Phalcon\Http\ResponseInterface
+     * Acá se encuentran los procesos relacionados manejo de usuarios web
+     *
+     * @package      ZMed
+     * @subpackage   Controllers
+     * @category     User Controller
+     * @author       Zenta Group
+     * @title        UserController
      */
-    public function signoutAction()
-    {
-        $this->auth->remove();
-        return $this->response->redirect('/', true);
-    }
+    class UserController extends ControllerBase {
 
-    /**
-     * Register user
-     */
-    public function registerAction()
-    {
-        $form = new RegisterForm();
 
-        if ($this->request->isPost()) {
-            if (!$form->isValid($this->request->getPost())) {
-                foreach($form->getMessages() as $message) {
-                    $this->flash->error($message->getMessage());
+        /**
+         * index
+         *
+         * Carga información necesaria para empezar a tomar horas
+         *
+         * @author Sebastián Silva
+         * @title Página principal agenda web
+         */
+        public function indexAction(){
+
+
+        }
+
+        /**
+         * registerUserData
+         *
+         * Método para registrar usuarios
+         * @author Sebastián Silva
+         * @title Acceso Registrar Usuario
+         */
+        public function registerUserDataAction()
+        {
+            $list = new ListBSN();
+            $list_medicalplan = $list->getListMedicalplans();
+
+            $this->view->setVar('medicalplan', $list_medicalplan);
+
+            $this->assets->addJs("js/pages/register.js");
+            $this->view->pick("controllers/register/_index");
+
+        }
+
+        /**
+         * persistUserData
+         *
+         * Método para registrar usuarios
+         * @author
+         * @title Acceso Registrar Usuario
+         */
+        public function persistUserDataAction()
+        {
+            $post = $this->request->getPost();
+
+
+            if($post['password'] != $post['password_reitera']) {
+
+                $this->mifaces->addErrorsForm( [['password_reitera' , 'Las contraseñas deben coincidir']] ,true);
+            }
+
+            $rules = array(
+                'rut' => 'required|rut',
+                'firstname' => 'required|string',
+                'lastname' => 'required|string',
+                'lastname_mother' => 'required|string',
+                'birthdate' => 'required|date2',
+                'phone_mobile' => 'required|phone',
+                'phone_fixed' => 'required|phone',
+                'email' => 'required|email',
+                'sexo' => 'required|string',
+                'medical_plan_id' => 'required',
+                'password' => 'required|string',
+                'password_reitera' => 'required|string',
+                );
+
+            $this->valida->validate($post, $rules);
+
+            $messages = array(
+                'rut' =>     "Por favor, ingrese su RUT.",
+                'type'   => "Ha ocurrido un error, por favor, actualice la página",
+                'password' => "Por favor, ingrese la contraseña",
+                'birthdate' => "Por favor, ingrese su fecha de nacimiento"
+                );
+
+
+            $this->valida->getErrors();
+
+            if ( $this->valida->failed() ) {
+
+                $arr = array();
+
+                foreach ($this->valida->getErrors() as $campo => $error) {
+                    //echo "Error en el campo '{$campo}': {$error} <br>";
+                    $arr[] = array($campo, $error);
                 }
-            } else {
-                $user = new User();
-                $user->assign(array(
-                    'name' => $this->request->getPost('name', 'striptags'),
-                    'email' => $this->request->getPost('email'),
-                    'password' => $this->security->hash($this->request->getPost('password')),
-                    'group_id' => 2,
-                    'banned' => 0,
-                    'suspended' => 0
-                ));
 
-                if (!$user->save()) {
-                    foreach($user->getMessages() as $message) {
-                        $this->flash->error($message->getMessage());
+                $this->mifaces->addErrorsForm( $arr ,true);
+
+                $this->mifaces->run();
+                return;
+            }
+
+            $userBsn = new UserBSN();
+
+
+            $dateTime = new \Datetime($post['birthdate']);
+            $post['birthdate'] = $dateTime->format('Y-m-d');
+
+            $result = $userBsn->registerUser($post);
+
+            if( ! $result->status ) {
+
+                $error = new Errors();
+                foreach ($result->messages as $key => $value) {
+                    
+                    $this->mifaces->addToMsg("warning", $error->getMsgError(key($value)));
+
+                }
+
+                $this->mifaces->addToDataView('status', false);
+                $this->mifaces->run();
+                exit;
+
+            }
+
+            $param = array(
+                'rut' => $post['rut'],
+                'password' => $post['password']
+            );
+
+            $this->setSesion($param);
+
+
+            $this->mifaces->addToMsg("Success", "Se ha registrado con éxito.");
+            $this->mifaces->addToDataView('status', true);
+
+            $session = new SessionController();
+            $ruta = $session->getRedirectByType(3);
+
+            $this->mifaces->addToDataView('redirectTo', $ruta );
+            $this->mifaces->run();
+        }
+
+        /**
+         *
+         */
+        public function updatePasswordAction()
+        {
+            if( !$this->request->isAjax() )
+                $this->view->disable();
+
+            $post = $this->request->getPost();
+
+            $this->mifaces->newFaces();
+
+            if($post['password'] != $post['confirm_password']) {
+
+                $this->mifaces->addErrorsForm( [['confirm_password' , 'Las contraseñas deben coincidir']] ,true);
+            }
+
+            $rules = array(
+                'rut' => 'required|string',
+                'password' => 'required|string',
+                'birthdate' => 'required|date2'
+            );
+
+            $this->valida->validate($post, $rules);
+
+            $messages = array(
+                'rut' =>     "Por favor, ingrese su RUT.",
+                'password' => "Por favor, ingrese la contraseña",
+                'birthdate' => "Por favor, ingrese la fecha de nacimiento"
+            );
+
+            $this->valida->getErrors();
+
+            if ( $this->valida->failed() ) {
+
+                $arr = array();
+
+                foreach ($this->valida->getErrors() as $campo => $error) {
+                    //echo "Error en el campo '{$campo}': {$error} <br>";
+                    $arr[] = array($campo, $error);
+                }
+
+                $this->mifaces->addErrorsForm( $arr ,true);
+                $this->mifaces->run();
+                return;
+            }
+
+
+            $userBsn = new UserBSN();
+
+            $result = $userBsn->updatePass($post);
+
+            if( ! $result->status ){
+
+                $url_base = $this->config->get("application")["publicUrl"];
+                $url_method= "login/";
+                $url_redir = $url_base.$url_method;
+
+                $messages = reset($result->messages);
+
+                $code_error = key($messages);
+
+                if($code_error == "missing_parameters"){
+
+                    $msg = "Debes completar todos los campos";
+                    $render = false;
+
+                } elseif($code_error == "password_not_match"){
+
+                    $msg = "Las contraseñas ingresadas no coinciden";
+                    $render = false;
+
+                } elseif($code_error == "password_exists"){
+
+                    $msg = "Contraseña ya existe, favor iniciar sesión";
+                    $render = true;
+
+                } elseif($code_error == "validation_incorrect"){
+
+                    $msg = "La fecha de nacimiento no coincide con la del rut asociado.";
+                    $render = false;
+
+                }else {
+
+                    $msg = reset($messages);
+                    $render = false;
+
+                }
+
+
+                if($render){
+
+                    $view = "controllers/login/form_password";
+                    $param['type'] = 3;
+                    $toRend = $this->view->getPartial($view,$param);
+                    $this->mifaces->addToRend('input-login',$toRend);
+
+                }
+
+                $this->mifaces->addToMsg('warning',$msg);
+                $this->mifaces->run();
+
+                exit;
+            }
+
+            $this->setSesion($post);
+
+            $this->mifaces->addToMsg("Success", "Se ha actualizado su contraseña.");
+            $this->mifaces->addToDataView('status', true);
+
+            $session = new SessionController();
+            $ruta = $session->getRedirectByType(3);
+
+            $this->mifaces->addToDataView('redirectTo', $ruta );
+            $this->mifaces->run();
+        }
+
+        public function setSesion($post)
+        {
+            $session = new SessionController();
+
+            $param = array(
+                'rut' => $post['rut'],
+                'password' => $post['password'],
+                'type' => 3
+            );
+
+            $datos = $session->initSesion($param);
+
+            $this->mifaces->addLog("se ha iniciado sesión con exito");
+
+            $this->session->set("auth-identity", $datos['data']['patient'] );
+            $this->session->set("type-user", 3 );
+            $this->session->set("accesstoken", $datos['accesstoken']);
+
+            # CSRF-TOKEN 
+            $key = $this->security->getTokenKey();
+            $token = $this->security->getToken();
+            $arrToken['key'] = $key;
+            $arrToken['token'] = $token;
+
+            $this->session->set('csrf-token',$arrToken);
+
+            # END CSRF-TOKEN 
+
+            return true;
+        }
+
+        /**
+         * updateUserData
+         *
+         * Método para actualizar datos usuarios
+         * @author Hernán Feliú
+         * @title Acceso Actualizar Usuario
+         */
+        public function updateUserDataAction(){
+
+            $userDetails = $this->session->get('auth-identity');
+           
+            $param['rut'] = $this->session->get('auth-identity')['rut'];
+
+            $list = new ListBSN();
+            $list_medical_plans = $list->getListMedicalplans();
+
+            $userObj = new UserBSN();
+            $vinculatedUsers = $userObj->getVinculatedUsers($param);
+
+            $username = $this->session->get('auth-identity')['firstname'];
+            $this->view->setVar('username',$username);
+
+            $this->view->setVar('medical_plans', $list_medical_plans);
+            $this->view->setVar('userDetails', $userDetails);
+            $this->view->setVar('vinculatedUsers', $vinculatedUsers);
+
+            $this->assets->addJs("js/pages/update-data-user.js");
+            $this->view->pick("controllers/update_user_data/main");
+
+        }
+
+        /**
+         * persistUpdateUserData
+         *
+         * Método para persistir datos actualizados de usuario
+         * @author Hernán Feliú
+         * @title Acceso Persistir Datos Actualizados de Usuario
+         */
+        public function persistUpdateUserDataAction(){
+
+            if ($this->request->isAjax()) {
+
+                $post = $this->request->getPost();
+                  
+                if(isset($post['password']) && isset($post['confirm_password']) && $post['password'] != $post['confirm_password']) {
+                     
+                    $this->mifaces->addErrorsForm( [['confirm_password' , 'Las contraseñas deben coincidir']] ,true);
+                    $this->mifaces->run();
+                    exit();
+
+                }
+
+                $rules = array(
+                    'rut' => 'required|rut',
+                    'birthdate' => 'required|date2',
+                    'phone_mobile' => 'required|phone',
+                    'phone_fixed' => 'required|phone',
+                    'email' => 'required|email',
+                    'medical_plan' => 'required|string'
+                    );
+
+                $this->valida->validate($post, $rules);
+
+                $errors = $this->valida->getErrors();
+                $arr = array();
+
+                if ($this->valida->failed()) {
+
+                    foreach ($errors as $key => $value) {
+                        $arr[] = [$key, $value];
                     }
-                } else {
-                    $this->view->disable();
-                    return $this->response->redirect($this->_activeLanguage.'/user/register');
+
+                    $this->mifaces->addErrorsForm($arr);
+
+                }else{
+
+                    $post['medical_plan_id'] = $post['medical_plan'];
+
+                    $dateTime = new \Datetime($post['birthdate']);
+                    $post['birthdate'] = $dateTime->format('Y-m-d');
+
+                    $userObj = new UserBSN();
+                    $response =  $userObj->updateUser($post);
+                   
+                    if($response->error){
+
+                        foreach ($response->messages as $key => $value) {
+
+                            $this->mifaces->addToMsg("danger", reset($value));
+
+                        }
+
+                    }
+
+                    if($response->status){
+
+                        $view = "controllers/update_user_data/form_update";
+
+                        $userDetails = array();
+
+                        foreach ($response->data->patient as $key => $value) {
+
+                            $userDetails[$key] = $value;
+
+                        }
+
+                        if(isset($userDetails['medical_plan'])){
+
+                            $medicalPlan = $userDetails['medical_plan'];
+
+                            $userDetails['medical_plan'] = array('id' => $medicalPlan->id,
+                                                                 'name'=> $medicalPlan->name);
+
+                        }
+
+                        if(isset($userDetails['pending_changes'])){
+
+                            $pendings = $userDetails['pending_changes'];
+
+                            $temp = array();
+
+                            foreach ($pendings as $key => $value) {
+
+                               $temp[$key] = $value;
+
+                            }
+                            
+                            $userDetails['pending_changes'] = $temp;
+                            $this->session->set('auth-identity', $userDetails);
+
+                        }
+
+                        $list = new ListBSN();
+                        $response_medical_plans = $list->getListMedicalplans();
+
+                        if(count($response_medical_plans) == 0){
+
+                            $this->mifaces->addToMsg("danger", "No se han podido cargar las previsiones. Refresque la página.");
+
+                        }else{
+
+                             $dataView['medical_plans'] = $response_medical_plans;
+
+                        }
+
+                        $dataView['userDetails'] = $userDetails;
+
+                        $toRend = $this->view->getPartial($view, $dataView);
+
+                        $this->mifaces->addToRend("update_user_data_render", $toRend);
+
+                        $this->mifaces->addToMsg("success","Sus datos han sido actualizados correctamente.");
+
+                    }else{
+
+                        foreach ($response->messages as $key => $value) {
+
+                            $this->mifaces->addToMsg("danger", reset($value));
+
+                        }
+
+                    }
+
                 }
+
+                $this->mifaces->run();
+
+            }else{
+                    #deshabilitamos la vista para ahorrar procesamiento
+                $this->view->disable();
             }
         }
 
-        $this->view->form = $form;
-    }
+        /**
+         * linkUser
+         *
+         * Método para vincular usuarios
+         * @author Hernán Feliú
+         * @title Acceso Vinculación de Usuarios
+         */
+        public function linkUserAction(){
 
-    /**
-     * Shows the forgot password form
-     */
-    public function forgotPasswordAction()
-    {
-        $form = new ForgotPasswordForm();
+            if($this->request->isAjax()){
 
-        if ($this->request->isPost())
-        {
-            if (!$form->isValid($this->request->getPost()))
-            {
-                foreach ($form->getMessages() as $message)
-                {
-                    $this->flash->error($message);
+                $post = $this->request->getPost();
+                
+                if(isset($post['link_password']) && isset($post['link_password_reitera']) && $post['link_password'] != $post['link_password_reitera']) {
+                     
+                    $this->mifaces->addErrorsForm( [['link_password_reitera' , 'Las contraseñas deben coincidir']] ,true);
+                    $this->mifaces->run();
+                    exit();
+
                 }
-            }
-            else
-            {
-                $email = trim(strtolower($this->request->getPost('email')));
-                $user  = User::findFirstByEmail($email);
-                if (!$user)
-                {
-                    $this->flash->error('There is no account associated to this email');
-                }
-                else
-                {
-                    $resetPassword = new UserResetPasswords();
-                    $resetPassword->setUserId($user->getId());
-                    if ($resetPassword->save())
-                    {
-                        $this->flashSession->success('Success! Please check your messages for an email reset password');
-                        $this->view->disable();
-                        return $this->response->redirect($this->_activeLanguage.'/user/forgotPassword');
+
+                $rules = array(
+                    'link_rut' => 'required|string',
+                    'link_firstname' => 'required|string',
+                    'link_lastname' => 'required|string',
+                    'link_lastname_mother' => 'required|string',
+                    'link_birthdate' => 'required|date2',
+                    'link_phone_mobile' => 'required|phone',
+                    'link_phone_fixed' => 'required|phone',
+                    'link_email' => 'required|email',
+                    'link_sexo' => 'required',
+                    'link_medical_plan_id' => 'required',
+                    'link_rutchild' => 'required'
+                    );
+
+                $this->valida->validate($post, $rules);
+
+                $errors = $this->valida->getErrors();
+
+                if ( $this->valida->failed() ) {
+
+                    $arr = array();
+
+                    foreach($errors as $key => $value){
+
+                        $arr[] = [$key, $value];
+
                     }
-                    else
-                    {
-                        foreach ($resetPassword->getMessages() as $message)
-                        {
-                            $this->flash->error($message);
+
+                    $this->mifaces->addErrorsForm($arr);
+                   
+                }else{
+
+                    $userBsn = new UserBSN();
+                    
+                    $link_data = array();
+
+                    foreach($post as $key => $value){
+
+                        $index = explode('link_', $key);
+                        $link_data[$index[1]] = $value;
+
+                    }
+
+                    $dateTime = new \Datetime($link_data['birthdate']);
+
+                    $link_data['birthdate'] = $dateTime->format('Y-m-d');
+                    
+                    $response = $userBsn->createLinkUser($link_data);
+                    
+                    if($response->error){
+
+                        foreach ($response->messages as $key => $value) {
+
+                            $this->mifaces->addToMsg("danger", reset($value));
+
+                        }
+
+                    }
+
+                    if($response->status){
+
+                        $param['rut'] = $link_data['rut'];
+                        $this->renderLinkUserTable($param);
+
+                        $this->mifaces->addToMsg("success","Se ha vinculado paciente exitosamente.");
+                        $this->mifaces->addToJsonView("link_success",true);
+
+                    }else{
+
+                        foreach ($response->messages as $key => $value) {
+
+                            $this->mifaces->addToJsonView("link_success",false);
+
+                            if(key($value) == "rut_exists"){
+
+                                $this->mifaces->addToJsonView('rut_match',true);
+
+                            }else{
+
+                                $this->mifaces->addToMsg("danger", reset($value));
+
+                            }
+
                         }
                     }
+                    
                 }
-            }
-        }
 
-        $this->view->form = $form;
-    }
+                $this->mifaces->run();
 
-    /**
-     * Reset pasword
-     */
-    public function resetPasswordAction($code, $email)
-    {
-        $resetPassword = UserResetPasswords::findFirstByCode($code);
-
-        if (!$resetPassword) {
-            $this->flash->error('Invalid or expired code');
-            return $this->dispatcher->forward(array(
-                'controller' => 'index',
-                'action' => 'index'
-            ));
-        }
-
-        if ($resetPassword->getReset() <> 0) {
-            return $this->dispatcher->forward(array(
-                'controller' => 'user',
-                'action' => 'login'
-            ));
-        }
-
-        $resetPassword->setReset(1);
-
-        /**
-         * Change the confirmation to 'reset'
-         */
-        if (!$resetPassword->save()) {
-
-            foreach ($resetPassword->getMessages() as $message) {
-                $this->flash->error($message);
+            }else{
+                #deshabilitamos la vista para ahorrar procesamiento
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                'controller' => 'index',
-                'action' => 'index'
-            ));
         }
 
         /**
-         * Identity the user in the application
+         * unlinkUser
+         *
+         * Método para desvincular usuarios
+         * @author osanmartin
+         * @title Acceso Desvinculación de Usuarios
          */
-        $this->auth->authUserById($resetPassword->getUserId());
+        public function unlinkUserAction(){
 
-        $this->flash->success('Please reset your password');
+            if($this->request->isAjax()){
 
-        return $this->dispatcher->forward(array(
-            'controller' => 'user',
-            'action' => 'changePassword'
-        ));
+                $post = $this->request->getPost();
+                $this->mifaces->newFaces();
 
-    }
+                if(isset($post['rutchild'])){
 
-    /**
-     * Users must use this action to change its password
-     *
-     */
-    public function changePasswordAction()
-    {
-        $form = new ChangePasswordForm();
+                        $param['rut'] = $this->session->get('auth-identity')['rut'];
+                        $param['rutchild'] = $post['rutchild'];
 
-        if ($this->request->isPost()) {
-            if (!$form->isValid($this->request->getPost())) {
-                foreach ($form->getMessages() as $message) {
-                    $this->flash->error($message);
-                }
-            } else {
-                $user = $this->auth->getUser();
+                        $userBsn = new UserBSN();
+                        $response = $userBsn->unlink($param);
 
-                $user->setPassword($this->security->hash($this->request->getPost('password')));
-                $user->setMustChangePassword(0);
+                        if(!$response->error){
 
-                $passwordChange = new UserPasswordChanges();
-                $passwordChange->user = $user;
-                $passwordChange->setIpAddress($this->request->getClientAddress());
-                $passwordChange->setUserAgent($this->request->getUserAgent());
+                            if($response->status){
 
-                if (!$passwordChange->save()) {
-                    $this->flash->error($passwordChange->getMessages());
+                                $this->mifaces->addToMsg("sucess",reset($response->messages));
+                                $this->renderLinkUserTable($param);
+
+                            } else {
+
+                                foreach ($response->messages as $key => $val) {
+                                    $this->mifaces->addToMsg("warning",reset($val));
+                                }
+
+                            }
+
+
+                        } else {
+
+                            $this->mifaces->addToMsg("warning","Error inesperado, vuelva a intentarlo");
+
+                        }
+
+
                 } else {
 
-                    $this->flashSession->success('Your password was successfully changed');
-                    $this->view->disable();
-                    return $this->response->redirect($this->_activeLanguage.'/user/changePassword');
+                    $this->mifaces->addToMsg("warning","Error inesperado, vuelva a intentarlo");
+
                 }
+
+                $this->mifaces->run();
+
+
+            } else {
+
+
+                $this->view->disable();
+
+            }
+
+        }
+
+        /**
+        * renderLinkUserTable
+        *
+        * Método para renderizar tabla de pacientes vinculados
+        * @author Hernán Feliú
+        * @title Acceso Renderizar Tabla Pacientes Vinculados
+        * @param $param['rut'] 
+        */
+        private function renderLinkUserTable($param){
+
+            if(!isset($param['rut'])){
+
+                return false;
+
+            }else{
+
+                $view = "controllers/update_user_data/table_vinculated_user";
+
+                $userObj = new UserBSN();
+                $vinculatedUsers = $userObj->getVinculatedUsers($param);
+
+                $dataView['vinculatedUsers'] = $vinculatedUsers;
+                $toRend = $this->view->getPartial($view, $dataView);
+                $this->mifaces->addToRend("table_vinculated_user_render", $toRend);
+
+            }
+
+        }
+
+        /**
+         * updateLinkUserData
+         *
+         * Método para actualizar datos usuario vinculado
+         * @author Hernán Feliú
+         * @title Acceso Actualizar Usuario Vinculado
+         */
+        public function updateUserLinkDataAction(){
+
+            if($this->request->isAjax()){
+
+                $post = $this->request->getPost();
+
+                if(isset($post['rut'])){
+
+                    $param['rut'] = $post['rut'];
+
+                    $userObj = new UserBSN();
+                    $response = $userObj->getUser($param);
+
+                    if($response->error){
+
+                        foreach ($response->messages as $key => $value) {
+
+                            $this->mifaces->addToMsg("danger", reset($value));
+
+                        }
+
+                    }
+
+                    if($response->status){
+
+                        $view = "controllers/update_user_data/form_link_edit";
+
+                        $userData = $response->data->patient;
+                        $list = new ListBSN();
+                        
+                        $response_medical_plans = $list->getListMedicalplans();
+
+                        if(count($response_medical_plans) == 0){
+
+                            $this->mifaces->addToMsg("danger", "No se han podido cargar las previsiones. Refresque la página.");
+
+                        }else{
+
+                             $dataView['medical_plans'] = $response_medical_plans;
+
+                        }
+
+                        $dataView['userData'] = $userData;
+                        $dataView['edit'] = true;
+                        $toRend = $this->view->getPartial($view, $dataView);
+
+                        $this->mifaces->addToRend("vinculated_patient_form_render", $toRend);
+                        $this->mifaces->addToJsonView("user_success", true);
+
+                    }else{
+
+                        $this->mifaces->addToJsonView("user_success", false);
+
+                        foreach ($response->messages as $key => $value) {
+
+                            $this->mifaces->addToMsg("danger", reset($value));
+
+                        }
+
+                    }
+        
+                }else{
+
+                    $this->mifaces->addToMsg("danger", "Error inesperado. Inténtelo nuevamente.");
+
+                }
+
+                $this->mifaces->run();
+
+            }else{
+                #deshabilitamos la vista para ahorrar procesamiento
+                $this->view->disable();
+            }
+
+        }
+
+        /**
+         * persistUpdateLinkUserData
+         *
+         * Método para persistir datos actualizados de usuario Vinculado
+         * @author Hernán Feliú
+         * @title Acceso Persistir Datos Actualizados de Usuario Vinculado
+         */
+        public function persistUpdateLinkUserDataAction(){
+
+            if ($this->request->isAjax()) {
+
+                $post = $this->request->getPost();
+                
+                if(isset($post['link_edit_password']) && isset($post['link_edit_confirm_password']) && $post['link_edit_password'] != $post['link_edit_confirm_password']) {
+                     
+                    $this->mifaces->addErrorsForm( [['link_edit_confirm_password' , 'Las contraseñas deben coincidir']] ,true);
+                    $this->mifaces->run();
+                    exit();
+
+                }
+
+                $rules = array(
+                    'link_edit_birthdate' => 'required|date2',
+                    'link_edit_phone_mobile' => 'required|string',
+                    'link_edit_email' => 'required|email',
+                    'link_edit_medical_plan_id' => 'required',
+                    );
+
+                $this->valida->validate($post, $rules);
+
+                $errors = $this->valida->getErrors();
+
+                if ( $this->valida->failed() ) {
+
+                    $arr = array();
+
+                    foreach($errors as $key => $value){
+
+                        $arr[] = [$key, $value];
+
+                    }
+
+                    $this->mifaces->addErrorsForm($arr);
+                   
+                }else{
+
+                    $userBsn = new UserBSN();
+                    
+                    $link_data = array();
+
+                    foreach($post as $key => $value){
+
+                        $index = explode('link_edit_', $key);
+                        $link_data[$index[1]] = $value;
+
+                    }
+
+                    $dateTime = new \Datetime($link_data['birthdate']);
+
+                    $link_data['birthdate'] = $dateTime->format('Y-m-d');
+                     
+                    $response =  $userBsn->updateUser($link_data);
+                    
+                    if($response->error){
+
+                        foreach ($response->messages as $key => $value) {
+
+                            $this->mifaces->addToMsg("danger", reset($value));
+
+                        }
+
+                    }
+
+                    if($response->status){
+                        
+                        $param['rut'] = $link_data['user_rut'];
+                        $this->renderLinkUserTable($param);
+
+                        $this->mifaces->addToMsg("success","Datos de paciente actualizados exitosamente.");
+                        $this->mifaces->addToJsonView("update_success",true);
+
+                    }else{
+
+                        $this->mifaces->addToJsonView("update_success",false);
+
+                        foreach ($response->messages as $key => $value) {
+
+                            $this->mifaces->addToMsg("danger", reset($value));
+
+                        }
+
+                    }
+
+                }
+
+                $this->mifaces->run();
+
+            }else{
+                    #deshabilitamos la vista para ahorrar procesamiento
+                $this->view->disable();
             }
         }
 
-        $this->view->form = $form;
     }
-
-    /**
-     * Confirms an e-mail, if the user must change its password then changes it
-     */
-    public function confirmEmailAction($code, $email)
-    {
-        $confirmation = UserEmailConfirmations::findFirstByCode($code);
-
-        if (!$confirmation) {
-            $this->flash->error('Invalid or expired code');
-            return $this->dispatcher->forward(array(
-                'controller' => 'index',
-                'action' => 'index'
-            ));
-        }
-
-        if ($confirmation->getConfirmed() <> 0) {
-            $this->flash->notice('This account is already activated. You can login.');
-            return $this->dispatcher->forward(array(
-                'controller' => 'user',
-                'action' => 'login'
-            ));
-        }
-
-        $confirmation->setConfirmed(1);
-        $confirmation->user->setStatus(1);
-
-        if (!$confirmation->save()) {
-
-            foreach ($confirmation->getMessages() as $message) {
-                $this->flash->error($message);
-            }
-
-            return $this->dispatcher->forward(array(
-                'controller' => 'index',
-                'action' => 'index'
-            ));
-        }
-
-        $this->auth->authUserById($confirmation->user->getId());
-
-        if ($confirmation->user->getMustChangePassword() == 1) {
-
-            $this->flash->success('The email was successfully confirmed. Now you must change your password');
-            return $this->response->redirect($this->_activeLanguage.'/user/changePassword');
-        }
-
-        $this->flash->success('The email was successfully confirmed');
-
-        return $this->response->redirect($this->_activeLanguage.'/user/profile');
-    }
-
-    public function profileAction()
-    {
-
-    }
-}

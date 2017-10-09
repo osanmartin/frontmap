@@ -51,6 +51,8 @@
                 $auxPrice[$val['service_type_id']][] = $val;
             }
 
+
+
             $prices_range = $auxPrice;
 
             $dataView['prices_range'] = $prices_range;

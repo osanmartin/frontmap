@@ -3,7 +3,7 @@
 <span id="container-finder" class="pull-left">        
 
     <div id="finder" class="form-group margin-none">
-        <input type="text" class="form-control" placeholder="Buscar dirección">
+        <input id="finder-input" type="text" class="form-control" placeholder="Buscar dirección">
     </div>
 
 </span>

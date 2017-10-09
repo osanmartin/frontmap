@@ -157,9 +157,21 @@ class ServiceController extends ControllerBase {
 
 		}
 
-		if(	$post['type'] == 'active' && $post['vote'] != 1 && $post['vote'] != 2 ){
 
-			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
+		# Validación para confiabilidad
+		if(	$post['type'] == 'active' && $post['vote'] != 0 && $post['vote'] != 1 ){
+
+			$this->mifaces->addToMsg('warning','Hubo un error en la votación. Sólo es posible votar de forma positiva o negativa.');
+			$this->mifaces->addToJsonView('call_status',['error' => true]);
+			$this->mifaces->run();
+			exit;
+
+		}
+
+		# Validación para calidad
+		if(	$post['type'] == 'quality' && ($post['vote'] < 1 || $post['vote'] > 5 )){
+
+			$this->mifaces->addToMsg('warning','Hubo un error en la votación. Sólo es posible calificar de 1 a 5 corazones.');
 			$this->mifaces->addToJsonView('call_status',['error' => true]);
 			$this->mifaces->run();
 			exit;

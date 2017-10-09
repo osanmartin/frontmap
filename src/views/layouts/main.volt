@@ -170,7 +170,9 @@
 {{ javascript_include('js/plugins/burger-menu.js') }}
 
 {# Gmaps #}
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAP4ZcNWVKpbh2t6oXwJ1eWsNSargDKm9k"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAP4ZcNWVKpbh2t6oXwJ1eWsNSargDKm9k&libraries=places"></script>
+{#<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxz02wMA0ioFzVsaEtHHjln0npGTtXIpg&libraries=places"></script>#}
+
 {{ javascript_include('js/plugins/gmaps.js') }}
 
 

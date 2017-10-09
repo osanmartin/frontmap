@@ -106,13 +106,13 @@
 			</a> 
 			<div class="btn-precio">
 
-				<div class="btn-precio-low hidden" data-target="3">
+				<div class="btn-precio-low hidden" data-target="3" data-id="{{ prices_range[service['service_types_id']][0]['id'] }}" >
 					<span> {{ prices_range[service['service_types_id']][0]['price'] }} </span>
 				</div>
-				<div class="btn-precio-mid hidden" data-target="2">
+				<div class="btn-precio-mid hidden" data-target="2" data-id="{{ prices_range[service['service_types_id']][1]['id'] }}">
 					<span> {{ prices_range[service['service_types_id']][1]['price'] }} </span>
 				</div>
-				<div class="btn-precio-high hidden" data-target="1">
+				<div class="btn-precio-high hidden" data-target="1" data-id="{{ prices_range[service['service_types_id']][2]['id'] }}">
 					<span> {{ prices_range[service['service_types_id']][2]['price'] }} </span>
 				</div>
 			</div>

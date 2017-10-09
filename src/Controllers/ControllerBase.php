@@ -62,8 +62,6 @@
 
             if ($this->request->isPost() AND !is_null($this->session->get('auth-identity'))) {
 
-
-
                 if ($this->security->checkToken()) {
                     
                     $key = $this->security->getTokenKey();
@@ -112,6 +110,8 @@
             $action = strtolower($dispatcher->getActionName());
 
 
+
+
             /**
              * Control de usuarios logeados
              */
@@ -145,6 +145,7 @@
                     exit();
 
                 } 
+
             }
 	    }
 

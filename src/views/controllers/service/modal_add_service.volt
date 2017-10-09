@@ -22,7 +22,7 @@
 						</div>
 
 			    		<div class="col-md-12">
-			    			<input type="text" class="form-control custom" placeholder="Ubicación de Servicio">	
+			    			<input id="address_service" type="text" class="form-control custom" placeholder="Ubicación de Servicio">	
 			    		</div>
 		    		</div>
 		    	</div>

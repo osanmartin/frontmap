@@ -2,6 +2,7 @@ var removeAnimate = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimatio
 var location_lat = '-33.0539430';
 var location_lng = '-71.6245970';
 var call_status = {"error":false};
+var clickData = null;
 
 /*
 GMaps.geolocate({
@@ -22,7 +23,7 @@ GMaps.geolocate({
 */
 
 
-var map = new GMaps(
+map = new GMaps(
 					{div:'#map_canvas',
 					lat:'-33.0539430',
 					lng:'-71.6245970',
@@ -35,10 +36,59 @@ var map = new GMaps(
 					clickableIcons:false
 				});
 
+
+
+var input = /** @type {!HTMLInputElement} */(
+            document.getElementById('finder-input'));
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map.map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+          map: map.map,
+          anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          //marker.setVisible(false);
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            
+            return;
+          }
+
+          // If the place has a geometry, then present it on a map.
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);  // Why 17? Because it looks good.
+          }
+
+          location_lat = place.geometry.location.lat(); 
+          location_lng = place.geometry.location.lng();
+
+          changeMarkerPosition(0,location_lat,location_lng);
+
+        });
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+      
+
+
+
+
+
+
+
 // Marker location
 
 map.addMarker({id:0,lat:location_lat,lng:location_lng,icon:'img/markers/marker_location.png'});
-
 
 
 /*
@@ -126,6 +176,7 @@ $(document).ready(function() {
 	
 
 
+  /*
 	$(document).on('keypress','#finder input',function(){
 
 		if (event.which == 13) {
@@ -148,7 +199,7 @@ $(document).ready(function() {
         	  }
         	});
     	}
-	});
+	});*/
 
 	$(document).on('focus','#finder input',function(){
 
@@ -232,6 +283,8 @@ $(document).ready(function() {
 
             }
 
+            call_status['error'] = false;
+
 
       });
 
@@ -240,8 +293,29 @@ $(document).ready(function() {
     // Realiza votación negativa confiabilidad
     $(document).on('click','.btn-validez-negativa',function(){
 
-    	$(this).parents('.info-validez').find('.validez').click();
-    	$(this).parents('.info-validez').find('a').removeClass('voted-positive').addClass('voted-negative');
+
+        var action = $('#vote-action').data('url');
+        var dataIn = new FormData();
+        var service_id = $('#service').val();
+
+        dataIn.append('type','active');
+        dataIn.append('vote',0);
+        dataIn.append('service',service_id);
+
+        var call = $.callAjax(dataIn,action,$(this));
+
+        call.success(function(){
+
+            if(!call_status['error']){
+
+            	$('.info-validez').find('.validez').click();
+            	$('.info-validez').find('a').removeClass('voted-positive').addClass('voted-negative');
+
+            }
+
+            call_status['error'] = false;
+
+        });
 
     });
 
@@ -277,12 +351,35 @@ $(document).ready(function() {
 
     // Realiza votación calidad
     $(document).on('change','.btn-calidad input',function () {
+
+        var action = $('#vote-action').data('url');
+        var dataIn = new FormData();
+        var service_id = $('#service').val();
+
+        dataIn.append('type','quality');
+        dataIn.append('vote',$(this).val());
+        dataIn.append('service',service_id);
+
+        clickData = $(this);
+
+        var call = $.callAjax(dataIn,action,$(this));
+
+        call.success(function(){
+
+            if(!call_status['error']){
     
-    	$(this).parents('.info-calidad').find('img').addClass('background-transparent');
-    	$(this).parents('.info-calidad').find('.cssload-base')
-    									.removeClass()
-    									.addClass('cssload-base')
-    									.addClass('level'+$(this).val());
+            	$('.info-calidad').find('img').addClass('background-transparent');
+            	$('.info-calidad').find('.cssload-base')
+            									.removeClass()
+            									.addClass('cssload-base')
+            									.addClass('level'+clickData.val());
+
+            }
+
+            call_status['error'] = false;
+            clickData = null;
+
+        });
 
     });
 
@@ -313,9 +410,33 @@ $(document).ready(function() {
     // Realiza votación precio
     $(document).on('click','.btn-precio div',function(){
 
-    	$(this).parents('.info-precio').find('.precio').click();
-    	$(this).parents('.info-precio').find('img:not(.transparent)').addClass('transparent');
-		$(this).parents('.info-precio').find('img[data-target="'+$(this).data('target')+'"]').removeClass('transparent');    	
+
+        var action = $('#vote-action').data('url');
+        var dataIn = new FormData();
+        var service_id = $('#service').val();
+
+        dataIn.append('type','price');
+        dataIn.append('vote',$(this).data('id'));
+        dataIn.append('service',service_id);
+
+        clickData = $(this);
+
+        var call = $.callAjax(dataIn,action,$(this));
+
+        call.success(function(){
+
+            if(!call_status['error']){
+
+            	$('.info-precio').find('.precio').click();
+            	$('.info-precio').find('img:not(.transparent)').addClass('transparent');
+        		$('.info-precio').find('img[data-target="'+clickData.data('target')+'"]').removeClass('transparent');    	
+
+            }
+
+            call_status['error'] = false;
+
+        });   
+
 
     });
 

@@ -94,7 +94,9 @@
 
             curl_close($this->curl);
 
-            #$this->verifyResponse($result);
+
+
+            $this->verifyResponse($result);
 
 
             $json = json_decode($result, true);
@@ -176,32 +178,25 @@
                     exit();
 
                 }
-            }
+            }*/
+
+            
 
 
-            if( ! $datos['status'] ) {
+            if(isset($datos['description'])){
 
-                if( isset($datos['messages']) && count($datos['messages']) > 0 ) {
+                foreach ($datos['description'] as $val) {
 
-                    $this->mifaces->newFaces();
-                    $errors = new Errors();
+                    if( isset($val['code']) && $val['code'] == 401) {
 
-                    foreach ($datos['messages'] as $key => $err) {
-
-                        switch (key($err)) {
-                            case 'jwt_token_not_found':
-                            case 'jwt_token_invalid':
-                            case 'jwt_token_expired':
-                            case 'jwt_user_not_found':
-
-                                $this->renderLogout();
-                                break;
-                            }
+                        $this->renderLogout();
 
                     }
+
+                    
                 }
 
-            }*/
+            }
 
         }
 
@@ -220,6 +215,7 @@
         }
 
         private function renderLogout(){
+
 
             $msg = "Sesión expirada o inexistente. Favor iniciar sesión.";
 

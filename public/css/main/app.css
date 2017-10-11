@@ -772,3 +772,24 @@ select.custom{
 	opacity: 0.8;
 
 }
+
+.modal{
+    z-index: 20;   
+}
+.modal-backdrop{
+    z-index: 10;        
+}​
+
+.pac-container {
+    background-color: #FFF;
+    z-index: 20;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
+
+.font-success{
+
+	color:#2fc709;
+
+}

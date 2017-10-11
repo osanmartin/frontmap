@@ -201,4 +201,78 @@ class ServiceController extends ControllerBase {
 
 	}
 
+
+
+	public function addAction(){
+
+		if(!$this->request->isAjax()){
+
+			$this->defaultRedirect();
+
+		}
+
+		$this->mifaces->newFaces();
+
+		$post = $this->request->getPost();
+
+		if(	!isset($post['lat']) || 
+			!isset($post['lng'])){
+
+			$this->mifaces->addToJsonView('call_status',['error' => true]);
+			$this->mifaces->addToMsg('warning','Debe seleccionar una dirección válida.');
+			$this->mifaces->run();
+			exit;
+
+		}
+
+		$rules = [  'address_service' => 'required',
+		            'title_service' => 'required',
+		            'category' => 'required'];
+
+		$this->valida->validate($post, $rules);
+
+		$this->valida->getErrors();
+
+		if ( $this->valida->failed() ) {
+
+		    $arr = array();
+
+		    foreach ($this->valida->getErrors() as $campo => $error) {
+		        $arr[] = array($campo, $error);
+		    }
+
+		    $this->mifaces->addToJsonView('call_status',['error' => true]);
+		    $this->mifaces->addErrorsForm( $arr ,true);
+		    $this->mifaces->run();
+		    return;
+		}
+
+
+		$param['service_type_id'] = $post['category'];
+		$param['x_position'] = $post['lat'];
+		$param['y_position'] = $post['lng'];
+		$param['name'] = $post['title_service'];
+		$param['price'] = 2;
+		$param['quality'] = 5;
+
+		$callApi = new CallAPI();
+
+		$result = $callApi->call('POST',$this->config['urlApi'].'reports/addnew',$param);
+
+		if(isset($result['description']['code'])){
+
+			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
+			$this->mifaces->addToJsonView('call_status',['error' => true]);
+			$this->mifaces->run();
+			exit;
+
+		}
+
+		$this->mifaces->addToJsonView('call_status',['error' => false]);
+		$this->mifaces->addToMsg('success','¡Agregado correctamente!');
+		$this->mifaces->run();
+
+
+	}
+
 }

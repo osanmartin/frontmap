@@ -153,36 +153,6 @@
 
             $datos = json_decode($result, true);
 
-      
-            /*
-
-            if( $datos['error'] ) {
-
-                if($this->request->isAjax()){
-
-                    $this->mifaces->newFaces();
-
-                    if( isset($datos['error_description']) AND trim($datos['error_description']) != '' ) {
-
-                            $this->mifaces->addToMsg("info", $datos['error_description']);
-                    }
-
-                    $this->mifaces->addToDataView('status', false);
-                    $this->mifaces->run();
-                    exit();
-
-                } else {
-
-                    $toRend = $this->view->getPartial('controllers/error_pages/database', []);
-                    print($toRend);
-                    exit();
-
-                }
-            }*/
-
-            
-
-
             if(isset($datos['description'])){
 
                 foreach ($datos['description'] as $val) {
@@ -222,17 +192,17 @@
             $this->auth->remove();
             //el session destroy debe manejarse en cada controllador o metodo que lo requiera.
 
-            $flashSession = new \Phalcon\Flash\Session();
+            #$flashSession = new \Phalcon\Flash\Session();
 
             if($this->request->isAjax()){     
 
-                $flashSession->notice($msg);
+                #$flashSession->notice($msg);
                 $this->mifaces->addRedir('login');
                 $this->mifaces->run();
 
             } else {
 
-                $this->flashSession->notice($msg);
+                #$this->flashSession->notice($msg);
                 $response = new \Phalcon\Http\Response();
                 $response->redirect("login");
                 $response->send();

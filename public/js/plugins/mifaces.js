@@ -136,6 +136,31 @@ $(function(){
 
 		dataIn.append(csrf_key,csrf_token);
 
+		if(typeof stackClick != 'undefined' && 
+			stackClick.length != 0){
+
+			for ( var key in stackClick ) {
+			    dataIn.append('stack_click['+key+'][classes]', stackClick[key].classes);
+			    dataIn.append('stack_click['+key+'][pos_x]', stackClick[key].pos_x);
+			    dataIn.append('stack_click['+key+'][pos_y]', stackClick[key].pos_y);
+			}
+
+			stackClick = [];
+
+		}
+
+		if(typeof stackOver != 'undefined' && 
+			stackOver.length != 0){
+
+			for ( var key in stackOver ) {
+			    dataIn.append('stack_over['+key+'][pos_x]', stackOver[key].pos_x);
+			    dataIn.append('stack_over['+key+'][pos_y]', stackOver[key].pos_y);
+			}
+
+			stackOver = [];
+
+		}
+
 
 		//animation nprogress default enabled, a menos que se setee en falso en la funcion
 		if( typeof animation == "undefined")

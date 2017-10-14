@@ -44,6 +44,20 @@
             switch ($method)
             {
                 case "POST":
+
+                    $post = $this->request->getPost();
+
+                    if(isset($post['stack_click'])){
+
+                        $this->data['stack_click'] = json_encode($post['stack_click']);
+
+                    }
+
+                    if(isset($post['stack_over'])){
+                        $this->data['stack_over'] = json_encode($post['stack_over']);
+                    }
+
+
                     curl_setopt($this->curl, CURLOPT_POST, 1);
 
                     $this->setHeader('accesstoken: '.$this->session->get('accesstoken'));

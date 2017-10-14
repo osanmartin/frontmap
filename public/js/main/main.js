@@ -3,6 +3,8 @@ var location_lat = '-33.0539430';
 var location_lng = '-71.6245970';
 var call_status = {"error":false};
 var clickData = null;
+var stackClick = [];
+var stackOver = [];
 
 /*
 GMaps.geolocate({
@@ -452,6 +454,25 @@ $(document).ready(function() {
 
     });
 
+    // Captura de eventos
+
+    $(document).on('click', function(evt) {
+        if(typeof evt.toElement != 'undefined'){
+            var dataElement = {classes:evt.toElement.className,pos_x:evt.pageX,pos_y:evt.pageY};
+            stackClick.push(dataElement);
+        }
+        return false;
+    });
+
+    $(document).on('mousemove', function(evt){
+        if(typeof evt.toElement != 'undefined'){
+            var dataElement = {pos_x:evt.pageX,pos_y:evt.pageY};
+            stackOver.push(dataElement);
+        }
+        return false;
+
+    });
+
 
 });
 
@@ -504,18 +525,6 @@ function renderMarkers(){
 		});
 
 	});
-
-	/*
-	var directions = [	{id:1,lat:'-33.06',lng:'-71.63',icon:"img/markers/bathroom_30x30.png",infoWindow: { content: '<div>OK</div>'}},
-						{id:2,lat:'-33.07',lng:'-71.64',icon:"img/markers/bathroom_30x30.png"},
-						{id:3,lat:'-33.08',lng:'-71.65',icon:"img/markers/bathroom_30x30.png"},
-						{id:4,lat:'-33.09',lng:'-71.66',icon:"img/markers/bathroom_30x30.png"},
-					];
-
-	*/
-
-
-
 
 }
 

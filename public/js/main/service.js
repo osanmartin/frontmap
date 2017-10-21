@@ -73,8 +73,6 @@ $(document).ready(function() {
 
 		call.success(function(){
 
-			$('.icon-note').tooltip();
-
 			var origin = new google.maps.LatLng(location_lat, location_lng);
 
 			var destinations = [];
@@ -99,6 +97,8 @@ $(document).ready(function() {
 
 			function callback(response, status) {
 
+				var elements = [];
+
 				$.each(response.rows[0].elements, function(index, val) {
 
 					if(typeof val.distance == 'undefined' || val.distance == null || val.distance == ''){
@@ -114,11 +114,28 @@ $(document).ready(function() {
 						$('#distance-'+services[index].id).html(distance);
 						$('#duration-'+services[index].id).html(duration);
 
+						var aux = [];
+						aux['distance'] = distance;
+						aux['html'] = $('#duration-'+services[index].id).parents('.row').first()[0];
+
+						elements.push(aux);
+						$('#duration-'+services[index].id).parents('.row').first().remove();						
+
 					}
+
+
 					
 
 
 				});
+
+				elements.sort(orderDesc);
+
+				$.each(elements, function(index, val) {
+					$('.table-header').after(val.html);
+				});
+
+				$('.icon-note').tooltip()
 
 			}
 
@@ -227,4 +244,21 @@ function activeAutocomplete(id){
 
     });
 
+}
+
+
+function orderDesc(a,b) {
+  if (a.distance < b.distance)
+    return 1;
+  if (a.distance > b.distance)
+    return -1;
+  return 0;
+}
+
+function orderAsc(a,b) {
+  if (a.distance < b.distance)
+    return 1;
+  if (a.distance > b.distance)
+    return -1;
+  return 0;
 }

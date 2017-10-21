@@ -15,73 +15,85 @@
 	</div>
 
 	{% if (service['confiability'] >= 66.6) %}
-		{% set border_confiability = 'border-green' %}
+		{% set border_confiability = 'bgnd-green' %}
+		{% set msg_confiability = "Este servicio con seguridad está en funcionamiento" %}
 	{% elseif (service['confiability'] >= 33.3 and service['confiability'] < 66.6) %}
-		{% set border_confiability = 'border-yellow' %}
+		{% set border_confiability = 'bgnd-yellow' %}
+		{% set msg_confiability = "Este servicio es probablemente está en funcionamiento" %}
 	{% elseif (service['confiability'] < 33.3 ) %}
-		{% set border_confiability = 'border-red' %}
+		{% set border_confiability = 'bgnd-red' %}
+		{% set msg_confiability = "Este servicio puede que no esté en funcionamiento o no exista" %}
 	{% endif %}
 
 	{% if (service['quality'] >= 6.66) %}
-		{% set border_quality = 'border-green' %}
+		{% set border_quality = 'bgnd-green' %}
+		{% set msg_quality = "Este servicio es de alta calidad" %}
 	{% elseif (service['quality'] >= 3.33 and service['quality'] < 6.66) %}
-		{% set border_quality = 'border-yellow' %}
+		{% set border_quality = 'bgnd-yellow' %}
+		{% set msg_quality = "Este servicio es de calidad media" %}
 	{% elseif (service['quality'] < 3.33 ) %}
-		{% set border_quality = 'border-red' %}
+		{% set border_quality = 'bgnd-red' %}
+		{% set msg_quality = "Este servicio es de baja calidad" %}
 	{% endif %}
 
-	{% if (service['quality'] >= 6.66) %}
-		{% set border_quality = 'border-green' %}
-	{% elseif (service['quality'] >= 3.33 and service['quality'] < 6.66) %}
-		{% set border_quality = 'border-yellow' %}
-	{% elseif (service['quality'] < 3.33 ) %}
-		{% set border_quality = 'border-red' %}
-	{% endif %}
 
-	{% if service['price_level'] == 1 %}
-		{% set border_price = 'border-green' %}
-	{% elseif service['price_level'] == 2 %}
-		{% set border_price = 'border-yellow' %}
-	{% elseif service['price_level'] == 3 %}
-		{% set border_price = 'border-red' %}
+	{% if service['price_level'] is defined %}
+
+		{% if service['price_level'] == 1 %}
+			{% set border_price = 'bgnd-green' %}
+			{% set msg_price = "Este servicio es considerado de bajo costo" %}
+		{% elseif service['price_level'] == 2 %}
+			{% set border_price = 'bgnd-yellow' %}
+			{% set msg_price = "Este servicio es considerado de costo regular" %}
+		{% elseif service['price_level'] == 3 %}
+			{% set border_price = 'bgnd-red' %}
+			{% set msg_price = "Este servicio es considerado costoso" %}
+		{% endif %}
+
+	{% else %}
+
+		{% set border_price = 'bgnd-white' %}
+
 	{% endif %}
 
 	<div class="row no-margin">
 		<div class="col-xs-4 text-center info-validez">
-			<a href="javascript:void(0)">
-				<img class="{{border_confiability}}" src="img/markers/meter.png" alt="">
+			<a href="javascript:void(0)" title="{{ msg_confiability }}" data-toggle="tooltip">
+				<img id="indicator-confiability" class="{{border_confiability}}" src="img/markers/meter.png" alt="" >
 				<span>Confiabilidad</span>
-				<div class="menu btn14 validez" data-menu="14">
-				  <div class="icon-circle margin-top-8"></div>
-				  <div class="icon"></div>
+			</a> 
+				<div id="menu-vote-confiability" class="menu btn14 validez" data-menu="14">
+				  <div id="indicator-confiability" class="icon-circle margin-top-8"></div>
+				  <div id="indicator-confiability" class="icon"></div>
 				</div>
 				<div class="btn-validez hidden">
 					<div class="btn-validez-negativa">
-						<i class="fa fa-thumbs-o-down"></i>
+						<i id="btn-confiability-negative" class="fa fa-thumbs-o-down"></i>
 					</div>
-					<div class="btn-validez-positiva">
-						<i class="fa fa-thumbs-o-up"></i>
+					<div  class="btn-validez-positiva">
+						<i id="btn-confiability-positive" class="fa fa-thumbs-o-up"></i>
 					</div>
 				</div>
-			</a> 
+
 
 		</div>
-		<div class="col-xs-4 text-center info-calidad">
-			<a href="javascript:void(0)">
-				<img class="{{border_quality}}" src="img/markers/badge.png" alt="">
+		<div class="col-xs-4 text-center info-calidad" >
+			<a href="javascript:void(0)" title="{{ msg_quality }}" data-toggle="tooltip">
+				<img id="indicator-quality" class="{{border_quality}}" src="img/markers/badge.png" alt="" >
 				<span>Calidad</span>
-				<div class="menu btn14 calidad" data-menu="14">
-				  <div class="icon-circle margin-top-8"></div>
-				  <div class="icon"></div>
+
+			</a> 
+				<div id="menu-vote-quality" class="menu btn14 calidad" data-menu="14">
+				  <div id="menu-vote-quality" class="icon-circle margin-top-8"></div>
+				  <div id="menu-vote-quality" class="icon"></div>
 				</div>
-				<div class="btn-calidad hidden">
+				<div id="btn-quality" class="btn-calidad hidden">
 
 					<input type="hidden"/>
 			
 				</div>
 
 
-			</a> 
 			<div class="cssload-jar">
 				<div class="cssload-base">
 					<div class="cssload-liquid"> </div>
@@ -94,26 +106,27 @@
 		</div>
 
 		<div class="col-xs-4 text-center info-precio">
-			<a href="javascript:void(0)">
-				<img class="transparent {{ border_price }}" src="img/markers/pig_money_sad.png" data-target="1">
-				<img class="{{ border_price }}" src="img/markers/pig_money_normal.png" alt="" data-target="2">
-				<img class="transparent {{ border_price }}" src="img/markers/pig_money_happy.png" data-target="3">
+			<a href="javascript:void(0)" title="{{ msg_price }}" data-toggle="tooltip">
+				<img id="indicator-price" class="transparent {{ border_price }}" src="img/markers/pig_money_sad.png" data-target="1" >
+				<img id="indicator-price" class="{{ border_price }}" src="img/markers/pig_money_normal.png" alt="" data-target="2" >
+				<img id="indicator-price" class="transparent {{ border_price }}" src="img/markers/pig_money_happy.png" data-target="3" >
 				<span>Precio</span>
-				<div class="menu btn14 precio" data-menu="14">
-				  <div class="icon-circle margin-top-8"></div>
-				  <div class="icon"></div>
-				</div>
 			</a> 
+				<div id="menu-vote-price" class="menu btn14 precio" data-menu="14">
+				  <div id="menu-vote-price" class="icon-circle margin-top-8"></div>
+				  <div id="menu-vote-price" class="icon"></div>
+				</div>
+
 			<div class="btn-precio">
 
 				<div class="btn-precio-low hidden" data-target="3" data-id="{{ prices_range[service['service_types_id']][0]['id'] }}" >
-					<span> {{ prices_range[service['service_types_id']][0]['price'] }} </span>
+					<span id="btn-price-cheap"> {{ prices_range[service['service_types_id']][0]['price'] }} </span>
 				</div>
 				<div class="btn-precio-mid hidden" data-target="2" data-id="{{ prices_range[service['service_types_id']][1]['id'] }}">
-					<span> {{ prices_range[service['service_types_id']][1]['price'] }} </span>
+					<span id="btn-price-regular"> {{ prices_range[service['service_types_id']][1]['price'] }} </span>
 				</div>
 				<div class="btn-precio-high hidden" data-target="1" data-id="{{ prices_range[service['service_types_id']][2]['id'] }}">
-					<span> {{ prices_range[service['service_types_id']][2]['price'] }} </span>
+					<span id="btn-price-expensive"> {{ prices_range[service['service_types_id']][2]['price'] }} </span>
 				</div>
 			</div>
 		</div>

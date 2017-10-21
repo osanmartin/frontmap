@@ -752,6 +752,24 @@ select.custom{
 
 }
 
+.bgnd-green{
+
+	background-color:#40af40 !important;
+
+}
+
+.bgnd-yellow{
+
+	background-color:#dfd441 !important;
+
+}
+
+.bgnd-red{
+
+	background-color:#bb5151 !important;
+
+}
+
 .margin-top-8{
 	margin-top: 8px !important;
 }

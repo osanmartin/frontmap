@@ -5,6 +5,7 @@ var call_status = {"error":false};
 var clickData = null;
 var stackClick = [];
 var stackOver = [];
+var stackClickMaps = [];
 
 /*
 GMaps.geolocate({
@@ -37,6 +38,8 @@ map = new GMaps(
 					fullscreenControl: false,
 					clickableIcons:false
 				});
+
+
 
 
 
@@ -91,6 +94,7 @@ var input = /** @type {!HTMLInputElement} */(
 // Marker location
 
 map.addMarker({id:0,lat:location_lat,lng:location_lng,icon:'img/markers/marker_location.png'});
+
 
 
 /*
@@ -458,20 +462,55 @@ $(document).ready(function() {
 
     $(document).on('click', function(evt) {
         if(typeof evt.toElement != 'undefined'){
-            var dataElement = {classes:evt.toElement.className,pos_x:evt.pageX,pos_y:evt.pageY};
+
+            var id = evt.toElement.id;
+            var classes = evt.toElement.className;
+
+            if(classes.includes('glyphicon-heart')){
+                id = 'btn-quality';
+                var value = $(evt.toElement).parents('#btn-quality').find('input').val();
+                id = id+'-'+value;
+            }
+
+            var dataElement = {id:id,pos_x:evt.pageX,pos_y:evt.pageY,timestamp:evt.timeStamp};
             stackClick.push(dataElement);
+
+            if(stackClick.length>999){
+                stackClick.shift();
+            }
         }
         return false;
     });
 
     $(document).on('mousemove', function(evt){
         if(typeof evt.toElement != 'undefined'){
-            var dataElement = {pos_x:evt.pageX,pos_y:evt.pageY};
+
+            var dataElement = {pos_x:evt.pageX,pos_y:evt.pageY,timestamp:evt.timeStamp};
             stackOver.push(dataElement);
+
+            if(stackOver.length>999){
+                stackOver.shift();
+            }
         }
         return false;
 
     });
+
+    map.addListener("click", function(event) {
+        var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
+        var timestamp = new Date().getTime()
+
+        var dataElement = {lat:lat,lng:lng,timestamp:timestamp};
+        stackClickMaps.push(dataElement);
+
+        if(stackClickMaps.length>999){
+            stackClickMaps.shift();
+        }
+
+    });
+
+
 
 
 });
@@ -519,6 +558,7 @@ function renderMarkers(){
 			marker.addListener('click', function() {
 
 				$('.iw-content').closest('.gm-style-iw').parent().addClass('custom-iw');
+                $('[data-toggle="tooltip"]').tooltip({html:true});
 
 			});
 
@@ -548,3 +588,4 @@ function changeMarkerPosition(id,lat,lng) {
     var latlng = new google.maps.LatLng(lat, lng);
     marker.setPosition(latlng);
 }
+

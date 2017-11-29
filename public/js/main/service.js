@@ -59,6 +59,18 @@ $(document).ready(function() {
 
 	});
 
+	$(document).on('keydown','#search-form input',function(event){
+
+		if(event.keyCode == 13) {
+
+			$('.btn-search-modal').click();
+			event.preventDefault();
+			return false;
+
+		}
+
+	});
+
 
     $(document).on('click','.btn-search-modal',function(){
 

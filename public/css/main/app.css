@@ -27,7 +27,7 @@ html, body, #map_canvas {
 
 #logo{
 
-	margin-top: 20px;
+	margin-top: 28px;
 
 }
 
@@ -870,5 +870,24 @@ select.custom{
 	margin: 0 auto;
 	border-radius: 15px;
 
+
+}
+
+@media (max-width: 767px) {
+
+	#logo-image span{
+		font-size: 10px !important;
+	}
+	
+}
+
+#btn-logout{
+
+	background-color: rgba(45, 137, 179, 0.52);
+	color: #fff;
+	border-radius: 5px;
+	font-family: sans-serif;
+	margin-top: 10px;
+	text-align: center;
 
 }

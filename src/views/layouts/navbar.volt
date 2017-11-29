@@ -19,7 +19,23 @@
 <span id="container-logo" class="pull-right">
     <div id="logo">
         <a id="logo-image" href="#">
-            <img class="navbar-brand-image" src="img/favicon-32x32.png"> <span>FrontMap</span>
+            <img class="navbar-brand-image" src="img/favicon-32x32.png"> 
+            <span>
+                DondeEsta.CL
+                <i class="fa fa-caret-down"></i>
+            </span>
+
+        </a>
+
+    </div>
+
+    <div id="btn-logout" class="hidden" onclick="window.location.href = '{{ url('logout') }}'">
+        
+        <a href="{{url('logout')}}">
+            
+            Salir
+
         </a>
     </div>
+    
 </span>

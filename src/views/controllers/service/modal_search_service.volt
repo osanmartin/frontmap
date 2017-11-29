@@ -9,7 +9,7 @@
 				</div>
 			<div class="modal-body">
 		    
-			    <form id="search-form">
+			    <form id="search-form" method="POST" action="#">
 
 	    	    	<div class="form-group">
 	    	    		<div class="row">

@@ -289,6 +289,7 @@ $(document).ready(function() {
 
             }
 
+            $('.validez').click();
             call_status['error'] = false;
 
 
@@ -319,6 +320,7 @@ $(document).ready(function() {
 
             }
 
+            $('.validez').click();
             call_status['error'] = false;
 
         });
@@ -382,6 +384,7 @@ $(document).ready(function() {
 
             }
 
+            $('.calidad').click();
             call_status['error'] = false;
             clickData = null;
 
@@ -439,6 +442,7 @@ $(document).ready(function() {
 
             }
 
+            $('.precio').click();
             call_status['error'] = false;
 
         });   
@@ -511,6 +515,24 @@ $(document).ready(function() {
     });
 
 
+    $(document).on('click','#logo-image',function(){
+
+
+        if($('#btn-logout').hasClass('hidden')){
+
+            $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-up');
+            $('#btn-logout').removeClass('hidden');
+
+        } else{
+
+
+            $(this).find('i').removeClass('fa-caret-up').addClass('fa-caret-down');
+            $('#btn-logout').addClass('hidden');
+
+        }
+
+
+    });
 
 
 });

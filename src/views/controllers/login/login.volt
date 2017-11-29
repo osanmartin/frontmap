@@ -14,9 +14,13 @@
 	
 	<div class="col-sm-12font-white">
 		
-			<div class="mgn-bottom-10 mgn-top-10">
-				<img id="img-logo" src="img/logo/2.jpg" alt="">
+		<div class="mgn-bottom-10 mgn-top-10">
+			<div class="text-center">
+				<a id="logo-image">
+				    <img class="navbar-brand-image" src="img/favicon-32x32.png"> <span>DondeEsta.CL</span>
+				</a>
 			</div>
+		</div>
 
 	</div>
 

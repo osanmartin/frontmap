@@ -185,9 +185,24 @@ class ServiceController extends ControllerBase {
 
 		$result = $callApi->call('POST',$this->config['urlApi'].$method_vote,$param);
 
-		if(isset($result['description']['code'])){
+		if(isset($result['description'])){
 
-			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
+			foreach ($result['description'] as $key => $val) {
+
+				# Demasiados intentos
+				if($val['code'] == '2004'){
+
+					$this->mifaces->addToMsg('warning','Ya has votado recientemente por este servicio, inténtalo más tarde.');
+
+				} else{
+
+					$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
+
+				}
+
+			}
+
+			
 			$this->mifaces->addToJsonView('call_status',['error' => true]);
 			$this->mifaces->run();
 			exit;

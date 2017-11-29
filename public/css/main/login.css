@@ -54,13 +54,9 @@ video {
 }
 
 
-@media screen and (max-width: 500px) { 
-  div{width:70%;} 
-}
 @media screen and (max-device-width: 800px) {
   html { background: url(../../background.gif) #000 no-repeat center center fixed; }
   video{
-  	position: initial !important;
-  	transform: none;
+  	z-index: 0;
   }
 }

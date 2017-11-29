@@ -2,10 +2,28 @@
 
 {% block content %}
 
+
 <video poster="background.gif" id="bgvid" playsinline autoplay muted loop>
 
 <source src="background.mp4" type="video/mp4">
 </video>
+
+
+
+<div id="navbar-login" class="row bgnd-blue ">
+	
+	<div class="col-sm-12font-white">
+		
+			<div class="mgn-bottom-10 mgn-top-10">
+				<img id="img-logo" src="img/logo/2.jpg" alt="">
+			</div>
+
+	</div>
+
+
+</div>
+
+{#
 
 	<span id="logo-login">
 	    <div id="logo">
@@ -15,8 +33,11 @@
 	    </div>
 	</span>
 
+#}
 
-	<div id="container-login" class="container">
+<div class="row">
+
+	<div class="col-md-4 col-md-offset-4 col-xs-10 col-xs-offset-1"  id="container-login">
 
 		<form id="form-login" action="{{ url('session/loginpost') }}">
 		
@@ -63,9 +84,13 @@
 	    		</div>
 	    	</div>
 
-    	</form>
+		</form>
 
 	</div>
+
+</div>
+
+
 
 
 	<!--<input class="fb-login-button" type="button" value="Sign in using Facebook" onclick="checkFacebookLogin();"/>-->

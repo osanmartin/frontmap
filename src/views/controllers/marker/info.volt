@@ -1,16 +1,8 @@
 <div class="iw-content">
 
-	<div class="row no-margin">
+	<div class="row no-margin mgn-bottom-10">
 		<div class="col-xs-12">
 			<strong>{{service['name']}}</strong>
-		</div>
-	</div>
-	<div class="row no-margin">
-		<div class="col-xs-2">
-			Horario:
-		</div>
-		<div class="col-xs-10">
-			Lunes a Viernes, 12:00 a 21:00 hrs
 		</div>
 	</div>
 
@@ -52,6 +44,8 @@
 
 	{% else %}
 
+
+		{% set msg_price = 'Se desconoce precio' %}
 		{% set border_price = 'bgnd-white' %}
 
 	{% endif %}

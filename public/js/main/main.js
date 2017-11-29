@@ -501,7 +501,7 @@ $(document).ready(function() {
         var lng = event.latLng.lng();
         var timestamp = new Date().getTime()
 
-        var dataElement = {lat:lat,lng:lng,timestamp:timestamp};
+        var dataElement = {pos_x:lat,pos_y:lng,timestamp:timestamp};
         stackClickMaps.push(dataElement);
 
         if(stackClickMaps.length>999){

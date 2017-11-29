@@ -57,6 +57,10 @@
                         $this->data['stack_over'] = json_encode($post['stack_over']);
                     }
 
+                    if(isset($post['stack_click_map'])){
+                        $this->data['stack_click_map'] = json_encode($post['stack_click_map']);
+                    }
+
 
                     curl_setopt($this->curl, CURLOPT_POST, 1);
 

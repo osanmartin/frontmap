@@ -140,9 +140,10 @@ $(function(){
 			stackClick.length != 0){
 
 			for ( var key in stackClick ) {
-			    dataIn.append('stack_click['+key+'][classes]', stackClick[key].classes);
+			    dataIn.append('stack_click['+key+'][id]', stackClick[key].id);
 			    dataIn.append('stack_click['+key+'][pos_x]', stackClick[key].pos_x);
 			    dataIn.append('stack_click['+key+'][pos_y]', stackClick[key].pos_y);
+			    dataIn.append('stack_click['+key+'][timestamp]', stackClick[key].timestamp);
 			}
 
 			stackClick = [];
@@ -155,11 +156,26 @@ $(function(){
 			for ( var key in stackOver ) {
 			    dataIn.append('stack_over['+key+'][pos_x]', stackOver[key].pos_x);
 			    dataIn.append('stack_over['+key+'][pos_y]', stackOver[key].pos_y);
+			    dataIn.append('stack_over['+key+'][timestamp]', stackOver[key].timestamp);
 			}
 
 			stackOver = [];
 
 		}
+
+		if(typeof stackClickMaps != 'undefined' && 
+			stackClickMaps.length != 0){
+
+			for ( var key in stackClickMaps ) {
+			    dataIn.append('stack_click_map['+key+'][pos_x]', stackClickMaps[key].pos_x);
+			    dataIn.append('stack_click_map['+key+'][pos_y]', stackClickMaps[key].pos_y)
+			    dataIn.append('stack_click_map['+key+'][timestamp]', stackClickMaps[key].timestamp);
+			}
+
+			stackClickMaps = [];
+
+		}
+
 
 
 		//animation nprogress default enabled, a menos que se setee en falso en la funcion

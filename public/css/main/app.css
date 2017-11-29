@@ -380,6 +380,12 @@ select.custom{
 	margin: 0;
 }
 
+.mgn-bottom-10{
+
+	margin-bottom: 10px;
+
+}
+
 .text-vote{
 
 	position: relative;
@@ -468,7 +474,6 @@ select.custom{
 
 .iw-content img{
 	max-width: 84.66px !important;
-	background-color: #a8dfdb;
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 5px;
@@ -754,19 +759,19 @@ select.custom{
 
 .bgnd-green{
 
-	background-color:#40af40 !important;
+	background-color:#40af40;
 
 }
 
 .bgnd-yellow{
 
-	background-color:#dfd441 !important;
+	background-color:#dfd441;
 
 }
 
 .bgnd-red{
 
-	background-color:#bb5151 !important;
+	background-color:#bb5151;
 
 }
 

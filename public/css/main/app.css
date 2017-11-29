@@ -194,6 +194,24 @@ html, body, #map_canvas {
 	
 }
 
+#btn-ir-registro{
+
+	float: right;
+	margin-top: 30px;
+	border: 1px solid #184255;
+	color: #184255;
+
+}
+
+#btn-volver-login{
+
+	float: right;
+	margin-top: 30px;
+	border: 1px solid #184255;
+	color: #184255;
+
+}
+
 .btn-modal-options{
 	font-size: 11px;
     color: #d6c806;
@@ -821,13 +839,17 @@ select.custom{
 	margin-top:20px;
 }
 
-#form-login-container{
 
-	background-color: #929191;
-    opacity: 0.9;
-    margin-top: 30px;
+#container-registro{
 
+	padding-top: 20px;
+    padding-bottom: 20px;
+    opacity: 0.8;
+    background: white;
+    border: 3px solid #245166;
+	margin-top:20px;
 }
+
 
 .modal{
     z-index: 20;   

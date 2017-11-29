@@ -14,7 +14,7 @@
 		{% set msg_confiability = "Este servicio es probablemente está en funcionamiento" %}
 	{% elseif (service['confiability'] < 33.3 ) %}
 		{% set border_confiability = 'bgnd-red' %}
-		{% set msg_confiability = "Este servicio puede que no esté en funcionamiento o no exista" %}
+		{% set msg_confiability = "Este servicio no existe o no está en funcionamiento" %}
 	{% endif %}
 
 	{% if (service['quality'] >= 6.66) %}

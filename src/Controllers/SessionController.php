@@ -341,4 +341,82 @@
             return $this->response->redirect('login');
         }
 
+
+        public function registerAction(){
+
+            if(!$this->request->isAjax()){
+
+                $this->defaultRedirect();
+
+            }
+
+            $post = $this->request->getPost();
+
+            $rules = [  'username_registro' => 'required|email',
+                        'password_registro' => 'required',
+                        'password_repeat' => 'required'];
+
+            $this->valida->validate($post, $rules);
+
+            $this->valida->getErrors();
+
+            $password_not_equal = false;
+
+            if(isset($post['password_registro']) && isset($post['password_repeat']) && $post['password_repeat'] != $post['password_registro']){
+
+                $password_not_equal = true;
+
+            }
+
+            if ( $this->valida->failed() || $password_not_equal) {
+
+                $arr = array();
+
+                foreach ($this->valida->getErrors() as $campo => $error) {
+                    $arr[] = array($campo, $error);
+                }
+
+                if($password_not_equal){
+
+                    $arr[] = ['password_repeat','Contraseñas no coinciden'];
+
+                }
+
+                
+                $this->mifaces->addErrorsForm( $arr );
+                $this->mifaces->addToJsonView('call_status',['error' => true]);
+                $this->mifaces->run();
+                exit;
+            }
+
+
+            $callApi = new CallAPI();
+
+            $username = explode('@', $post['username_registro']);
+            $username = reset($username);
+
+
+            $data['username'] = $username;
+            $data['email'] = $post['username_registro'];
+            $data['public_name'] = $username;
+            $data['password'] = $post['password_registro'];
+
+            $result = $callApi->call('POST',$this->config['urlApi'].'users/',$data);
+
+            if(isset($result['description'])){
+
+                $this->mifaces->addToMsg('warning','No fue posible realizar el registro, por favor recargue la página.');
+
+                $this->mifaces->addToJsonView('call_status',['error' => true]);
+                $this->mifaces->run();
+                exit;
+
+            }
+
+            $this->mifaces->addToJsonView('call_status',['error' => false]);
+            $this->mifaces->addToMsg('success','¡Registro exitoso!');
+            $this->mifaces->run();
+
+        }
+
     }

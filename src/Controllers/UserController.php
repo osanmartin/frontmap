@@ -289,6 +289,7 @@
             $this->session->set("type-user", 3 );
             $this->session->set("accesstoken", $datos['accesstoken']);
 
+            /*
             # CSRF-TOKEN 
             $key = $this->security->getTokenKey();
             $token = $this->security->getToken();
@@ -297,7 +298,7 @@
 
             $this->session->set('csrf-token',$arrToken);
 
-            # END CSRF-TOKEN 
+            # END CSRF-TOKEN */
 
             return true;
         }

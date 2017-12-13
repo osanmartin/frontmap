@@ -131,10 +131,13 @@ $(function(){
 
 	jQuery.callAjax = function(dataIn, action, parent, animation) {
 
+		/*
 		var csrf_key = $('#CSRF-TOKEN').attr('name');
 		var csrf_token = $('#CSRF-TOKEN').val();
 
 		dataIn.append(csrf_key,csrf_token);
+
+		*/
 
 		if(typeof stackClick != 'undefined' && 
 			stackClick.length != 0){
@@ -520,12 +523,13 @@ $(function(){
 						});
 					}
 
+					/*
 					if(result.type == 'csrf'){
 
 						$('#CSRF-TOKEN').attr('name',result.csrfdata.key);
 						$('#CSRF-TOKEN').val(result.csrfdata.token);
 
-					}
+					}*/
 
 				});
 

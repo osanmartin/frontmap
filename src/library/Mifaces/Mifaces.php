@@ -264,10 +264,10 @@ class Mifaces extends Component{
 
     private function response($outputs){
 
-
+        /*
         if($this->session->get('auth-identity')){
             $outputs[] = array('type' => 'csrf', 'csrfdata' => $this->session->get('csrf-token'));    
-        }
+        }*/
         echo json_encode($outputs);
 
     }

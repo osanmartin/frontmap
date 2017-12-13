@@ -144,6 +144,7 @@
 
 
             # CSRF-TOKEN 
+            /*
             $key = $this->security->getTokenKey();
             $token = $this->security->getToken();
             $arrToken['key'] = $key;
@@ -151,7 +152,7 @@
 
             $this->session->set('csrf-token',$arrToken);
 
-            # END CSRF-TOKEN 
+            # END CSRF-TOKEN */
 
             $this->mifaces->addToMsg("success", "Se ha iniciado sesión con exito.");
             $this->mifaces->addToDataView('status', true);

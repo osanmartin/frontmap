@@ -58,6 +58,7 @@
          */
 		public function beforeExecuteRoute(Dispatcher $dispatcher)
         {
+            /*
             #Usuarios logueados
 
             if ($this->request->isPost() AND !is_null($this->session->get('auth-identity'))) {
@@ -98,7 +99,7 @@
 
                 }
 
-            }
+            }*/
 
 
             // Sin permiso de acceso

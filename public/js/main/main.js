@@ -248,6 +248,8 @@ $(document).ready(function() {
       var dataIn = new FormData();
       var service_id = $('#service').val();
 
+      bloquearValidez();
+
       dataIn.append('type','active');
       dataIn.append('vote',1);
       dataIn.append('service',service_id);
@@ -259,6 +261,7 @@ $(document).ready(function() {
             if(!call_status['error']){
 
                 $('.info-validez').find('a').removeClass('voted-negative').addClass('voted-positive');
+                desbloquearValidez();
 
             }
 
@@ -278,6 +281,9 @@ $(document).ready(function() {
         var dataIn = new FormData();
         var service_id = $('#service').val();
 
+
+        bloquearValidez();
+
         dataIn.append('type','active');
         dataIn.append('vote',0);
         dataIn.append('service',service_id);
@@ -289,6 +295,7 @@ $(document).ready(function() {
             if(!call_status['error']){
 
             	$('.info-validez').find('a').removeClass('voted-positive').addClass('voted-negative');
+                desbloquearValidez();
 
             }
 
@@ -336,15 +343,20 @@ $(document).ready(function() {
         var dataIn = new FormData();
         var service_id = $('#service').val();
 
+        bloquearCalidad();
+
         dataIn.append('type','quality');
         dataIn.append('vote',$(this).val());
         dataIn.append('service',service_id);
+
 
         clickData = $(this);
 
         var call = $.callAjax(dataIn,action,$(this));
 
         call.success(function(){
+
+
 
             if(!call_status['error']){
     
@@ -353,6 +365,8 @@ $(document).ready(function() {
             									.removeClass()
             									.addClass('cssload-base')
             									.addClass('level'+clickData.val());
+
+                desbloquearCalidad();
 
             }
 
@@ -396,6 +410,8 @@ $(document).ready(function() {
         var dataIn = new FormData();
         var service_id = $('#service').val();
 
+        bloquearPrecio();
+
         dataIn.append('type','price');
         dataIn.append('vote',$(this).data('id'));
         dataIn.append('service',service_id);
@@ -410,6 +426,8 @@ $(document).ready(function() {
 
             	$('.info-precio').find('img:not(.transparent)').addClass('transparent');
         		$('.info-precio').find('img[data-target="'+clickData.data('target')+'"]').removeClass('transparent');    	
+
+                desbloquearPrecio();
 
             }
 
@@ -582,3 +600,43 @@ function changeMarkerPosition(id,lat,lng) {
     marker.setPosition(latlng);
 }
 
+function bloquearCalidad(){
+
+    $('.btn-calidad .rating-symbol').css('pointer-events','none');
+    $('.btn-calidad .rating-symbol').css('color','grey');
+
+}
+
+function desbloquearCalidad(){
+
+    $('.btn-calidad .rating-symbol').css('pointer-events','initial');
+    $('.btn-calidad .rating-symbol').css('color','inherit');
+
+}
+
+function bloquearPrecio(){
+
+    $('.btn-precio div').css('pointer-events','none');
+    $('.btn-precio div').addClass('bgnd-grey');
+}
+
+function desbloquearPrecio(){
+
+    $('.btn-precio div').css('pointer-events','initial');
+    $('.btn-precio div').removeClass('bgnd-grey')
+
+}
+
+function bloquearValidez(){
+
+    $('.btn-validez div').css('pointer-events','none');
+    $('.btn-validez div').css('opacity','0.3');
+
+}
+
+function desbloquearValidez(){
+
+    $('.btn-validez div').css('pointer-events','initial');
+    $('.btn-validez div').css('opacity','1');
+
+}

@@ -9,7 +9,8 @@
     <meta name="description"    content={{ '"' ~ config.appName  ~ '"' }} >
     <meta name="author"         content={{ '"' ~ config.appAutor  ~ '"' }}>
     <meta name="theme-color" content="#1e96ee">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    
     
 
     <link rel="shortcut icon" href="{{ url("img/favicon-32x32.png") }}">

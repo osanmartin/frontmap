@@ -130,12 +130,15 @@ class ServiceController extends ControllerBase {
 	**/
 	public function voteAction(){
 
+		error_log("START VOTE");
+
 		$this->mifaces->newFaces();
 
 		$post = $this->request->getPost();
 
 		if(!isset($post['type']) || !isset($post['vote']) || !isset($post['service'])){
 
+			error_log("FIRST IF");
 			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
 			$this->mifaces->addToJsonView('call_status',['error' => true]);
 			$this->mifaces->run();
@@ -149,6 +152,8 @@ class ServiceController extends ControllerBase {
 		if(	$post['type'] != 'active' && 
 			$post['type'] != 'quality' && 
 			$post['type'] != 'price'){
+
+			error_log("SECOND IF");
 
 			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
 			$this->mifaces->addToJsonView('call_status',['error' => true]);
@@ -181,9 +186,12 @@ class ServiceController extends ControllerBase {
 		$param[$post['type']] = $post['vote'];
 		$param['services_id'] = $post['service'];
 
+		error_log("PRE API");
 		$callApi = new CallAPI();
 
 		$result = $callApi->call('POST',$this->config['urlApi'].$method_vote,$param);
+
+		error_log("POST API");
 
 		if(isset($result['description'])){
 
@@ -211,7 +219,11 @@ class ServiceController extends ControllerBase {
 
 		$this->mifaces->addToJsonView('call_status',['error' => false]);
 		$this->mifaces->addToMsg('success','¡Votación realizada correctamente!');
+
+		error_log('END VOTE');
 		$this->mifaces->run();
+
+
 
 
 	}

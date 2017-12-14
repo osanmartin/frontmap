@@ -339,6 +339,7 @@
 
         	$this->auth->remove();
             $this->session->destroy();
+            error_log('LOGOUT');
             return $this->response->redirect('login');
         }
 
@@ -402,10 +403,12 @@
             $data['public_name'] = $username;
             $data['password'] = $post['password_registro'];
 
+            error_log(print_r($data,true )); exit;
             $result = $callApi->call('POST',$this->config['urlApi'].'users/',$data);
 
             if(isset($result['description'])){
 
+                error_log(print_r($result,true )); exit;
                 $this->mifaces->addToMsg('warning','No fue posible realizar el registro, por favor recargue la página.');
 
                 $this->mifaces->addToJsonView('call_status',['error' => true]);

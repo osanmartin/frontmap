@@ -154,7 +154,7 @@
 		{
 			if( $this->request->isAjax() ) {
 				$this->mifaces->newFaces();
-				$this->mifaces->addRedir('login');
+				$this->mifaces->addRedir('3');
 				$this->mifaces->run();
 				exit;
 			}

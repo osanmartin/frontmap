@@ -403,12 +403,12 @@
             $data['public_name'] = $username;
             $data['password'] = $post['password_registro'];
 
-            error_log(print_r($data,true )); exit;
+            error_log(print_r($data,true )); 
             $result = $callApi->call('POST',$this->config['urlApi'].'users/',$data);
 
             if(isset($result['description'])){
 
-                error_log(print_r($result,true )); exit;
+                error_log(print_r($result,true )); 
                 $this->mifaces->addToMsg('warning','No fue posible realizar el registro, por favor recargue la página.');
 
                 $this->mifaces->addToJsonView('call_status',['error' => true]);

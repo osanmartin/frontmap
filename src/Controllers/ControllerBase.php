@@ -131,7 +131,7 @@
 					$this->redirIsAjax();
 
                     $response = new \Phalcon\Http\Response();
-                    $response->redirect("1");
+                    $response->redirect("login");
                     $response->send();
                     exit();
                 }
@@ -141,7 +141,7 @@
 					$this->redirIsAjax();
 
                     $response = new \Phalcon\Http\Response();
-                    $response->redirect("2");
+                    $response->redirect("login");
                     $response->send();
                     exit();
 
@@ -154,7 +154,7 @@
 		{
 			if( $this->request->isAjax() ) {
 				$this->mifaces->newFaces();
-				$this->mifaces->addRedir('3');
+				$this->mifaces->addRedir('login');
 				$this->mifaces->run();
 				exit;
 			}

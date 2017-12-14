@@ -131,7 +131,7 @@
 					$this->redirIsAjax();
 
                     $response = new \Phalcon\Http\Response();
-                    $response->redirect("login");
+                    $response->redirect("1");
                     $response->send();
                     exit();
                 }
@@ -141,7 +141,7 @@
 					$this->redirIsAjax();
 
                     $response = new \Phalcon\Http\Response();
-                    $response->redirect("login");
+                    $response->redirect("2");
                     $response->send();
                     exit();
 

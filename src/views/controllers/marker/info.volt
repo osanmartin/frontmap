@@ -8,13 +8,13 @@
 
 	{% if (service['confiability'] >= 66.6) %}
 		{% set border_confiability = 'bgnd-green' %}
-		{% set msg_confiability = "Este servicio con seguridad está en funcionamiento" %}
+		{% set msg_confiability = "Con seguridad está en funcionamiento" %}
 	{% elseif (service['confiability'] >= 33.3 and service['confiability'] < 66.6) %}
 		{% set border_confiability = 'bgnd-yellow' %}
-		{% set msg_confiability = "Este servicio es probablemente está en funcionamiento" %}
+		{% set msg_confiability = "No es seguro que esté en funcionamiento." %}
 	{% elseif (service['confiability'] < 33.3 ) %}
 		{% set border_confiability = 'bgnd-red' %}
-		{% set msg_confiability = "Este servicio no existe o no está en funcionamiento" %}
+		{% set msg_confiability = "El servicio no está funcionando." %}
 	{% endif %}
 
 	{% if (service['quality'] >= 6.66) %}

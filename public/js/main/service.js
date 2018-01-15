@@ -196,22 +196,78 @@ $(document).ready(function() {
 
    		}
 
+
    		var call = $.callAjax(dataIn,action,$(this));
 
    		call.success(function(){
 
-   			if(!call_status['error']){
+   			if(!call_status.error){
 
    				renderMarkers();
    				temp_place = null;
    				$('#modal-new-service').modal('hide');
    			}
 
+   			if(!direction_invalid.error){
+
+   				$('#address_service').focus();
+
+   			}
+
+
+   			call_status.error = false;
+   			direction_invalid.error = false;
 
    		});
 
    	});
 
+   	$(document).on('click','#btn-select-position',function(){
+
+   		creating_mode = true;
+   		$('#modal-new-service').modal('hide');
+   		$('#container-pick-position').removeClass('hidden');
+
+   	});
+
+   	$(document).on('click','#cancel-pick-position',function(){
+
+   		creating_mode = false;
+   		$('#modal-new-service').modal('show');
+   		$('#container-pick-position').addClass('hidden');
+
+   		$('#text-pick-position').text('Ninguna');
+   		removeAllMarkersCreating();
+
+   	});
+
+   	$(document).on('click','#btn-pick-position',function(){
+
+   		creating_mode = false;
+   		$('#modal-new-service').modal('show');
+   		$('#address_service').val(direction_from_picker);
+   		$('#container-pick-position').addClass('hidden');
+   		removeAllMarkersCreating();
+   		setTimeout(function(){
+
+   			$('#address_service').focus();
+
+   		},500);
+   		
+
+   	});
+
+
+   	$(document).on('click','.btn-modal-close',function(){
+
+
+   		creating_mode = false;
+   		direction_from_picker = "";
+   		$('#text-pick-position').text('Ninguna');
+   		removeAllMarkersCreating();
+
+
+   	});
 
 
 });
@@ -230,22 +286,17 @@ function activeAutocomplete(id){
       var place = autocomplete_form.getPlace();
 
       if (!place.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        
+      
         return;
       }
 
-      // If the place has a geometry, then present it on a map.
       if (place.geometry.viewport) {
         map.fitBounds(place.geometry.viewport);
       } else {
         map.setCenter(place.geometry.location);
-        map.setZoom(17);  // Why 17? Because it looks good.
+        map.setZoom(17); 
       }
 
-      //location_lat = place.geometry.location.lat(); 
-      //location_lng = place.geometry.location.lng();
 
       changeMarkerPosition(0,location_lat,location_lng);
 

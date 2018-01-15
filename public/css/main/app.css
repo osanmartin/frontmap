@@ -737,7 +737,7 @@ select.custom{
 
 	z-index: 1;
 	position: absolute;
-	top: 15%;
+	top: 25%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 
@@ -906,7 +906,32 @@ select.custom{
 	#logo-image span{
 		font-size: 10px !important;
 	}
+
+
+	#btn-select-position{
+
+		position: absolute;
+	    top: 2%;
+	    left: 80%;
+	    width: 30px;
+
+	}
+
 	
+}
+
+@media (min-width: 768px){
+
+	#btn-select-position{
+
+		position: absolute;
+	    top: 2%;
+	    left: 89.4%;
+	    width: 30px;
+
+	}
+
+
 }
 
 #btn-logout{
@@ -923,5 +948,41 @@ select.custom{
 .box-error{
 
 	color: red;
+
+}
+
+
+#container-pick-position{
+
+	min-width: 350px;
+	background: #0000ff59;
+	border-radius: 5px;
+	padding: 10px;
+	text-align: center;
+
+}
+
+
+#btn-pick-position{
+
+	background: white;
+    border: 2px solid #dfdfdf;
+    color: #6b98f5;
+    font-size: 30px;
+    margin: 0;
+    border-radius: 50%;
+    padding: 0px 10px 0px 10px;
+
+}
+
+.font-white{
+
+	color: white;
+
+}
+
+.size-12{
+
+	font-size: 12px;
 
 }

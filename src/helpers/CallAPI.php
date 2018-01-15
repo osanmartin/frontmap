@@ -169,8 +169,6 @@
 
             }
 
-            error_log(print_r($result,true));
-
             $datos = json_decode($result, true);
 
             if(isset($datos['description'])){
@@ -180,8 +178,6 @@
                     if( isset($val['code']) && $val['code'] == 401) {
 
 
-                        error_log('PRE LOGOUT');
-                        error_log(print_r($datos,true));
 
                         $this->renderLogout();
 

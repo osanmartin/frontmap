@@ -1,13 +1,24 @@
+
 var removeAnimate = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
 var location_lat = '-33.0539430';
 var location_lng = '-71.6245970';
 var call_status = {"error":false};
+var direction_invalid = {"error":false};
 var clickData = null;
 var stackClick = [];
 var stackOver = [];
 var stackClickMaps = [];
 
+var location_lat_create = '-33.0539430';
+var location_lng_create = '-71.6245970';
+var creating_mode = false;
+var direction_from_picker = "";
+var lat_from_picker = "";
+var lng_from_picker = "";
 /*
+
+GEOLOCALIZACIÓN, SIN IMPLEMENTAR
+
 GMaps.geolocate({
   success: function(position) {
     map.setCenter(position.coords.latitude, position.coords.longitude);
@@ -26,6 +37,8 @@ GMaps.geolocate({
 */
 
 
+
+// Generamos mapa
 map = new GMaps(
 					{div:'#map_canvas',
 					lat:'-33.0539430',
@@ -40,9 +53,10 @@ map = new GMaps(
 				});
 
 
+// Instanciamos geocoder
+var geocoder = new google.maps.Geocoder;
 
-
-
+// Instanciamos input de búsqueda
 var input = /** @type {!HTMLInputElement} */(
             document.getElementById('finder-input'));
 
@@ -57,21 +71,17 @@ var input = /** @type {!HTMLInputElement} */(
 
         autocomplete.addListener('place_changed', function() {
           infowindow.close();
-          //marker.setVisible(false);
           var place = autocomplete.getPlace();
           if (!place.geometry) {
-            // User entered the name of a Place that was not suggested and
-            // pressed the Enter key, or the Place Details request failed.
             
             return;
           }
 
-          // If the place has a geometry, then present it on a map.
           if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
           } else {
             map.setCenter(place.geometry.location);
-            map.setZoom(17);  // Why 17? Because it looks good.
+            map.setZoom(17);  
           }
 
           location_lat = place.geometry.location.lat(); 
@@ -81,66 +91,19 @@ var input = /** @type {!HTMLInputElement} */(
 
         });
 
-        // Sets a listener on a radio button to change the filter type on Places
-        // Autocomplete.
-      
 
 
-
-
-
-
-
-// Marker location
-
+// Localización inicial
 map.addMarker({id:0,lat:location_lat,lng:location_lng,icon:'img/markers/marker_location.png'});
 
-
-
-/*
-var infoWindow = new google.maps.InfoWindow({map: map});				
-
-if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-
-
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-          infoWindow.setPosition(pos);
-          infoWindow.setContent(browserHasGeolocation ?
-                                'Error: The Geolocation service failed.' :
-                                'Error: Your browser doesn\'t support geolocation.');
-        }*/
-
-/*
-navigator.geolocation.getCurrentPosition(
-    function(position) {
-         alert("Lat: " + position.coords.latitude + "\nLon: " + position.coords.longitude);
-    },
-    function(error){
-         alert(error.message);
-    }, {
-         enableHighAccuracy: true
-              ,timeout : 5000
-    }
-);
-*/
+// markers services
 var markers = [];
 
+
+// markers creating
+var markers_creating = [];
+
+// Estilo para mapa
 var styles = [
   {
     stylers: [
@@ -170,11 +133,6 @@ map.addStyle({
 });
 
 map.setStyle("map_style");
-
-
-
-
-
 
 $(document).ready(function() {
 
@@ -490,9 +448,18 @@ $(document).ready(function() {
     });
 
     map.addListener("click", function(event) {
+
         var lat = event.latLng.lat();
         var lng = event.latLng.lng();
         var timestamp = new Date().getTime()
+
+        if(creating_mode){
+
+
+            geocodeLatLng(geocoder,lat,lng);
+
+        }
+
 
         var dataElement = {pos_x:lat,pos_y:lng,timestamp:timestamp};
         stackClickMaps.push(dataElement);
@@ -526,6 +493,59 @@ $(document).ready(function() {
 
 });
 
+// Obtiene nomnbres de ubicación según latlng
+
+function geocodeLatLng(geocoder,lat,lng) {
+    var latlng = {lat: lat, lng: lng};
+    geocoder.geocode({'location': latlng}, function(results, status) {
+
+        if (status === 'OK') {
+
+            if (results[1]) {
+
+                removeAllMarkersCreating();
+
+                map.addMarker({
+                  lat: lat,
+                  lng: lng,
+                  icon: 'img/markers/marker_location_creating.png'
+                });
+
+                var direction = results[0].formatted_address;
+
+                var text_to_show = direction.split(',');
+                text_to_show = text_to_show[0]+','+text_to_show[1];
+
+                text_to_show = text_to_show.replace(/([0-9]+)-[0-9]+/i, "$1");
+
+                $('#text-pick-position').text(text_to_show);
+
+                // cargamos variable global
+                direction_from_picker = text_to_show;
+                lat_from_picker = lat;
+                lng_from_picker = lng;
+
+            } else {
+
+                $('#text-pick-position').text('Ninguna');
+                direction_from_picker = text_to_show;
+                lat_from_picker = lat;
+                lng_from_picker = lng;
+
+            }
+
+    } else {
+
+        // status para ver error
+        $('#text-pick-position').text('Ninguna');
+        direction_from_picker = text_to_show;
+        lat_from_picker = lat;
+        lng_from_picker = lng;
+        removeAllMarkersCreating();
+
+    }
+  });
+}
 
 
 // Añade un marcador según string
@@ -533,23 +553,18 @@ $(document).ready(function() {
 function addMarkerByString(dir){
 
 	GMaps.geocode({
-	  address: dir,
-	  callback: function(results, status) {
-	    if (status == 'OK') {
-	      var latlng = results[0].geometry.location;
-	      map.setCenter(latlng.lat(), latlng.lng());
-	      map.addMarker({
-	        lat: latlng.lat(),
-	        lng: latlng.lng()
-	      });
-	    }
-	  }
+	   address: dir,
+	   callback: function(results, status) {
+            if (status == 'OK') {
+                var latlng = results[0].geometry.location;
+                map.setCenter(latlng.lat(), latlng.lng());
+                map.addMarker({
+	               lat: latlng.lat(),
+	               lng: latlng.lng()
+                });
+	       }
+        }
 	});
-
-	
-
-
-
 }
 
 
@@ -586,12 +601,12 @@ function setInfoWindow(){
 }
 
 GMaps.prototype.markerById=function(id){
-  for(var m=0;m<this.markers.length;++m){
-    if(this.markers[m].get('id')===id){
-      return this.markers[m];
+    for(var m=0;m<this.markers.length;++m){
+        if(this.markers[m].get('id')===id){
+            return this.markers[m];
+        }
     }
-  }
-  return new google.maps.Marker();
+    return new google.maps.Marker();
 }
 
 function changeMarkerPosition(id,lat,lng) {
@@ -638,5 +653,19 @@ function desbloquearValidez(){
 
     $('.btn-validez div').css('pointer-events','initial');
     $('.btn-validez div').css('opacity','1');
+
+}
+
+function removeAllMarkersCreating(){
+
+    if(map.markers.length>0){
+
+        $.each(map.markers, function(index, val) {
+            if(val.icon == "img/markers/marker_location_creating.png"){
+                map.removeMarker(val);
+            }
+        });
+
+    }
 
 }

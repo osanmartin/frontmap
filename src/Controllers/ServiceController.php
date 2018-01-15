@@ -130,7 +130,6 @@ class ServiceController extends ControllerBase {
 	**/
 	public function voteAction(){
 
-		error_log("START VOTE");
 
 		$this->mifaces->newFaces();
 
@@ -138,7 +137,6 @@ class ServiceController extends ControllerBase {
 
 		if(!isset($post['type']) || !isset($post['vote']) || !isset($post['service'])){
 
-			error_log("FIRST IF");
 			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
 			$this->mifaces->addToJsonView('call_status',['error' => true]);
 			$this->mifaces->run();
@@ -153,7 +151,6 @@ class ServiceController extends ControllerBase {
 			$post['type'] != 'quality' && 
 			$post['type'] != 'price'){
 
-			error_log("SECOND IF");
 
 			$this->mifaces->addToMsg('warning','No fue posible realizar la votación, por favor inténtelo nuevamente.');
 			$this->mifaces->addToJsonView('call_status',['error' => true]);
@@ -186,12 +183,10 @@ class ServiceController extends ControllerBase {
 		$param[$post['type']] = $post['vote'];
 		$param['services_id'] = $post['service'];
 
-		error_log("PRE API");
 		$callApi = new CallAPI();
 
 		$result = $callApi->call('POST',$this->config['urlApi'].$method_vote,$param);
 
-		error_log("POST API");
 
 		if(isset($result['description'])){
 
@@ -220,14 +215,12 @@ class ServiceController extends ControllerBase {
 		$this->mifaces->addToJsonView('call_status',['error' => false]);
 		$this->mifaces->addToMsg('success','¡Votación realizada correctamente!');
 
-		error_log('END VOTE');
 		$this->mifaces->run();
 
 
 
 
 	}
-
 
 
 	public function addAction(){
@@ -246,6 +239,7 @@ class ServiceController extends ControllerBase {
 			!isset($post['lng'])){
 
 			$this->mifaces->addToJsonView('call_status',['error' => true]);
+			$this->mifaces->addToJsonView('direction_invalid',['error' => true]);
 			$this->mifaces->addToMsg('warning','Debe seleccionar una dirección válida.');
 			$this->mifaces->run();
 			exit;
@@ -269,9 +263,9 @@ class ServiceController extends ControllerBase {
 		    }
 
 		    $this->mifaces->addToJsonView('call_status',['error' => true]);
-		    $this->mifaces->addErrorsForm( $arr ,true);
+		    $this->mifaces->addErrorsForm( $arr );
 		    $this->mifaces->run();
-		    return;
+		    exit;
 		}
 
 
@@ -296,6 +290,7 @@ class ServiceController extends ControllerBase {
 		}
 
 		$this->mifaces->addToJsonView('call_status',['error' => false]);
+		$this->mifaces->addToJsonView('direction_invalid',['error' => false]);
 		$this->mifaces->addToMsg('success','¡Agregado correctamente!');
 		$this->mifaces->run();
 

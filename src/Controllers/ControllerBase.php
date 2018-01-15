@@ -119,7 +119,6 @@
              * Control de usuarios logeados
              */
 
-            error_log("HERE0", 0);
             
             if (!(isset($noAuth[$controller]['*']) || isset($noAuth[$controller][$action]))) {
 
@@ -134,7 +133,6 @@
 					$this->redirIsAjax();
 
                     $response = new \Phalcon\Http\Response();
-                    error_log("HERE1", 0);
                     $response->redirect("login");
                     $response->send();
                     exit();
@@ -145,7 +143,6 @@
 					$this->redirIsAjax();
 
                     $response = new \Phalcon\Http\Response();
-                    error_log("HERE2", 0);
                     $response->redirect("login");
                     $response->send();
                     exit();
@@ -154,14 +151,12 @@
 
             }
 
-            error_log("HERE4",0);
 	    }
 
 		private function redirIsAjax()
 		{
 			if( $this->request->isAjax() ) {
 				$this->mifaces->newFaces();
-                error_log("HERE3", 0);
 				$this->mifaces->addRedir('login');
 				$this->mifaces->run();
 				exit;

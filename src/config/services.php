@@ -236,29 +236,6 @@
                 }
                 $initSql = strtolower(substr( $sql, 0, 6 ));
 
-                $configuration = new Config();
-
-                if ($initSql != "select" and $initSql != 'descri' and $configuration->state('log') ) {
-                    $name = date('y-d-m');
-                    $logger = new FileLogger("../logs/{$name}.log");
-                    $session = new SessionAdapter();
-                    $session->start();
-                    $user = ':'.$session->get("auth-identity")['id'] . ':' .  $session->get("auth-identity")['nombre'];
-                    if (count($vars)) {
-
-                        $logger->log(
-                             $user.':'. $sql . ' :params: ' . implode('& ', $vars),
-                            Logger::INFO
-                        );
-                    } else {
-
-                        $logger->log(
-                             $user.':'. $sql . ' :params: NULL',
-                            Logger::INFO
-                        );
-                    }
-
-                }
                 return true;
             }
         });

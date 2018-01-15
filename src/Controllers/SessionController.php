@@ -113,6 +113,7 @@
 
             $datos = $this->initSesion($post);
 
+
             if( (!isset($datos['token']) || (isset($datos['token']) && empty($datos['token'])))) {
 
                 $this->mifaces->addToMsg("warning", 'No se pudo iniciar sesión, revise que su usuario y contraseña esté correcto.');
@@ -171,8 +172,6 @@
             $url = $this->config->get("urlApi");
 
             $result = $callApi->call('POST', $url.'users/login', $data, true);
-
-
 
             return $result;
         }
@@ -339,7 +338,6 @@
 
         	$this->auth->remove();
             $this->session->destroy();
-            error_log('LOGOUT');
             return $this->response->redirect('login');
         }
 
@@ -403,12 +401,10 @@
             $data['public_name'] = $username;
             $data['password'] = $post['password_registro'];
 
-            error_log(print_r($data,true )); 
             $result = $callApi->call('POST',$this->config['urlApi'].'users/',$data);
 
             if(isset($result['description'])){
 
-                error_log(print_r($result,true )); 
                 $this->mifaces->addToMsg('warning','No fue posible realizar el registro, por favor recargue la página.');
 
                 $this->mifaces->addToJsonView('call_status',['error' => true]);

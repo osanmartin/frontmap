@@ -192,7 +192,7 @@
 
 {% block addJs %}{% endblock %}
 
-<div id="modal-master">
+<div id="modal-master" data-backdrop="static" data-keyboard="false">
 </div>
 
 <form id="render-all-form" action="{{ url('marker/renderAll') }}"></form>

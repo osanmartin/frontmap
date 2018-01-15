@@ -1,4 +1,4 @@
-<div id="modal-new-service" class="modal fade" role="dialog">
+<div id="modal-new-service" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog">
 		
 		<!-- Modal content-->
@@ -20,9 +20,9 @@
 							</label>
 
 						</div>
-
 			    		<div class="col-md-12">
 			    			<input id="address_service" name="address_service" type="text" class="form-control custom" placeholder="Ubicación de Servicio">	
+			    			<button id="btn-select-position" type="button" class="btn btn-sm btn-modal-save"><i class="fa fa-map-marker"></i></button>
 			    		</div>
 		    		</div>
 		    	</div>
